@@ -3,10 +3,13 @@ import { CATALOG, PREMIUM } from './catalog.js';
 const K = 'fidget.ent', subs = new Set();
 let owned = new Set(JSON.parse(localStorage.getItem(K) || '[]'));
 // ?devunlock turns on a tester unlock that survives reloads / PWA launches; ?devlock turns it off.
-const qs = new URLSearchParams(location.search), DK = 'fidget.devunlock';
-if (qs.has('devunlock')) localStorage.setItem(DK, '1');
-if (qs.has('devlock')) localStorage.removeItem(DK);
-const dev = localStorage.getItem(DK) === '1';
+// Never in the Play app (TWA): detected by the android-app:// referrer, Play Billing (Digital Goods API) or a sticky flag.
+const qs = new URLSearchParams(location.search), DK = 'fidget.devunlock', TK = 'fidget.twa';
+if (document.referrer.startsWith('android-app://') || 'getDigitalGoodsService' in window || qs.get('src') === 'twa') localStorage.setItem(TK, '1');
+export const inPlayApp = localStorage.getItem(TK) === '1';
+if (inPlayApp) localStorage.removeItem(DK);
+else { if (qs.has('devunlock')) localStorage.setItem(DK, '1'); if (qs.has('devlock')) localStorage.removeItem(DK); }
+const dev = !inPlayApp && localStorage.getItem(DK) === '1';
 if (dev) owned = new Set(CATALOG.map(p => p.id)); // testing only; real purchases are never overwritten
 export const isDev = dev;
 // Share gift: ONE free upgrade per install, stored apart from Play purchases (restore never touches it).

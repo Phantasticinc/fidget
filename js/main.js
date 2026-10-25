@@ -1,13 +1,13 @@
 import { opts, unlock, setVol } from './feel.js?v=4';
 import { initCrave } from './crave.js?v=2';
-import * as fx from './fx/manager.js?v=6';
+import * as fx from './fx/manager.js?v=7';
 import { THEMES } from './fx/premium.js';
-import * as ent from './store/ent.js?v=6';
-import * as bill from './store/billing.js?v=2';
+import * as ent from './store/ent.js?v=7';
+import * as bill from './store/billing.js?v=3';
 import * as stats from './lb/stats.js';
-import * as shop from './ui/shop.js?v=7';
-import * as gift from './ui/sharegift.js';
-import * as redeem from './store/redeem.js?v=2';
+import * as shop from './ui/shop.js?v=8';
+import * as gift from './ui/sharegift.js?v=2';
+import * as redeem from './store/redeem.js?v=3';
 import * as board from './ui/board.js?v=2';
 import * as record from './lb/record.js';
 import * as celeb from './ui/celebrate.js';
@@ -84,7 +84,7 @@ function frame(now) {
 
 // settings
 const $ = id => document.getElementById(id);
-export const VERSION = '1.2.4', BUILD = 10;
+export const VERSION = '1.2.5', BUILD = 11;
 $('ver').textContent = `Version ${VERSION} (build ${BUILD})` + (ent.isDev ? ' · tester unlock ON — open ?devlock to turn off' : '');
 const saved = JSON.parse(localStorage.getItem('fidget.opts') || '{}'); Object.assign(opts, saved);
 $('optSound').checked = opts.sound; $('optHaptic').checked = opts.haptic; $('optCalm').checked = opts.calm; $('optVol').value = opts.vol;

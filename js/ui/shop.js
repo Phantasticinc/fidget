@@ -1,10 +1,10 @@
 // Shop sheet: Premium card + per-toy upgrades with live animated previews. Honest pricing, no timers, no randomised rewards.
 import { CATALOG, PREMIUM, byId } from '../store/catalog.js';
-import * as ent from '../store/ent.js?v=6';
-import * as bill from '../store/billing.js?v=2';
-import * as gift from './sharegift.js';
-import * as redeem from '../store/redeem.js?v=2';
-import { SKINS, equip, equippedId, canUse } from '../fx/manager.js?v=6';
+import * as ent from '../store/ent.js?v=7';
+import * as bill from '../store/billing.js?v=3';
+import * as gift from './sharegift.js?v=2';
+import * as redeem from '../store/redeem.js?v=3';
+import { SKINS, equip, equippedId, canUse } from '../fx/manager.js?v=7';
 const $ = id => document.getElementById(id);
 const TOYS = [['pop', 'Pop'], ['spin', 'Spin'], ['click', 'Click'], ['sand', 'Sand']];
 let tab = 'pop', raf = 0, previews = [];

@@ -1,8 +1,8 @@
 // "Share Fidget" card: a share (or link copy) earns ONE free upgrade per install, picked with live previews,
 // then revealed. Shares can't be verified (the OS share sheet doesn't say what happened) — this is a thank-you, not a contract.
-import * as ent from '../store/ent.js?v=6';
+import * as ent from '../store/ent.js?v=7';
 import { byId } from '../store/catalog.js';
-import { SKINS, equip } from '../fx/manager.js?v=6';
+import { SKINS, equip } from '../fx/manager.js?v=7';
 import * as celeb from './celebrate.js';
 const $ = id => document.getElementById(id);
 const LINK = 'https://phantasticinc.github.io/fidget/';

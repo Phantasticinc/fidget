@@ -3,7 +3,7 @@ import { on } from '../bus.js';
 import { look } from '../look.js';
 import * as P from './particles.js?v=5';
 import * as prem from './premium.js';
-import * as ent from '../store/ent.js?v=6';
+import * as ent from '../store/ent.js?v=7';
 import POP from './skins/pop.js';
 import SPIN from './skins/spin.js';
 import CLICK from './skins/click.js';
