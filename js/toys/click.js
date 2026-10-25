@@ -1,5 +1,5 @@
 // Click: mechanical switches with modelled travel (4 mm), actuation point, tactile bump and spring return.
-import { sfx, buzz, opts } from '../feel.js?v=1';
+import { sfx, buzz, opts } from '../feel.js?v=2';
 import { rr, hsl } from '../render.js?v=1';
 const KINDS = [
   { k: 'clicky', name: 'Clicky', stem: '#4d8dff', pitch: 1.05, hue: 30 },

@@ -69,6 +69,12 @@ export const sfx = {
     if (!ok()) return; const t = ctx.currentTime;
     nz(t, 0.12 + amt * 0.1, 'lowpass', 300 + amt * 700, 3, Math.min(0.5, amt) * 0.6 * cm(), 0.02);
   },
+  // kinetic sand: soft granular crunch; amt 0..1 (cut speed / crumble size)
+  sand(amt = 0.5) {
+    if (!ok()) return; const t = ctx.currentTime, k = cm();
+    nz(t, 0.05 + amt * 0.06, 'bandpass', jit(1400 + amt * 1800, 0.25), 0.9, (0.08 + amt * 0.22) * k, 0.006);
+    nz(t, 0.08, 'lowpass', 380, 0.8, 0.06 * amt * k, 0.01);
+  },
   chime(f = 660) { if (!ok()) return; const t = ctx.currentTime; tone(t, f, f, 1.6, 0.12 * cm()); tone(t, f * 1.5, f * 1.5, 1.2, 0.05 * cm()); },
 };
 

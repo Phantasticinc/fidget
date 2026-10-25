@@ -1,4 +1,4 @@
-import { opts, unlock, setVol } from './feel.js?v=1';
+import { opts, unlock, setVol } from './feel.js?v=2';
 import { initCrave } from './crave.js?v=1';
 
 const cv = document.getElementById('stage');
@@ -8,7 +8,7 @@ let W = 0, H = 0, DPR = 1, toy = null, toyName = '', bg = null;
 const cache = {};
 const loaders = {
   pop: () => import('./toys/pop.js?v=1'), spin: () => import('./toys/spin.js?v=1'),
-  click: () => import('./toys/click.js?v=1'), squish: () => import('./toys/squish.js?v=1'),
+  click: () => import('./toys/click.js?v=1'), sand: () => import('./toys/sand.js?v=2'),
 };
 
 function paintBg() {
@@ -45,7 +45,7 @@ document.getElementById('dock').addEventListener('click', e => { const b = e.tar
 
 // pointer input -> toy (multi-touch, coalesced for sub-frame precision)
 const P = new Map();
-cv.addEventListener('pointerdown', e => { unlock(); cv.setPointerCapture(e.pointerId); P.set(e.pointerId, 1); toy && toy.down(e.pointerId, e.clientX, e.clientY, e.pressure); e.preventDefault(); });
+cv.addEventListener('pointerdown', e => { unlock(); try { cv.setPointerCapture(e.pointerId); } catch (_) {} P.set(e.pointerId, 1); toy && toy.down(e.pointerId, e.clientX, e.clientY, e.pressure); e.preventDefault(); });
 cv.addEventListener('pointermove', e => {
   if (!P.has(e.pointerId) || !toy) return;
   const list = e.getCoalescedEvents ? e.getCoalescedEvents() : [e];

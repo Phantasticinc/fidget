@@ -32,11 +32,23 @@ async def main():
     # CLICK
     await pg.evaluate("__fidget.select('click')"); await pg.wait_for_timeout(300)
     await m.move(206,430); await m.down(); await pg.wait_for_timeout(120); await pg.screenshot(path='preview/3-click.png'); await m.up()
-    # SQUISH: grab and drag
-    await pg.evaluate("__fidget.select('squish')"); await pg.wait_for_timeout(300)
-    await m.move(240,430); await m.down()
-    for i in range(12): await m.move(240+i*9,430-i*3); await pg.wait_for_timeout(16)
-    await pg.screenshot(path='preview/4-squish.png'); await m.up()
+    # SAND: slice, then pinch-crumble, then press
+    await pg.evaluate("__fidget.select('sand')"); await pg.wait_for_timeout(300)
+    await m.move(120,330); await m.down()
+    for i in range(14): await m.move(120+i*12,330+i*14); await pg.wait_for_timeout(16)
+    await pg.screenshot(path='preview/4-sand-slice.png'); await m.up()
+    await m.move(290,520); await m.down()
+    for i in range(10): await m.move(290-i*10,520-i*4); await pg.wait_for_timeout(16)
+    await m.up(); await m.move(260,400); await m.down(); await pg.wait_for_timeout(600); await m.up()
+    await pg.wait_for_timeout(700); await pg.screenshot(path='preview/4b-sand-crumble.png')
+    ev="(t,id,x,y)=>document.getElementById('stage').dispatchEvent(new PointerEvent(t,{pointerId:id,clientX:x,clientY:y,bubbles:true,pointerType:'touch'}))"
+    await pg.evaluate(f"(({ev})('pointerdown',11,150,450),({ev})('pointerdown',12,260,450))")
+    for i in range(14):
+      await pg.evaluate(f"(({ev})('pointermove',11,{150+i*4},450),({ev})('pointermove',12,{260-i*4},450))"); await pg.wait_for_timeout(16)
+    await pg.screenshot(path='preview/4c-sand-pinch.png')
+    await pg.evaluate(f"(({ev})('pointerup',11,200,450),({ev})('pointerup',12,210,450))")
+    fps2=await pg.evaluate("""()=>new Promise(r=>{let n=0,t0=performance.now();function f(){n++;if(performance.now()-t0<2000)requestAnimationFrame(f);else r(n/2)}requestAnimationFrame(f)})""")
+    print('sand fps',fps2)
     # craving + settings
     await pg.click('#craveBtn'); await pg.wait_for_timeout(1500); await pg.screenshot(path='preview/5-crave.png')
     await pg.click('#setBtn'); await pg.wait_for_timeout(200); await pg.screenshot(path='preview/6-settings.png')

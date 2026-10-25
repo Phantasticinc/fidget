@@ -1,6 +1,6 @@
 // Spin: machined tri-lobe spinner. Direct-grab rotation, real inertia + bearing friction,
 // detent clicks at low speed, bearing whir at high speed, fixed studio lighting over a rotating body.
-import { sfx, buzz, opts } from '../feel.js?v=1';
+import { sfx, buzz, opts } from '../feel.js?v=2';
 import { sprite, DPR } from '../render.js?v=1';
 export function create() {
   let W, H, cx, cy, R, body, off, og, a = 0, w = 0, grab = null, best = +(localStorage.getItem('fidget.rpm') || 0), lastDet = 0, hist = [];
