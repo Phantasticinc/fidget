@@ -2,6 +2,7 @@
 import { CATALOG, PREMIUM, byId } from '../store/catalog.js';
 import * as ent from '../store/ent.js?v=5';
 import * as bill from '../store/billing.js';
+import * as redeem from '../store/redeem.js';
 import { SKINS, equip, equippedId, canUse } from '../fx/manager.js?v=5';
 const $ = id => document.getElementById(id);
 const TOYS = [['pop', 'Pop'], ['spin', 'Spin'], ['click', 'Click'], ['sand', 'Sand']];
@@ -49,6 +50,8 @@ function render() {
   const r = document.createElement('button'); r.className = 'pill wide'; r.textContent = 'Restore purchases';
   r.onclick = async () => { if (!bill.available()) return toast('Restore works in the Android app'); await bill.restore(); toast('Purchases restored'); render(); };
   B.appendChild(r);
+  const rc = document.createElement('button'); rc.className = 'pill wide'; rc.id = 'redeemShop'; rc.textContent = 'Redeem code';
+  rc.onclick = () => redeem.ask(); B.appendChild(rc);
   const f = document.createElement('p'); f.className = 'note'; f.textContent = 'Upgrades are cosmetic and give no advantage on the leaderboard. No ads, no loot boxes.'; B.appendChild(f);
   for (const p of previews) { const d = Math.min(2, devicePixelRatio || 1), w = p.c.clientWidth || 96, h = p.c.clientHeight || 72; p.c.width = w * d; p.c.height = h * d; p.w = w; p.h = h; p.d = d; p.g = p.c.getContext('2d'); }
 }
@@ -62,5 +65,6 @@ export function close() { $('shop').hidden = true; cancelAnimationFrame(raf); pr
 export function init() {
   $('shopBtn').onclick = () => open(localStorage.getItem('fidget.toy') || 'pop');
   $('shop').onclick = e => { if (e.target.id === 'shop' || e.target.closest('[data-close]')) close(); };
+  redeem.onRestored(ok => toast(ok ? (ent.premium() ? 'Premium unlocked — thanks!' : 'Purchases refreshed') : 'Code redeemed on Play? Open the Fidget app to unlock'));
   ent.onChange(() => { if (!$('shop').hidden) render(); });
 }

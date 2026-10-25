@@ -5,7 +5,8 @@ import { THEMES } from './fx/premium.js';
 import * as ent from './store/ent.js?v=5';
 import * as bill from './store/billing.js';
 import * as stats from './lb/stats.js';
-import * as shop from './ui/shop.js?v=5';
+import * as shop from './ui/shop.js?v=6';
+import * as redeem from './store/redeem.js';
 import * as board from './ui/board.js?v=2';
 import * as record from './lb/record.js';
 import * as celeb from './ui/celebrate.js';
@@ -82,7 +83,7 @@ function frame(now) {
 
 // settings
 const $ = id => document.getElementById(id);
-export const VERSION = '1.2.2', BUILD = 8;
+export const VERSION = '1.2.3', BUILD = 9;
 $('ver').textContent = `Version ${VERSION} (build ${BUILD})` + (ent.isDev ? ' · tester unlock ON — open ?devlock to turn off' : '');
 const saved = JSON.parse(localStorage.getItem('fidget.opts') || '{}'); Object.assign(opts, saved);
 $('optSound').checked = opts.sound; $('optHaptic').checked = opts.haptic; $('optCalm').checked = opts.calm; $('optVol').value = opts.vol;
@@ -99,8 +100,9 @@ const premUI = () => { document.body.classList.toggle('premium', ent.premium());
 ent.onChange(premUI);
 document.body.classList.toggle('premium', ent.premium());
 fx.init(t => { const c = cache[t]; if (c && W) c.resize(W, H); });
-stats.init(); record.init(); celeb.init(); shop.init(); board.init(); bill.init().catch(() => {});
+stats.init(); record.init(); celeb.init(); shop.init(); board.init(); redeem.init(); bill.init().catch(() => {});
 $('optVol').oninput = e => { setVol(+e.target.value); save(); };
+$('redeemSet').onclick = () => redeem.ask();
 $('setBtn').onclick = () => $('sheet').hidden = false;
 $('sheetClose').onclick = () => $('sheet').hidden = true;
 $('sheet').onclick = e => { if (e.target.id === 'sheet') $('sheet').hidden = true; };

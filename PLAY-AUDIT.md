@@ -64,3 +64,17 @@ Play Games Services needs the native PGS SDK (not available to a Bubblewrap TWA 
 
 ## Steps for v1.1 in Play Console
 1. Payments profile → 2. create the 13 in-app products → 3. upload vc2 aab to Internal testing → 4. add license testers and test buy/restore on a phone → 5. re-take content rating (digital purchases Yes) → 6. update Data safety if board online → 7. promote.
+
+# v1.2.3 — Free Premium promo codes (Redeem code)
+Fidget has **no app-side master code** and never validates codes itself. Codes are Google Play promo codes, so Play enforces single use and nothing can be guessed from the app.
+
+**Generate codes (Play Console, you do this — not automated):**
+1. Play Console → *Fidget* → **Monetize → Promotions → Promo codes** (older UI: *Promotions* in the left menu) → **Create promotion**.
+2. Type: **One-time code(s)** (each code works once — use this for "one free Premium for anyone"). Or **Custom code** (one shareable code, many redemptions, up to the limit you set).
+3. Product: **`premium_unlock`** (the in-app product). Set name, start/end date (max 1 year), and quantity.
+4. Quota: **up to 500 one-time codes per app per quarter** (Play's limit; shared across all products). Download the CSV of codes.
+5. Share a code as text or as a link: `https://phantasticinc.github.io/fidget/?redeem=CODE` (opens Fidget's redeem prompt pre-filled) or directly `https://play.google.com/redeem?code=CODE`.
+
+**How redeeming works in the app:** Shop → *Redeem code* or Settings → *Redeem a Play promo code* (or the `?redeem=CODE` deep link, which asks first) opens `https://play.google.com/redeem?code=CODE`. Google Play shows the item and the user confirms. When the user returns, the app calls `bill.restore()` (Digital Goods `listPurchases`) and Premium unlocks. Promo-code purchases are normal Play purchases, so they need acknowledging like any other (the existing purchase flow does this). They also show up in Restore on reinstall. A code redeemed for an in-app product **requires the app to be installed** from Play with the same account.
+
+**Limits:** the web (non-TWA) build can open the redeem page, but it can't unlock anything because there's no Play Billing there. The app tells the user to open the Android app.
