@@ -1,7 +1,7 @@
 // Google Play Billing inside the TWA via Digital Goods API + Payment Request API.
 // On the open web this is unavailable -> UI shows "available in the Android app".
 import { CATALOG } from './catalog.js';
-import { set, grant } from './ent.js';
+import { set, grant } from './ent.js?v=5';
 const PLAY = 'https://play.google.com/billing';
 let svc = null, details = {};
 export const available = () => !!svc;

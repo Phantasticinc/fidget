@@ -9,7 +9,7 @@
 <link rel="manifest" href="manifest.json">
 <link rel="icon" href="icons/icon-192.png">
 <link rel="apple-touch-icon" href="icons/icon-192.png">
-<link rel="stylesheet" href="styles.css?v=2">
+<link rel="stylesheet" href="styles.css?v=3">
 </head>
 <body>
 <div id="app">
@@ -45,12 +45,13 @@
       <div class="row prem-only"><span>Theme</span><span id="themes" class="chips"></span></div>
       <label class="row"><span>Volume</span><input type="range" id="optVol" min="0" max="1" step="0.05" value="0.8"></label>
       <p class="fine">Fidget is a relaxation toy, not a medical device, and does not diagnose or treat any condition. No ads. Purchases are handled by Google Play. The optional online leaderboard shares only your nickname and scores. <a href="privacy.html">Privacy</a></p>
+      <p class="fine" id="ver"></p>
       <button id="sheetClose" class="pill wide">Done</button>
     </div>
   </div>
   <div id="shop" class="sheet" hidden><div class="sh-card tall"><div class="sh-head"><h2>Shop</h2><button class="x" data-close aria-label="Close">✕</button></div><div id="shopBody"></div></div></div>
   <div id="board" class="sheet" hidden><div class="sh-card tall"><div class="sh-head"><h2>Leaderboard</h2><button class="x" data-close aria-label="Close">✕</button></div><div id="boardBody"></div></div></div>
 </div>
-<script type="module" src="js/main.js?v=4"></script>
+<script type="module" src="js/main.js?v=5"></script>
 </body>
 </html>

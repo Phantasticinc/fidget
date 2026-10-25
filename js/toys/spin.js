@@ -42,11 +42,11 @@ export function create() {
     resize(w_, h) { W = w_; H = h; cx = W / 2; cy = H * 0.47; R = Math.min(W * 0.4, H * 0.28, 210); paint(); },
     leave() { sfx.whir(0); },
     hud() { const rpm = Math.abs(w) * 60 / 6.283; return `${Math.round(rpm)} rpm · best ${Math.round(best)}`; },
-    down(id, x, y) { if (grab || Math.hypot(x - cx, y - cy) > R * 1.15) return; grab = { id, off: ang(x, y) - a }; hist = [[performance.now(), a]]; w = 0; buzz(6); },
-    move(id, x, y) {
+    down(id, x, y) { if (grab || Math.hypot(x - cx, y - cy) > R * 1.15) return; grab = { id, off: ang(x, y) - a }; hist = [[performance.now(), a]]; w = 0; grab.ts = 1; buzz(6); },
+    move(id, x, y, _p, ts) { // event timestamps keep flick speed honest even when a frame is slow
       if (!grab || grab.id !== id) return; let t = ang(x, y) - grab.off;
       while (t - a > Math.PI) t -= 6.283; while (t - a < -Math.PI) t += 6.283; a = t;
-      const now = performance.now(); hist.push([now, a]); while (hist.length > 2 && now - hist[0][0] > 70) hist.shift();
+      const now = ts || performance.now(); hist.push([now, a]); while (hist.length > 2 && now - hist[0][0] > 70) hist.shift();
     },
     up(id) {
       if (!grab || grab.id !== id) return; grab = null;

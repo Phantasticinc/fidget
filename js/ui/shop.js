@@ -1,8 +1,8 @@
 // Shop sheet: Premium card + per-toy upgrades with live animated previews. Honest pricing, no timers, no randomised rewards.
 import { CATALOG, PREMIUM, byId } from '../store/catalog.js';
-import * as ent from '../store/ent.js';
+import * as ent from '../store/ent.js?v=5';
 import * as bill from '../store/billing.js';
-import { SKINS, equip, equippedId, canUse } from '../fx/manager.js';
+import { SKINS, equip, equippedId, canUse } from '../fx/manager.js?v=5';
 const $ = id => document.getElementById(id);
 const TOYS = [['pop', 'Pop'], ['spin', 'Spin'], ['click', 'Click'], ['sand', 'Sand']];
 let tab = 'pop', raf = 0, previews = [];
@@ -39,7 +39,7 @@ function render() {
   const list = document.createElement('div'); list.className = 'items';
   const def = { id: null, toy: tab, name: 'Classic', blurb: 'The original free look.' };
   for (const s of [def, ...SKINS[tab]]) {
-    const it = document.createElement('div'); it.className = 'item';
+    const it = document.createElement('div'); it.className = 'item'; it.dataset.id = s.id || 'classic';
     if (s.preview) it.appendChild(canvasFor(s.preview)); else { const c = document.createElement('canvas'); it.appendChild(c); }
     const m = document.createElement('div'); m.className = 'meta'; m.innerHTML = `<h4></h4><p></p>`; m.firstChild.textContent = s.name; m.lastChild.textContent = s.blurb; it.appendChild(m);
     if (s.id) it.appendChild(btn(s)); else { const b = document.createElement('button'); const on = !equippedId(tab); b.className = 'buy ' + (on ? 'using' : 'eq'); b.textContent = on ? 'Using' : 'Equip'; b.onclick = () => { equip(tab, null); render(); }; it.appendChild(b); }

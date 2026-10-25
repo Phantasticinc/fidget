@@ -2,8 +2,12 @@
 import { CATALOG, PREMIUM } from './catalog.js';
 const K = 'fidget.ent', subs = new Set();
 let owned = new Set(JSON.parse(localStorage.getItem(K) || '[]'));
-const dev = new URLSearchParams(location.search).has('devunlock');
-if (dev) owned = new Set(CATALOG.map(p => p.id)); // testing only, never persisted
+// ?devunlock turns on a tester unlock that survives reloads / PWA launches; ?devlock turns it off.
+const qs = new URLSearchParams(location.search), DK = 'fidget.devunlock';
+if (qs.has('devunlock')) localStorage.setItem(DK, '1');
+if (qs.has('devlock')) localStorage.removeItem(DK);
+const dev = localStorage.getItem(DK) === '1';
+if (dev) owned = new Set(CATALOG.map(p => p.id)); // testing only; real purchases are never overwritten
 export const isDev = dev;
 export const has = id => owned.has(id);
 export const premium = () => owned.has(PREMIUM);

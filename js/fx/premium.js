@@ -1,5 +1,5 @@
 // Premium base effects layered on every toy (all scale with q.scale and soften in Calm mode).
-import { burst, add, rnd, glowDot, calm } from './skins/kit.js';
+import { burst, add, rnd, glowDot, calm } from './skins/kit.js?v=5';
 export const shake = { amt: 0, on: true };
 const kick = a => { if (shake.on && !calm()) shake.amt = Math.min(10, shake.amt + a); };
 const CONF = ['#ff5e7e', '#ffd23f', '#3fd9ff', '#7cff6b', '#c77dff', '#ffffff'];

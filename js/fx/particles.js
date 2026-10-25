@@ -20,6 +20,7 @@ export function step(dt) {
   for (let i = P.length - 1; i >= 0; i--) {
     const p = P[i]; p.t += dt; if (p.t >= p.life) { P[i] = P[P.length - 1]; P.pop(); continue; }
     p.vx *= p.drag; p.vy = p.vy * p.drag + p.g * dt; p.x += p.vx * dt; p.y += p.vy * dt; p.rot += p.vr * dt;
+    if (p.floor != null && p.y > p.floor) { p.y = p.floor; p.vy = 0; p.vx = 0; p.g = 0; if (!p.landed) { p.landed = 1; p.onLand && p.onLand(p); } }
   }
 }
 export function draw(g) {
@@ -28,7 +29,7 @@ export function draw(g) {
     for (const p of P) {
       if (p.add !== !!pass) continue;
       const k = 1 - p.t / p.life, a = p.a * (p.fade === false ? 1 : k);
-      g.globalAlpha = a;
+      g.globalAlpha = a; if (p.cols) p.col = p.cols[Math.min(p.cols.length - 1, (p.t / p.life * p.cols.length) | 0)];
       if (p.kind === 'glow') { const s = p.size * (p.grow ? 1 + p.t / p.life * p.grow : 1); g.drawImage(glow(p.col), p.x - s, p.y - s, s * 2, s * 2); }
       else if (p.kind === 'spark') { g.strokeStyle = p.col; g.lineWidth = p.size; g.beginPath(); g.moveTo(p.x, p.y); g.lineTo(p.x - p.vx * 0.03, p.y - p.vy * 0.03); g.stroke(); }
       else if (p.kind === 'ring') { const r = p.size + (p.r1 - p.size) * (1 - k * k); g.strokeStyle = p.col; g.lineWidth = (p.lw || 2) * k + 0.3; g.beginPath(); g.arc(p.x, p.y, r, 0, 7); g.stroke(); }
@@ -39,8 +40,8 @@ export function draw(g) {
   g.globalAlpha = 1; g.globalCompositeOperation = 'source-over';
 }
 // jagged electric arc between two points (drawn immediately, not pooled)
-export function arc(g, x0, y0, x1, y1, col, w = 1.6, jag = 10) {
-  const n = 7; g.globalCompositeOperation = 'lighter'; g.strokeStyle = col; g.lineWidth = w; g.shadowColor = col; g.shadowBlur = 8;
+export function arc(g, x0, y0, x1, y1, col, w = 1.6, jag = 10, blur = 8) {
+  const n = 7; g.globalCompositeOperation = 'lighter'; g.strokeStyle = col; g.lineWidth = w; if (blur) { g.shadowColor = col; g.shadowBlur = blur * q.scale; }
   g.beginPath(); g.moveTo(x0, y0);
   for (let i = 1; i < n; i++) { const t = i / n; g.lineTo(x0 + (x1 - x0) * t + (Math.random() - .5) * jag, y0 + (y1 - y0) * t + (Math.random() - .5) * jag); }
   g.lineTo(x1, y1); g.stroke(); g.shadowBlur = 0; g.globalCompositeOperation = 'source-over';

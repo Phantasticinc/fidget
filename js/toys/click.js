@@ -29,9 +29,9 @@ export function create() {
         const finger = k.held ? 1.25 : 0, spring = 0.45 + 0.25 * k.t;
         let bump = 0; if (k.kind.k !== 'linear') bump = Math.exp(-(((k.t - 0.4) / 0.08) ** 2)) * (k.kind.k === 'clicky' ? 0.6 : 0.45);
         k.v += ((finger - spring - bump) * 260 - k.v * 18) * dt; k.t += k.v * dt;
-        if (k.t > 1) { if (k.v > 2) { sfx.key(k.kind.k, 'down', k.kind.pitch * (look.click && look.click.pitch || 1)); emit('key', { x: k.x + size / 2, y: k.y + size / 2, size, kind: k.kind.k, i: keys.indexOf(k) }); buzz(k.kind.k === 'linear' ? 8 : 12); } k.t = 1; k.v = 0; }
+        if (k.t > 1) { if (k.v > 2) { sfx.key(k.kind.k, 'down', k.kind.pitch * (look.click && look.click.pitch || 1)); buzz(k.kind.k === 'linear' ? 8 : 12); } k.t = 1; k.v = 0; }
         if (k.t < 0) { if (k.v < -2) sfx.key(k.kind.k, 'up', k.kind.pitch * 1.1); k.t = 0; k.v = 0; }
-        if (!k.act && k.t > 0.5) { k.act = true; n++; if (k.kind.k === 'clicky') buzz(6); }
+        if (!k.act && k.t > 0.5) { k.act = true; n++; emit('key', { x: k.x + size / 2, y: k.y + size / 2, size, kind: k.kind.k, i: keys.indexOf(k) }); /* fire at actuation: quick phone taps never bottom out */ if (k.kind.k === 'clicky') buzz(6); }
         if (k.act && k.t < 0.35) k.act = false;
       }
     },

@@ -1,11 +1,11 @@
 import { opts, unlock, setVol } from './feel.js?v=3';
 import { initCrave } from './crave.js?v=2';
-import * as fx from './fx/manager.js';
+import * as fx from './fx/manager.js?v=5';
 import { THEMES } from './fx/premium.js';
-import * as ent from './store/ent.js';
+import * as ent from './store/ent.js?v=5';
 import * as bill from './store/billing.js';
 import * as stats from './lb/stats.js';
-import * as shop from './ui/shop.js';
+import * as shop from './ui/shop.js?v=5';
 import * as board from './ui/board.js';
 
 const cv = document.getElementById('stage');
@@ -14,8 +14,8 @@ const hud = document.getElementById('hud');
 let W = 0, H = 0, DPR = 1, toy = null, toyName = '', bg = null;
 const cache = {};
 const loaders = {
-  pop: () => import('./toys/pop.js?v=3'), spin: () => import('./toys/spin.js?v=3'),
-  click: () => import('./toys/click.js?v=3'), sand: () => import('./toys/sand.js?v=3'),
+  pop: () => import('./toys/pop.js?v=3'), spin: () => import('./toys/spin.js?v=4'),
+  click: () => import('./toys/click.js?v=4'), sand: () => import('./toys/sand.js?v=3'),
 };
 
 function paintBg() {
@@ -46,19 +46,20 @@ async function select(name) {
   toy && toy.leave && toy.leave(); fx.clear();
   if (!cache[name]) { const m = await loaders[name](); cache[name] = m.create(); cache[name].resize(W, H); }
   if (toyName !== name) return;
-  toy = cache[name]; toy.resize(W, H); toy.enter && toy.enter(); localStorage.setItem('fidget.toy', name);
+  toy = cache[name]; fx.setToy(name); toy.resize(W, H); toy.enter && toy.enter(); localStorage.setItem('fidget.toy', name);
 }
 document.getElementById('dock').addEventListener('click', e => { const b = e.target.closest('button'); if (b) { unlock(); select(b.dataset.toy); } });
 
 // pointer input -> toy (multi-touch, coalesced for sub-frame precision)
 const P = new Map();
-cv.addEventListener('pointerdown', e => { unlock(); try { cv.setPointerCapture(e.pointerId); } catch (_) {} P.set(e.pointerId, 1); toy && toy.down(e.pointerId, e.clientX, e.clientY, e.pressure); e.preventDefault(); });
+cv.addEventListener('pointerdown', e => { unlock(); try { cv.setPointerCapture(e.pointerId); } catch (_) {} P.set(e.pointerId, 1); fx.ptr(e.clientX, e.clientY, 1); toy && toy.down(e.pointerId, e.clientX, e.clientY, e.pressure); e.preventDefault(); });
 cv.addEventListener('pointermove', e => {
   if (!P.has(e.pointerId) || !toy) return;
   const list = e.getCoalescedEvents ? e.getCoalescedEvents() : [e];
-  for (const c of (list.length ? list : [e])) toy.move(e.pointerId, c.clientX, c.clientY, c.pressure);
+  fx.ptr(e.clientX, e.clientY, 1);
+  for (const c of (list.length ? list : [e])) toy.move(e.pointerId, c.clientX, c.clientY, c.pressure, c.timeStamp || e.timeStamp);
 });
-const end = e => { if (!P.delete(e.pointerId)) return; toy && toy.up(e.pointerId, e.clientX, e.clientY); };
+const end = e => { if (!P.delete(e.pointerId)) return; if (!P.size) fx.ptr(e.clientX, e.clientY, 0); toy && toy.up(e.pointerId, e.clientX, e.clientY, e.timeStamp); };
 cv.addEventListener('pointerup', end); cv.addEventListener('pointercancel', end);
 cv.addEventListener('contextmenu', e => e.preventDefault());
 
@@ -69,12 +70,14 @@ function frame(now) {
   if (toy) { while (acc >= STEP) { toy.step(STEP); acc -= STEP; } }
   g.setTransform(1, 0, 0, 1, 0, 0); g.drawImage(bg, 0, 0);
   g.setTransform(DPR, 0, 0, DPR, shk ? shk[0] * DPR : 0, shk ? shk[1] * DPR : 0);
-  if (toy) { toy.draw(g, W, H); shk = fx.frame(g, dt, opts.calm); const t = toy.hud ? toy.hud() : ''; if (t !== hudTxt) { hud.textContent = hudTxt = t; } }
+  if (toy) { toy.draw(g, W, H); shk = fx.frame(g, dt, opts.calm, W, H); const t = toy.hud ? toy.hud() : ''; if (t !== hudTxt) { hud.textContent = hudTxt = t; } }
   requestAnimationFrame(frame);
 }
 
 // settings
 const $ = id => document.getElementById(id);
+export const VERSION = '1.1.1', BUILD = 5;
+$('ver').textContent = `Version ${VERSION} (build ${BUILD})` + (ent.isDev ? ' · tester unlock ON — open ?devlock to turn off' : '');
 const saved = JSON.parse(localStorage.getItem('fidget.opts') || '{}'); Object.assign(opts, saved);
 $('optSound').checked = opts.sound; $('optHaptic').checked = opts.haptic; $('optCalm').checked = opts.calm; $('optVol').value = opts.vol;
 document.body.classList.toggle('calm', opts.calm);
@@ -101,5 +104,5 @@ resize();
 const q = new URLSearchParams(location.search).get('toy');
 select(loaders[q] ? q : (loaders[localStorage.getItem('fidget.toy')] ? localStorage.getItem('fidget.toy') : 'pop'));
 requestAnimationFrame(frame);
-if ('serviceWorker' in navigator && location.protocol === 'https:') navigator.serviceWorker.register('sw.js').catch(() => {});
+if ('serviceWorker' in navigator && (location.protocol === 'https:' || location.hostname === 'localhost')) navigator.serviceWorker.register('sw.js', { updateViaCache: 'none' }).then(r => r.update()).catch(() => {});
 window.__fidget = { select, fx, shop, get toy() { return toy; } };
