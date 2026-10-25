@@ -27,7 +27,7 @@ export function equip(toy, id, persist = true) {
   if (persist && s) { rv = { s, t: 0 }; s.reveal && s.reveal(W / 2, H / 2, W, H); }
 }
 function revalidate() { for (const t in SKINS) equip(t, equipped[t], false); }
-const EVENTS = ['pop', 'sheet', 'spinDraw', 'key', 'clickDraw', 'cut', 'crumble', 'mold', 'sandDraw'];
+const EVENTS = ['pop', 'sheet', 'spinDraw', 'key', 'clickDraw', 'cut', 'crumble', 'mold', 'sandDraw', 'press', 'grab', 'stretch', 'tear', 'splat', 'ball'];
 export function init(onRelook) {
   relook = onRelook; revalidate(); ent.onChange(revalidate);
   for (const e of EVENTS) on(e, d => {

@@ -1,4 +1,4 @@
-import { opts, unlock, setVol } from './feel.js?v=3';
+import { opts, unlock, setVol } from './feel.js?v=4';
 import { initCrave } from './crave.js?v=2';
 import * as fx from './fx/manager.js?v=5';
 import { THEMES } from './fx/premium.js';
@@ -15,7 +15,7 @@ let W = 0, H = 0, DPR = 1, toy = null, toyName = '', bg = null;
 const cache = {};
 const loaders = {
   pop: () => import('./toys/pop.js?v=3'), spin: () => import('./toys/spin.js?v=4'),
-  click: () => import('./toys/click.js?v=4'), sand: () => import('./toys/sand.js?v=3'),
+  click: () => import('./toys/click.js?v=4'), sand: () => import('./toys/sand.js?v=4'),
 };
 
 function paintBg() {
@@ -60,7 +60,11 @@ cv.addEventListener('pointermove', e => {
   for (const c of (list.length ? list : [e])) toy.move(e.pointerId, c.clientX, c.clientY, c.pressure, c.timeStamp || e.timeStamp);
 });
 const end = e => { if (!P.delete(e.pointerId)) return; if (!P.size) fx.ptr(e.clientX, e.clientY, 0); toy && toy.up(e.pointerId, e.clientX, e.clientY, e.timeStamp); };
-cv.addEventListener('pointerup', end); cv.addEventListener('pointercancel', end);
+cv.addEventListener('pointerup', end); cv.addEventListener('pointercancel', end); cv.addEventListener('lostpointercapture', end);
+// no browser gestures on the stage: no pinch-zoom, double-tap zoom, iOS gesture events or scroll stealing a second finger
+for (const t of ['gesturestart', 'gesturechange', 'gestureend']) document.addEventListener(t, e => e.preventDefault(), { passive: false });
+cv.addEventListener('touchstart', e => e.preventDefault(), { passive: false }); cv.addEventListener('touchmove', e => e.preventDefault(), { passive: false });
+document.addEventListener('dblclick', e => e.preventDefault(), { passive: false });
 cv.addEventListener('contextmenu', e => e.preventDefault());
 
 // fixed-step physics (120 Hz), render at display rate
@@ -76,7 +80,7 @@ function frame(now) {
 
 // settings
 const $ = id => document.getElementById(id);
-export const VERSION = '1.1.1', BUILD = 5;
+export const VERSION = '1.2.0', BUILD = 6;
 $('ver').textContent = `Version ${VERSION} (build ${BUILD})` + (ent.isDev ? ' · tester unlock ON — open ?devlock to turn off' : '');
 const saved = JSON.parse(localStorage.getItem('fidget.opts') || '{}'); Object.assign(opts, saved);
 $('optSound').checked = opts.sound; $('optHaptic').checked = opts.haptic; $('optCalm').checked = opts.calm; $('optVol').value = opts.vol;

@@ -75,6 +75,18 @@ export const sfx = {
     nz(t, 0.05 + amt * 0.06, 'bandpass', jit(1400 + amt * 1800, 0.25), 0.9, (0.08 + amt * 0.22) * k, 0.006);
     nz(t, 0.08, 'lowpass', 380, 0.8, 0.06 * amt * k, 0.01);
   },
+  // gooey kinetic-sand voices: wet squelch (formant sweep) and sticky peel (fast micro-clicks of grains letting go)
+  squelch(amt = 0.5) {
+    if (!ok()) return; const t = ctx.currentTime, k = cm();
+    nz(t, 0.16 + amt * 0.12, 'bandpass', jit(700 - amt * 250, 0.2), 4, (0.12 + amt * 0.25) * k, 0.012);
+    nz(t, 0.12, 'lowpass', 260, 1.5, 0.18 * amt * k, 0.01);
+    tone(t, jit(190), 70, 0.12, 0.10 * amt * k);
+  },
+  peel(amt = 0.5) {
+    if (!ok()) return; const t = ctx.currentTime, k = cm(), n = 3 + Math.round(amt * 6);
+    for (let i = 0; i < n; i++) nz(t + i * (0.012 + Math.random() * 0.012), 0.012, 'bandpass', jit(1800 + i * 260, 0.25), 3, (0.05 + amt * 0.08) * k);
+    nz(t, 0.08 + amt * 0.1, 'bandpass', 1100, 1.2, 0.04 * amt * k, 0.03);
+  },
   chime(f = 660) { if (!ok()) return; const t = ctx.currentTime; tone(t, f, f, 1.6, 0.12 * cm()); tone(t, f * 1.5, f * 1.5, 1.2, 0.05 * cm()); },
 };
 

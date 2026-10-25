@@ -1,5 +1,5 @@
 // Shared helpers for skin modules: sound voices, haptics, preview drawing primitives.
-import { synth, buzzPattern, opts } from '../../feel.js?v=3';
+import { synth, buzzPattern, opts } from '../../feel.js?v=4';
 export { burst, add, arc, rnd } from '../particles.js?v=5';
 export const calm = () => opts.calm;
 export function snd(fn) { if (synth.ok()) fn(synth, synth.t(), synth.cm()); }
