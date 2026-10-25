@@ -1,0 +1,6 @@
+android/upload-keystore.jks
+android/KEYSTORE-SECRETS.txt
+*.jks
+*.keystore
+android/
+play-upload/*.aab

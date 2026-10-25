@@ -1,0 +1,10 @@
+[{
+  "relation": ["delegate_permission/common.handle_all_urls"],
+  "target": {
+    "namespace": "android_app",
+    "package_name": "com.phantasticvanguard.fidget",
+    "sha256_cert_fingerprints": [
+      "4A:82:B9:3B:2B:B6:B4:FF:90:83:0C:8F:4E:E5:E7:6A:9F:00:12:04:7A:16:0A:1C:99:AD:F3:D3:E8:D0:FC:8A"
+    ]
+  }
+}]

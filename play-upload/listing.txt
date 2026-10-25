@@ -1,0 +1,32 @@
+APP NAME (<=30):
+Fidget: Tactile Toys
+
+SHORT DESCRIPTION (<=80):
+Pop, spin, click & slice kinetic sand. Real haptics, no ads, works offline.
+
+FULL DESCRIPTION (<=4000):
+Fidget is a pocket set of tactile toys built with real-time physics, rich sound and phone haptics. Something satisfying for your hands, any time.
+
+POP — A grid of bubbles that pop with a crisp snap and spring back, so you never run out.
+SPIN — A weighty spinner with true momentum. Flick it hard and watch it coast.
+CLICK — Crisp switches and buttons tuned to feel like the real thing.
+SAND — Kinetic sand you can slice, press and pinch. Cut walls crumble, grains trickle and settle, and Mold presses a fresh shape in a new color.
+
+Made to feel good:
+• Smooth 60 fps physics
+• Sound tied to how you touch, plus vibration on supported phones
+• Calm mode for softer, quieter play
+• "Ride it out" timer for a short focus break
+
+Respectful by design:
+• No ads, no accounts, no in-app purchases
+• No data collected — your settings stay on your device
+• Works offline after first launch
+
+Fidget is a relaxation toy for fun. It is not a medical device and does not diagnose, treat or cure any condition.
+
+CATEGORY: Casual (Games) — alternative: Entertainment (Apps)
+TAGS: fidget, relaxing, satisfying
+CONTACT EMAIL: info@phantasticvanguard.com
+WEBSITE: https://phantasticinc.github.io/fidget/
+PRIVACY POLICY: https://phantasticinc.github.io/fidget/privacy.html
