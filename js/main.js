@@ -74,13 +74,13 @@ function frame(now) {
   if (toy) { while (acc >= STEP) { toy.step(STEP); acc -= STEP; } }
   g.setTransform(1, 0, 0, 1, 0, 0); g.drawImage(bg, 0, 0);
   g.setTransform(DPR, 0, 0, DPR, shk ? shk[0] * DPR : 0, shk ? shk[1] * DPR : 0);
-  if (toy) { toy.draw(g, W, H); shk = fx.frame(g, dt, opts.calm, W, H); const t = toy.hud ? toy.hud() : ''; if (t !== hudTxt) { hud.textContent = hudTxt = t; } }
+  if (toy) { fx.back(g, dt, W, H); toy.draw(g, W, H); shk = fx.frame(g, dt, opts.calm, W, H); const t = toy.hud ? toy.hud() : ''; if (t !== hudTxt) { hud.textContent = hudTxt = t; } }
   requestAnimationFrame(frame);
 }
 
 // settings
 const $ = id => document.getElementById(id);
-export const VERSION = '1.2.0', BUILD = 6;
+export const VERSION = '1.2.1', BUILD = 7;
 $('ver').textContent = `Version ${VERSION} (build ${BUILD})` + (ent.isDev ? ' · tester unlock ON — open ?devlock to turn off' : '');
 const saved = JSON.parse(localStorage.getItem('fidget.opts') || '{}'); Object.assign(opts, saved);
 $('optSound').checked = opts.sound; $('optHaptic').checked = opts.haptic; $('optCalm').checked = opts.calm; $('optVol').value = opts.vol;

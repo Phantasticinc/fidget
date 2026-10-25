@@ -7,7 +7,7 @@ export default [
     look: { base: ['#1a1440', '#07051a'], disc: ['#e9e2ff', '#7a5cff', '#1a0f5a'], drag: 1 },
     on: { spinDraw(d) {
       const sp = Math.min(1, Math.abs(d.w) / 120), g = d.g, now = performance.now();
-      glowDot(d.g, d.cx, d.cy, d.R * (0.45 + sp * 0.35), `rgba(140,110,255,${0.35 + sp * 0.4})`);
+      glowDot(d.g, d.cx, d.cy, d.R * (0.45 + sp * 0.35), `rgba(140,110,255,${0.35 + sp * 0.4})`, calm() ? 0.4 : 1);
       const n = calm() ? 1 : 1 + Math.round(sp * 3);
       for (const [x, y] of tips(d)) for (let i = 0; i < n; i++) if (Math.random() < 0.35 + sp * 0.6) arc(g, d.cx, d.cy, x + rnd(-6, 6), y + rnd(-6, 6), i ? 'rgba(200,180,255,.6)' : '#cfc2ff', 1 + sp, 8 + sp * 16);
       if (sp > 0.25 && now - lastZap > 140 - sp * 80) { lastZap = now; snd((s, t, k) => s.nz(t, 0.04, 'bandpass', s.jit(5200, 0.3), 4, 0.05 * k * sp)); if (sp > 0.8) hap(3); }

@@ -15,6 +15,7 @@ export function add(o) {
 }
 export function burst(n, base, fn) { n = Math.round(n * q.scale); for (let i = 0; i < n; i++) add(Object.assign({}, base, fn ? fn(i, n) : null)); }
 export const count = () => P.length;
+export const all = () => P; // read/nudge only (black hole pull, etc.)
 export function clear() { P.length = 0; }
 export function step(dt) {
   for (let i = P.length - 1; i >= 0; i--) {

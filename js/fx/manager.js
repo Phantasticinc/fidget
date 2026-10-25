@@ -9,6 +9,7 @@ import SPIN from './skins/spin.js';
 import CLICK from './skins/click.js';
 import SAND from './skins/sand.js';
 import { sign, ptr as P0 } from './skins/sig.js?v=5';
+import * as world from './world.js?v=1';
 export const SKINS = { pop: POP, spin: SPIN, click: CLICK, sand: [...SAND, prem.RAINBOW] };
 for (const t in SKINS) SKINS[t].forEach(sign); // signature layer: ambient frame fx, finger twists, reveal
 let cur = null, rv = null, W = 0, H = 0;
@@ -33,16 +34,20 @@ export function init(onRelook) {
   for (const e of EVENTS) on(e, d => {
     if (ent.premium() && prem.on[e]) prem.on[e](d);
     for (const t in active) { const s = active[t]; if (s && s.on[e]) s.on[e](d); }
+    world.event(e, d);
   });
 }
 export function clear() { P.clear(); }
+const worldId = () => { const a = active[cur]; return a ? a.id : ent.premium() ? '_premium' : null; };
+// environment layer, drawn behind the toy
+export function back(g, dt, w = W, h = H) { W = w; H = h; world.use(worldId()); world.back(g, W, H, dt); }
 export function frame(g, dt, calm, w = W, h = H) {
   W = w; H = h;
   fpsAvg += ((1 / Math.max(dt, 1e-3)) - fpsAvg) * 0.05;
   const target = (calm ? 0.45 : 1) * (fpsAvg < 40 ? 0.5 : fpsAvg < 52 ? 0.75 : 1);
   P.q.scale += (target - P.q.scale) * 0.05;
   const a0 = active[cur]; if (a0 && a0.frame) a0.frame(g, dt, W, H);
-  P.step(dt); P.draw(g);
+  P.step(dt); if (calm) g.globalAlpha = 0.6; P.draw(g); g.globalAlpha = 1; world.front(g, dt);
   if (rv) { rv.t += dt; if (rv.t > 1.8) rv = null; else drawReveal(g, rv); }
   const s = prem.shake; s.on = opts_shake(); const a = s.amt; s.amt *= Math.pow(0.002, dt); if (s.amt < 0.05) s.amt = 0;
   return a ? [(Math.random() - 0.5) * a, (Math.random() - 0.5) * a] : null;
