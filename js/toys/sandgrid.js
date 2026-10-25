@@ -12,6 +12,9 @@ export function mold(G, shape) {
     if (shape === 'brick') { const e = Math.max(Math.abs(dx) / 1.05, Math.abs(dy) / 0.72); v = e < 1 ? Math.min(1, (1 - e) * 14) : 0; }
     else if (shape === 'dome') { const r = Math.hypot(dx, dy); v = r < 1 ? Math.sqrt(1 - r * r) * 1.1 : 0; }
     else if (shape === 'heart') { const X = dx * 1.15, Y = -dy * 1.15 + 0.25; const f = (X * X + Y * Y - 1) ** 3 - X * X * Y * Y * Y; v = f < 0 ? Math.min(1, -f * 6) : 0; }
+    else if (shape === 'star') { const r = Math.hypot(dx, dy), a = Math.atan2(dy, dx) + Math.PI / 2, k = 0.62 + 0.38 * Math.abs(Math.cos(a * 2.5)) ** 3; v = r < k ? Math.min(1, (k - r) * 9) : 0; }
+    else if (shape === 'ring') { const d = Math.abs(Math.hypot(dx, dy) - 0.7); v = d < 0.26 ? Math.min(1, (0.26 - d) * 9) : 0; }
+    else if (shape === 'planet') { const r = Math.hypot(dx, dy); const ry = Math.hypot(dx / 1.15, (dy - dx * 0.25) / 0.28); v = r < 0.62 ? Math.sqrt(1 - (r / 0.62) ** 2) * 1.1 : (ry > 0.85 && ry < 1.05 ? 0.45 : 0); }
     else { const r = Math.hypot(dx, dy) / 0.62; v = r < 1 ? Math.min(1, (1 - r) * 10) * (1 + 0.15 * Math.cos(Math.atan2(dy, dx) * 8)) : 0; }
     h[y * gw + x] = v;
   }

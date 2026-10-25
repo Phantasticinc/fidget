@@ -4,20 +4,22 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
 <meta name="theme-color" content="#0e0f11">
-<meta name="description" content="Fidget — tactile, physics-driven fidget toys. No ads, no accounts, works offline.">
+<meta name="description" content="Fidget — tactile, physics-driven fidget toys. No ads, works offline. Free, with optional Premium effects.">
 <title>Fidget</title>
 <link rel="manifest" href="manifest.json">
 <link rel="icon" href="icons/icon-192.png">
 <link rel="apple-touch-icon" href="icons/icon-192.png">
-<link rel="stylesheet" href="styles.css?v=1">
+<link rel="stylesheet" href="styles.css?v=2">
 </head>
 <body>
 <div id="app">
   <header class="top">
     <button id="craveBtn" class="pill" aria-label="Ride out a craving, 3 minutes">Ride it out · 3:00</button>
+    <span class="tb-r"><button id="lbBtn" class="icon" aria-label="Leaderboard"><svg viewBox="0 0 24 24" width="20" height="20"><path d="M4 20V11M10 20V5M16 20v-7M20 20H3" stroke="currentColor" stroke-width="1.8" fill="none" stroke-linecap="round"/></svg></button>
+    <button id="shopBtn" class="icon" aria-label="Shop"><svg viewBox="0 0 24 24" width="20" height="20"><path d="M12 2l2.6 6.3L21 9l-5 4.4L17.5 20 12 16.6 6.5 20 8 13.4 3 9l6.4-.7z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg></button>
     <button id="setBtn" class="icon" aria-label="Settings">
       <svg viewBox="0 0 24 24" width="20" height="20"><circle cx="12" cy="12" r="3" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M4.9 19.1 7 17M17 7l2.1-2.1" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
-    </button>
+    </button></span>
   </header>
   <canvas id="stage"></canvas>
   <div id="hud" aria-live="polite"></div>
@@ -39,12 +41,16 @@
       <label class="row"><span>Sound</span><input type="checkbox" id="optSound" checked></label>
       <label class="row"><span>Haptics</span><input type="checkbox" id="optHaptic" checked></label>
       <label class="row"><span>Calm mode<small>Muted colours, softer sound &amp; vibration</small></span><input type="checkbox" id="optCalm"></label>
+      <label class="row prem-only"><span>Screen shake<small>Premium · off in Calm mode</small></span><input type="checkbox" id="optShake" checked></label>
+      <div class="row prem-only"><span>Theme</span><span id="themes" class="chips"></span></div>
       <label class="row"><span>Volume</span><input type="range" id="optVol" min="0" max="1" step="0.05" value="0.8"></label>
-      <p class="fine">Fidget is a relaxation toy, not a medical device, and does not diagnose or treat any condition. No ads, no accounts, no data collected. <a href="privacy.html">Privacy</a></p>
+      <p class="fine">Fidget is a relaxation toy, not a medical device, and does not diagnose or treat any condition. No ads. Purchases are handled by Google Play. The optional online leaderboard shares only your nickname and scores. <a href="privacy.html">Privacy</a></p>
       <button id="sheetClose" class="pill wide">Done</button>
     </div>
   </div>
+  <div id="shop" class="sheet" hidden><div class="sh-card tall"><div class="sh-head"><h2>Shop</h2><button class="x" data-close aria-label="Close">✕</button></div><div id="shopBody"></div></div></div>
+  <div id="board" class="sheet" hidden><div class="sh-card tall"><div class="sh-head"><h2>Leaderboard</h2><button class="x" data-close aria-label="Close">✕</button></div><div id="boardBody"></div></div></div>
 </div>
-<script type="module" src="js/main.js?v=3"></script>
+<script type="module" src="js/main.js?v=4"></script>
 </body>
 </html>

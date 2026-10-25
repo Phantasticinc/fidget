@@ -1,7 +1,9 @@
 // Pop: bubble wrap with springy domes, finger-roll popping, neighbour jiggle and endless sheets.
-import { sfx, buzz } from '../feel.js?v=2';
-import { opts } from '../feel.js?v=2';
+import { sfx, buzz } from '../feel.js?v=3';
+import { opts } from '../feel.js?v=3';
 import { sprite, rr, DPR, hsl } from '../render.js?v=1';
+import { emit } from '../bus.js';
+import { look } from '../look.js';
 const TINTS = [[205, 30], [32, 55], [150, 22], [345, 35], [265, 25]];
 export function create() {
   let W, H, sx, sy, sw, sh, R, B = [], sheet = 0, popped = 0, total = 0, slide = 0, spr = {}, fingers = new Map(), streak = 0, lastPop = 0, phase = 0, vel = 0;
@@ -16,7 +18,7 @@ export function create() {
     total = B.length; popped = 0; paint();
   }
   function paint() {
-    const [h, s] = opts.calm ? [150, 8] : TINTS[sheet % TINTS.length], d = DPR(), S = R * 2.4;
+    const [h, s] = opts.calm ? [150, 8] : (look.pop ? look.pop.tint : TINTS[sheet % TINTS.length]), d = DPR(), S = R * 2.4;
     spr.dome = sprite(S, d, (g, z) => {
       const c = z / 2, r = R * 0.92;
       g.fillStyle = 'rgba(0,0,0,.35)'; g.beginPath(); g.ellipse(c + r * 0.06, c + r * 0.16, r, r * 0.95, 0, 0, 7); g.filter = 'blur(3px)'; g.fill(); g.filter = 'none';
@@ -47,11 +49,11 @@ export function create() {
   function hit(x, y) { for (const b of B) if (!b.popped && (x - b.x) ** 2 + (y - b.y - slide) ** 2 < (R * 0.95) ** 2) return b; return null; }
   function pop(b, f) {
     b.popped = true; popped++; const now = performance.now(); streak = now - lastPop < 260 ? streak + 1 : 0; lastPop = now;
-    sfx.pop(Math.random() * 0.4 + 0.3, f); buzz(14 + Math.random() * 6);
+    sfx.pop(Math.random() * 0.4 + 0.3, f); emit('pop', { x: b.x, y: b.y + slide, r: R, streak, h: spr.h, s: spr.s }); buzz(14 + Math.random() * 6);
     for (const n of B) { const dd = Math.hypot(n.x - b.x, n.y - b.y); if (n !== b && dd < R * 4.5) n.wv += (R * 4.5 - dd) / R * 1.6; }
     if (popped === total) setTimeout(next, 650);
   }
-  function next() { phase = 1; vel = 0; sfx.chime(440 + sheet * 30); }
+  function next() { emit('sheet', {}); phase = 1; vel = 0; sfx.chime(440 + sheet * 30); }
   function press(id, x, y) {
     const b = hit(x, y); const f = fingers.get(id) || {}; if (b && f.b !== b) { if (f.b) f.b.held = 0; b.held = 1; sfx.press(); }
     f.b = b; f.t = performance.now(); fingers.set(id, f);

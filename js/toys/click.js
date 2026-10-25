@@ -1,6 +1,8 @@
 // Click: mechanical switches with modelled travel (4 mm), actuation point, tactile bump and spring return.
-import { sfx, buzz, opts } from '../feel.js?v=2';
+import { sfx, buzz, opts } from '../feel.js?v=3';
 import { rr, hsl } from '../render.js?v=1';
+import { emit } from '../bus.js';
+import { look } from '../look.js';
 const KINDS = [
   { k: 'clicky', name: 'Clicky', stem: '#4d8dff', pitch: 1.05, hue: 30 },
   { k: 'tactile', name: 'Tactile', stem: '#b07a4a', pitch: 0.95, hue: 30 },
@@ -27,7 +29,7 @@ export function create() {
         const finger = k.held ? 1.25 : 0, spring = 0.45 + 0.25 * k.t;
         let bump = 0; if (k.kind.k !== 'linear') bump = Math.exp(-(((k.t - 0.4) / 0.08) ** 2)) * (k.kind.k === 'clicky' ? 0.6 : 0.45);
         k.v += ((finger - spring - bump) * 260 - k.v * 18) * dt; k.t += k.v * dt;
-        if (k.t > 1) { if (k.v > 2) { sfx.key(k.kind.k, 'down', k.kind.pitch); buzz(k.kind.k === 'linear' ? 8 : 12); } k.t = 1; k.v = 0; }
+        if (k.t > 1) { if (k.v > 2) { sfx.key(k.kind.k, 'down', k.kind.pitch * (look.click && look.click.pitch || 1)); emit('key', { x: k.x + size / 2, y: k.y + size / 2, size, kind: k.kind.k, i: keys.indexOf(k) }); buzz(k.kind.k === 'linear' ? 8 : 12); } k.t = 1; k.v = 0; }
         if (k.t < 0) { if (k.v < -2) sfx.key(k.kind.k, 'up', k.kind.pitch * 1.1); k.t = 0; k.v = 0; }
         if (!k.act && k.t > 0.5) { k.act = true; n++; if (k.kind.k === 'clicky') buzz(6); }
         if (k.act && k.t < 0.35) k.act = false;
@@ -47,12 +49,12 @@ export function create() {
         g.fillStyle = k.kind.stem; g.globalAlpha = 0.5; g.fillRect(x + s / 2 - 5, y + s - 10, 10, 4); g.globalAlpha = 1;
         // cap side (skirt)
         const lift = s * 0.07 - d; const cx = x + 2, cy = y + 2 + d, cw = s - 4, ch = s - 4;
-        const cap = k.accent && !calm ? [18, 85] : calm ? [150, 6] : [40, 6];
+        const cap = calm ? [150, 6] : look.click ? (k.accent ? look.click.accent : look.click.cap) : k.accent ? [18, 85] : [40, 6];
         rr(g, cx, cy, cw, ch, s * 0.16); g.fillStyle = hsl(cap[0], cap[1], k.accent && !calm ? 40 : 68); g.shadowColor = 'rgba(0,0,0,.55)'; g.shadowBlur = 4 + lift * 1.5; g.shadowOffsetY = lift * 0.9; g.fill(); g.shadowColor = 'transparent';
         // dished top
         const ix = cx + s * 0.11, iy = cy + s * 0.06, iw = cw - s * 0.22, ih = ch - s * 0.2;
         const tg = g.createLinearGradient(0, iy, 0, iy + ih);
-        const L = k.accent && !calm ? 55 : 86;
+        const L = !calm && look.click ? look.click.L : k.accent && !calm ? 55 : 86;
         tg.addColorStop(0, hsl(cap[0], cap[1], L + 4)); tg.addColorStop(1, hsl(cap[0], cap[1], L - 8));
         rr(g, ix, iy, iw, ih, s * 0.12); g.fillStyle = tg; g.fill();
         const dg = g.createRadialGradient(ix + iw / 2, iy + ih * 0.65, 0, ix + iw / 2, iy + ih * 0.6, iw * 0.7);
@@ -61,6 +63,7 @@ export function create() {
         g.fillStyle = k.accent && !calm ? 'rgba(255,255,255,.9)' : 'rgba(40,38,35,.55)'; g.font = `${s * 0.26}px system-ui`; g.textAlign = 'center'; g.textBaseline = 'middle';
         g.fillText(k.gl, ix + iw / 2, iy + ih / 2 + 1);
       }
+      emit('clickDraw', { g, keys, size });
     },
   };
 }

@@ -1,5 +1,5 @@
 // "Ride it out": cravings typically crest and fade within minutes. 3:00 timer + 4-6 breathing pacer.
-import { sfx, buzzPattern } from './feel.js?v=2';
+import { sfx, buzzPattern } from './feel.js?v=3';
 export function initCrave() {
   const box = document.getElementById('crave'), btn = document.getElementById('craveBtn');
   const arc = document.getElementById('craveArc'), tm = document.getElementById('craveTime'), br = document.getElementById('craveBreath');

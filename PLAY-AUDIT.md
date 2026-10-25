@@ -35,3 +35,32 @@ Audited Oct 25, 2026 (CT) against current Play Console Help / policy pages.
 7. Promote to Production (or Closed testing if Console requires it) → Send for review.
 
 Back up `android/upload-keystore.jks` + `android/KEYSTORE-SECRETS.txt` somewhere safe (password manager). They are git-ignored and exist only on the box.
+
+---
+# v1.1.0 (versionCode 2) — Premium, upgrades & leaderboard (Oct 25, 2026 CT)
+Bundle: `play-upload/fidget-1.1.0-vc2.aab` (same upload key). TWA `features.playBilling.enabled = true` → adds the Play Billing library + `com.android.vending.BILLING` permission and the Digital Goods/Payment Request bridge.
+
+| Check | Requirement | Status |
+|---|---|---|
+| Payments profile | Merchant account required before paid products can be created | USER — Play Console > Setup > Payments profile (link the org's payments profile; needs bank + tax info) |
+| In-app products | Create each ID, set Active | USER — 13 products in `play-upload/PRODUCTS.md` / `products.csv`. IDs must match exactly |
+| Billing policy | Digital goods must use Google Play Billing | PASS — only Play Billing via Digital Goods API; web build shows "available in the Android app" (no external payment links) |
+| Loot boxes / dark patterns | Disclosure of odds; deceptive UI | PASS — no random items, no timers, no fake discounts, every item previewed live before purchase |
+| Pay-to-win | n/a policy, but fairness | PASS — upgrades are cosmetic, same physics |
+| Acknowledgement | Purchases must be acknowledged within 3 days | PASS — Bubblewrap's Play Billing bridge acknowledges PaymentRequest purchases; code also calls `acknowledge` when exposed |
+| Restore | Users must keep purchases | PASS — `listPurchases()` on launch + "Restore purchases" button |
+| Content rating | Re-take IARC; **Digital purchases = Yes** | USER — see data-safety-and-rating.md |
+| Data safety | Update if leaderboard goes online | USER — option A now (no data collected); option B after Supabase is configured |
+| Privacy policy | Must reflect purchases + leaderboard | UPDATED — privacy.html v1.1 |
+| UGC (nicknames) | Filter + report/remove path | PASS — client and server profanity filter, no chat, deletion by email |
+| Testing purchases | License testers | USER — Play Console > Setup > License testing: add your Gmail; test on Internal testing track |
+| Version | Higher than last upload | PASS — versionCode 2 / 1.1.0 |
+
+## Leaderboard decision
+Play Games Services needs the native PGS SDK (not available to a Bubblewrap TWA without writing custom Java bridge code), so the board uses a **backend adapter**:
+- Now: local-only boards (this device, weekly + all-time) — works with zero setup.
+- Online: **Supabase** (free tier). Account the user must create: **one Supabase account + one project** (supabase.com, sign in with GitHub). Then: SQL editor → run `backend/supabase.sql`; copy *Project URL* and *anon public key* into `js/lb/config.js`; push. Then switch Data safety to option B.
+- Anti-cheat (server, `submit_score` RPC, table not writable directly): RPM ≤ 3000, streak ≤ 5000, rate caps (keys ≤ 25/s, cuts ≤ 30/s, streak +15/s), one write per 5 s per metric, current-week only, nickname regex + profanity filter.
+
+## Steps for v1.1 in Play Console
+1. Payments profile → 2. create the 13 in-app products → 3. upload vc2 aab to Internal testing → 4. add license testers and test buy/restore on a phone → 5. re-take content rating (digital purchases Yes) → 6. update Data safety if board online → 7. promote.

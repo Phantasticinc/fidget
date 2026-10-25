@@ -1,7 +1,9 @@
 // Spin: machined tri-lobe spinner. Direct-grab rotation, real inertia + bearing friction,
 // detent clicks at low speed, bearing whir at high speed, fixed studio lighting over a rotating body.
-import { sfx, buzz, opts } from '../feel.js?v=2';
+import { sfx, buzz, opts } from '../feel.js?v=3';
 import { sprite, DPR } from '../render.js?v=1';
+import { emit } from '../bus.js';
+import { look } from '../look.js';
 export function create() {
   let W, H, cx, cy, R, body, off, og, a = 0, w = 0, grab = null, best = +(localStorage.getItem('fidget.rpm') || 0), lastDet = 0, hist = [];
   const DET = 2 * Math.PI / 18;
@@ -16,7 +18,7 @@ export function create() {
       g.lineJoin = 'round'; g.lineWidth = lr * 1.3; g.strokeStyle = '#000'; g.stroke(); g.fillStyle = '#000'; g.fill();
       shape(); g.fill();
       g.globalCompositeOperation = 'source-atop';
-      const base = opts.calm ? ['#5d6661', '#2c312e'] : ['#6b6f76', '#2a2c31'];
+      const base = opts.calm ? ['#5d6661', '#2c312e'] : (look.spin ? look.spin.base : ['#6b6f76', '#2a2c31']);
       const lg = g.createLinearGradient(-R, -R, R, R); lg.addColorStop(0, base[0]); lg.addColorStop(1, base[1]); g.fillStyle = lg; g.fillRect(-R, -R, S, S);
       // brushed texture: concentric lines
       g.lineWidth = 0.6; for (let r = 4; r < R; r += 1.6) { g.strokeStyle = `rgba(255,255,255,${0.02 + Math.random() * 0.04})`; g.beginPath(); g.arc(0, 0, r, 0, 7); g.stroke(); }
@@ -25,7 +27,7 @@ export function create() {
       for (let i = 0; i < 3; i++) {
         const t = i * 2.094 - 1.571, x = Math.cos(t) * lo, y = Math.sin(t) * lo, r = lr * 0.68;
         g.fillStyle = 'rgba(0,0,0,.55)'; g.beginPath(); g.arc(x, y, r + 2.5, 0, 7); g.fill();
-        const rg = g.createRadialGradient(x - r * .3, y - r * .3, 0, x, y, r); rg.addColorStop(0, '#f3f3f1'); rg.addColorStop(.5, '#9a9da3'); rg.addColorStop(1, '#3b3d42');
+        const rg = g.createRadialGradient(x - r * .3, y - r * .3, 0, x, y, r); const dk = (!opts.calm && look.spin) ? look.spin.disc : ['#f3f3f1', '#9a9da3', '#3b3d42']; rg.addColorStop(0, dk[0]); rg.addColorStop(.5, dk[1]); rg.addColorStop(1, dk[2]);
         g.fillStyle = rg; g.beginPath(); g.arc(x, y, r, 0, 7); g.fill();
         g.strokeStyle = 'rgba(0,0,0,.35)'; g.lineWidth = 1; for (let k = 1; k < 4; k++) { g.beginPath(); g.arc(x, y, r * k / 4, 0, 7); g.stroke(); }
       }
@@ -36,6 +38,7 @@ export function create() {
   }
   const ang = (x, y) => Math.atan2(y - cy, x - cx);
   return {
+    repaint() { paint(); },
     resize(w_, h) { W = w_; H = h; cx = W / 2; cy = H * 0.47; R = Math.min(W * 0.4, H * 0.28, 210); paint(); },
     leave() { sfx.whir(0); },
     hud() { const rpm = Math.abs(w) * 60 / 6.283; return `${Math.round(rpm)} rpm · best ${Math.round(best)}`; },
@@ -52,12 +55,12 @@ export function create() {
     },
     step(dt) {
       if (!grab) {
-        const s = Math.sign(w), dec = 0.35 + 0.012 * Math.abs(w) + 0.00004 * w * w; // coulomb + viscous + air
+        const s = Math.sign(w), dec = (look.spin && look.spin.drag || 1) * (0.35 + 0.012 * Math.abs(w) + 0.00004 * w * w); // coulomb + viscous + air
         const nw = w - s * dec * dt; w = Math.sign(nw) === s ? nw : 0; a += w * dt;
       } else if (hist.length > 1) { const [t0, a0] = hist[0], [t1, a1] = hist[hist.length - 1]; w = t1 > t0 ? (a1 - a0) / ((t1 - t0) / 1000) : 0; }
       const det = Math.floor(a / DET);
       if (det !== lastDet) { lastDet = det; const sp = Math.abs(w); if (sp < 40) { sfx.tick(sp / 40); if (sp < 18) buzz(4); } }
-      const rpm = Math.abs(w) * 9.549; if (!grab && rpm > best) { best = rpm; localStorage.setItem('fidget.rpm', Math.round(best)); }
+      const rpm = Math.abs(w) * 9.549; if (!grab) emit('rpm', rpm); if (!grab && rpm > best) { best = rpm; localStorage.setItem('fidget.rpm', Math.round(best)); }
       sfx.whir(Math.min(1, Math.abs(w) / 160));
     },
     draw(g) {
@@ -79,6 +82,7 @@ export function create() {
       rg.addColorStop(0, '#fafaf8'); rg.addColorStop(.45, '#b9bcc2'); rg.addColorStop(1, '#4a4c52');
       g.shadowColor = 'rgba(0,0,0,.5)'; g.shadowBlur = 8; g.shadowOffsetY = 3; g.fillStyle = rg; g.beginPath(); g.arc(cx, cy, r, 0, 7); g.fill(); g.shadowColor = 'transparent';
       g.strokeStyle = 'rgba(255,255,255,.25)'; g.lineWidth = 1; g.beginPath(); g.arc(cx, cy, r * 0.6, 0, 7); g.stroke();
+      emit('spinDraw', { g, cx, cy, R, a, w });
       if (!sp && !grab) { g.fillStyle = 'rgba(236,235,232,.35)'; g.font = '13px system-ui'; g.textAlign = 'center'; g.fillText('flick to spin', cx, cy + R * 1.35); }
     },
   };

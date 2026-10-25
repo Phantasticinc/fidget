@@ -85,3 +85,5 @@ export function buzz(ms) {
   navigator.vibrate(Math.max(1, Math.round(ms * (opts.calm ? 0.5 : 1))));
 }
 export function buzzPattern(p) { if (opts.haptic && navigator.vibrate) navigator.vibrate(p); }
+// low-level voice access for skin/fx sound layers
+export const synth = { ok: () => ok(), t: () => ctx.currentTime, cm, nz: (...a) => nz(...a), tone: (...a) => tone(...a), jit };
