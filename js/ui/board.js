@@ -1,7 +1,8 @@
-// Leaderboard sheet: per-toy metric, weekly / all-time, nickname editor. No chat.
+// Leaderboard sheet: per-toy metric, weekly / all-time, nickname editor, ≤40-char victory messages (filtered; Report hides locally). No chat.
 import { METRICS } from '../lb/stats.js';
 import * as nick from '../lb/nick.js';
-import { top, online, sync } from '../lb/adapter.js';
+import { top, online, sync } from '../lb/adapter.js?v=2';
+import * as M from '../lb/msg.js';
 const $ = id => document.getElementById(id);
 let metric = 'streak', scope = 'week';
 async function render() {
@@ -20,7 +21,11 @@ async function render() {
   try { await sync(); } catch (_) {}
   let rows; try { rows = await top(metric, scope); } catch (_) { box.textContent = 'Offline — showing nothing right now.'; return; }
   box.textContent = ''; const unit = METRICS.find(m => m.id === metric).unit;
-  rows.forEach((r, i) => { const d = document.createElement('div'); d.className = 'lb-row' + (r.me ? ' me' : ''); d.innerHTML = '<span class="rk"></span><span class="nm"></span><span class="v"></span>'; d.children[0].textContent = i + 1; d.children[1].textContent = r.nick; d.children[2].textContent = `${r.value.toLocaleString()} ${unit}`; box.appendChild(d); });
+  rows.forEach((r, i) => { const d = document.createElement('div'); d.className = 'lb-row' + (r.me ? ' me' : ''); d.innerHTML = '<span class="rk"></span><span class="nm"></span><span class="v"></span>'; d.children[0].textContent = i + 1; d.children[1].textContent = r.nick; d.children[2].textContent = `${r.value.toLocaleString()} ${unit}`;
+    if (r.msg && !M.check(r.msg) && !M.hidden(r.device, r.msg)) { const m = document.createElement('div'); m.className = 'lb-msg'; const q = document.createElement('span'); q.textContent = `“${r.msg}”`; m.appendChild(q);
+      if (!r.me) { const b = document.createElement('button'); b.className = 'rep'; b.textContent = 'Report'; b.onclick = () => { if (confirm('Hide this message? It will be hidden on this device.')) { M.report(r.device, r.msg); render(); } }; m.appendChild(b); }
+      d.appendChild(m); }
+    box.appendChild(d); });
 }
 export function init() {
   $('lbBtn').onclick = () => { $('board').hidden = false; const t = localStorage.getItem('fidget.toy'); const m = METRICS.find(x => x.toy === t); if (m) metric = m.id; render(); };

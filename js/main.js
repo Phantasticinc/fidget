@@ -6,7 +6,9 @@ import * as ent from './store/ent.js?v=5';
 import * as bill from './store/billing.js';
 import * as stats from './lb/stats.js';
 import * as shop from './ui/shop.js?v=5';
-import * as board from './ui/board.js';
+import * as board from './ui/board.js?v=2';
+import * as record from './lb/record.js';
+import * as celeb from './ui/celebrate.js';
 
 const cv = document.getElementById('stage');
 const g = cv.getContext('2d', { alpha: false, desynchronized: true });
@@ -80,7 +82,7 @@ function frame(now) {
 
 // settings
 const $ = id => document.getElementById(id);
-export const VERSION = '1.2.1', BUILD = 7;
+export const VERSION = '1.2.2', BUILD = 8;
 $('ver').textContent = `Version ${VERSION} (build ${BUILD})` + (ent.isDev ? ' · tester unlock ON — open ?devlock to turn off' : '');
 const saved = JSON.parse(localStorage.getItem('fidget.opts') || '{}'); Object.assign(opts, saved);
 $('optSound').checked = opts.sound; $('optHaptic').checked = opts.haptic; $('optCalm').checked = opts.calm; $('optVol').value = opts.vol;
@@ -97,7 +99,7 @@ const premUI = () => { document.body.classList.toggle('premium', ent.premium());
 ent.onChange(premUI);
 document.body.classList.toggle('premium', ent.premium());
 fx.init(t => { const c = cache[t]; if (c && W) c.resize(W, H); });
-stats.init(); shop.init(); board.init(); bill.init().catch(() => {});
+stats.init(); record.init(); celeb.init(); shop.init(); board.init(); bill.init().catch(() => {});
 $('optVol').oninput = e => { setVol(+e.target.value); save(); };
 $('setBtn').onclick = () => $('sheet').hidden = false;
 $('sheetClose').onclick = () => $('sheet').hidden = true;
@@ -109,4 +111,4 @@ const q = new URLSearchParams(location.search).get('toy');
 select(loaders[q] ? q : (loaders[localStorage.getItem('fidget.toy')] ? localStorage.getItem('fidget.toy') : 'pop'));
 requestAnimationFrame(frame);
 if ('serviceWorker' in navigator && (location.protocol === 'https:' || location.hostname === 'localhost')) navigator.serviceWorker.register('sw.js', { updateViaCache: 'none' }).then(r => r.update()).catch(() => {});
-window.__fidget = { select, fx, shop, get toy() { return toy; } };
+window.__fidget = { select, fx, shop, record, celeb, get toy() { return toy; } };

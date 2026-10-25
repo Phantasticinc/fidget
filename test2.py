@@ -5,6 +5,7 @@ async def main():
   async with async_playwright() as p:
     b=await p.chromium.launch(args=['--use-gl=swiftshader','--enable-unsafe-swiftshader'])
     pg=await b.new_page(viewport={'width':412,'height':915},device_scale_factor=2,is_mobile=True,has_touch=True)
+    await pg.add_locator_handler(pg.locator('#cbClose'), lambda l: l.click())
     errs=[];bad=[]
     pg.on('console',lambda m: m.type=='error' and errs.append(m.text))
     pg.on('pageerror',lambda e: errs.append(str(e)))
@@ -61,6 +62,7 @@ async def main():
     await pg.click('#setBtn'); await pg.wait_for_timeout(200); await pg.screenshot(path='preview/p5-settings-premium.png')
     # free web, no devunlock: shop shows Android note
     pg2=await b.new_page(viewport={'width':412,'height':915},device_scale_factor=2,is_mobile=True,has_touch=True)
+    await pg2.add_locator_handler(pg2.locator('#cbClose'), lambda l: l.click())
     pg2.on('pageerror',lambda e: errs.append(str(e)))
     await pg2.goto(URL+'?toy=pop',wait_until='load'); await pg2.wait_for_timeout(400); await pg2.click('#shopBtn'); await pg2.wait_for_timeout(500)
     await pg2.screenshot(path='preview/s1-shop-free-web.png'); print('web note:', await pg2.inner_text('#shopBody .note'))
