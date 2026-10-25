@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
+<meta name="theme-color" content="#0e0f11">
+<meta name="description" content="Fidget — tactile, physics-driven fidget toys. No ads, no accounts, works offline.">
+<title>Fidget</title>
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="icons/icon-192.png">
+<link rel="apple-touch-icon" href="icons/icon-192.png">
+<link rel="stylesheet" href="styles.css?v=1">
+</head>
+<body>
+<div id="app">
+  <header class="top">
+    <button id="craveBtn" class="pill" aria-label="Ride out a craving, 3 minutes">Ride it out · 3:00</button>
+    <button id="setBtn" class="icon" aria-label="Settings">
+      <svg viewBox="0 0 24 24" width="20" height="20"><circle cx="12" cy="12" r="3" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M4.9 19.1 7 17M17 7l2.1-2.1" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+    </button>
+  </header>
+  <canvas id="stage"></canvas>
+  <div id="hud" aria-live="polite"></div>
+  <div id="crave" hidden>
+    <div class="ring"><svg viewBox="0 0 100 100"><circle class="track" cx="50" cy="50" r="46"/><circle id="craveArc" class="arc" cx="50" cy="50" r="46"/></svg>
+      <div class="cv-time" id="craveTime">3:00</div></div>
+    <div class="cv-breath" id="craveBreath">Breathe in</div>
+    <button id="craveStop" class="link">End</button>
+  </div>
+  <nav class="dock" id="dock">
+    <button data-toy="pop" class="on">Pop</button>
+    <button data-toy="spin">Spin</button>
+    <button data-toy="click">Click</button>
+    <button data-toy="squish">Squish</button>
+  </nav>
+  <div id="sheet" class="sheet" hidden>
+    <div class="sh-card">
+      <h2>Settings</h2>
+      <label class="row"><span>Sound</span><input type="checkbox" id="optSound" checked></label>
+      <label class="row"><span>Haptics</span><input type="checkbox" id="optHaptic" checked></label>
+      <label class="row"><span>Calm mode<small>Muted colours, softer sound &amp; vibration</small></span><input type="checkbox" id="optCalm"></label>
+      <label class="row"><span>Volume</span><input type="range" id="optVol" min="0" max="1" step="0.05" value="0.8"></label>
+      <p class="fine">Fidget is a relaxation toy, not a medical device, and does not diagnose or treat any condition. No ads, no accounts, no data collected. <a href="privacy.html">Privacy</a></p>
+      <button id="sheetClose" class="pill wide">Done</button>
+    </div>
+  </div>
+</div>
+<script type="module" src="js/main.js?v=1"></script>
+</body>
+</html>
