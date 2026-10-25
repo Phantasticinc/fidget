@@ -1,0 +1,16 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex,nofollow">
+<title>Fidget · Moderation</title>
+<style>
+body{margin:0;font:14px/1.4 system-ui,sans-serif;background:#0d0f17;color:#e9ecf5}main{max-width:760px;margin:auto;padding:16px}
+h1{font-size:20px}input,select,button{font:inherit;padding:8px 10px;border-radius:8px;border:1px solid #333a50;background:#171b28;color:inherit}
+button{cursor:pointer}button.ok{background:#1f5e3a}button.warn{background:#6b4b14}button.bad{background:#6e1f2a}
+.card{background:#151926;border:1px solid #262c40;border-radius:12px;padding:12px;margin:10px 0}.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.msg{font-style:italic;color:#ffd98a}.dim{color:#8b93ab;font-size:12px}.tag{font-size:11px;padding:2px 8px;border-radius:99px;background:#2a3047}.tag.hidden{background:#6e1f2a}.tag.approved{background:#1f5e3a}
+#err{color:#ff8a8a}
+</style></head><body><main>
+<h1>Fidget leaderboard · moderation</h1>
+<section id="login" class="card"><p class="dim">Admins only. Sign in with the Supabase Auth user listed in <code>public.admins</code>.</p>
+<div class="row"><input id="em" type="email" placeholder="Email" autocomplete="username"><input id="pw" type="password" placeholder="Password" autocomplete="current-password"><button id="go" class="ok">Sign in</button></div></section>
+<section id="app" hidden><div class="row"><select id="st"><option value="pending">Pending reports</option><option value="resolved">Resolved</option></select><button id="rf">Refresh</button><button id="out">Sign out</button><span id="who" class="dim"></span></div><div id="list"></div></section>
+<p id="err"></p>
+</main><script type="module" src="js/admin.js"></script></body></html>

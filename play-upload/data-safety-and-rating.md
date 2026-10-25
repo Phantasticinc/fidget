@@ -27,3 +27,17 @@ Two cases. Use **B** only once the online leaderboard is configured (js/lb/confi
 - Users can interact/communicate? **No chat.** User-generated content shown to others when the online board is enabled: nicknames and optional ≤40-char victory messages next to scores — answer **Yes, users can interact / share content** for that build. Both are filtered (client + server), there is no direct messaging, and any message can be hidden with "Report". With the board offline (current build) messages stay on the device → **No**.
 - Shares location? No · Unrestricted web? No
 - Expected: IARC 3+/Everyone with "In-App Purchases" interactive element (plus "Users Interact" if board online — nicknames + victory messages).
+
+
+## Moderation (v1.2.6): what changes when online mode is turned on
+Online mode is still **off**, so the current answers (set A, no data collected) stay correct. Once `js/lb/config.js` is filled in:
+- **Data safety → Device or other IDs: Collected.**
+  - Purpose: App functionality and Fraud prevention, abuse & security.
+  - Not shared and not optional. Encrypted in transit.
+  - It's the random install id sent with scores. When a player reports an entry, only a SHA-256 hash of the reporter's install id is stored.
+- **Data safety → App activity → Other user-generated content: Collected.**
+  - Covers nickname, victory message, scores and the reason for a report.
+  - Purpose: App functionality.
+- **Data deletion:** users can request deletion by email (privacy.html). Admins can delete entries in admin.html.
+- **Content rating (IARC):** users interact = **Yes** (shared user-generated content: nicknames and messages). Moderation is reports plus admin review, and entries auto-hide after 3 reports.
+- **UGC policy:** the in-app Report button, the content rules and the ban tools meet Play's UGC requirements. MODERATION.md has the details.

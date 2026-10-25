@@ -27,3 +27,15 @@ export async function rank(metric, scope, value) {
   const rows = await top(metric, scope); return 1 + rows.filter(r => !r.me && r.value > value).length;
 }
 export const resend = () => { lastSent = {}; return sync(); };
+// Report an entry for review (online only). One report per install per entry: remembered locally and enforced server-side.
+const RK = 'fidget.reported';
+const repd = () => { try { return JSON.parse(localStorage.getItem(RK)) || []; } catch (_) { return []; } };
+export const reported = (device, metric) => repd().includes(device + '|' + metric);
+export async function report(device, metric, reason) {
+  if (!online()) throw new Error('offline');
+  if (reported(device, metric)) return 'duplicate';
+  const r = await fetch(`${LB.url}/rest/v1/rpc/report_entry`, { method: 'POST', headers: H(), body: JSON.stringify({ p_reporter: dev(), p_device: device, p_metric: metric, p_reason: reason || null }) });
+  if (!r.ok) throw new Error('report ' + r.status);
+  const a = repd(); a.push(device + '|' + metric); localStorage.setItem(RK, JSON.stringify(a.slice(-500)));
+  const t = await r.text(); try { return JSON.parse(t) || 'ok'; } catch (_) { return 'ok'; }
+}

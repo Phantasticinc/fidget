@@ -82,3 +82,5 @@ body:not(.premium) .prem-only{display:none}
 #giftReveal .gr-k{letter-spacing:.3em;font-size:13px;color:#b9a8ff}#giftReveal .gr-n{font-size:26px;font-weight:800}
 #giftReveal.go canvas{animation:grIn .7s cubic-bezier(.2,1.4,.4,1)}@keyframes grIn{from{transform:scale(.4) rotate(-6deg);opacity:0}}
 #gift{z-index:11}
+.cb-rules{margin:4px 0 0;font-size:11px;color:var(--dim);text-align:center}
+.lb-row>.rep{margin-left:auto;font-size:11px;color:var(--dim);text-decoration:underline;background:none}.rep:disabled{opacity:.6;text-decoration:none}

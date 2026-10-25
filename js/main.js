@@ -8,9 +8,9 @@ import * as stats from './lb/stats.js';
 import * as shop from './ui/shop.js?v=8';
 import * as gift from './ui/sharegift.js?v=2';
 import * as redeem from './store/redeem.js?v=3';
-import * as board from './ui/board.js?v=2';
+import * as board from './ui/board.js?v=3';
 import * as record from './lb/record.js';
-import * as celeb from './ui/celebrate.js';
+import * as celeb from './ui/celebrate.js?v=2';
 
 const cv = document.getElementById('stage');
 const g = cv.getContext('2d', { alpha: false, desynchronized: true });
@@ -84,7 +84,7 @@ function frame(now) {
 
 // settings
 const $ = id => document.getElementById(id);
-export const VERSION = '1.2.5', BUILD = 11;
+export const VERSION = '1.2.6', BUILD = 12;
 $('ver').textContent = `Version ${VERSION} (build ${BUILD})` + (ent.isDev ? ' · tester unlock ON — open ?devlock to turn off' : '');
 const saved = JSON.parse(localStorage.getItem('fidget.opts') || '{}'); Object.assign(opts, saved);
 $('optSound').checked = opts.sound; $('optHaptic').checked = opts.haptic; $('optCalm').checked = opts.calm; $('optVol').value = opts.vol;

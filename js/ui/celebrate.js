@@ -3,7 +3,7 @@
 import { on } from '../bus.js';
 import { synth, buzzPattern, opts } from '../feel.js?v=4';
 import * as msg from '../lb/msg.js';
-import { rank, resend, online } from '../lb/adapter.js?v=2';
+import { rank, resend, online } from '../lb/adapter.js?v=3';
 const $ = id => document.getElementById(id);
 let shareFn = null; export const setShare = f => { shareFn = f; };
 let cv, g, raf = 0, parts = [], rockets = [], T0 = 0, cur = null, W = 0, H = 0;
@@ -13,11 +13,12 @@ function el() {
   const d = document.createElement('div'); d.id = 'celeb'; d.hidden = true;
   d.innerHTML = `<canvas id="celebCv"></canvas><div class="cb-top"><div class="cb-title" id="cbTitle"></div><div class="cb-val" id="cbVal"></div><div class="cb-rank" id="cbRank"></div></div>
   <div class="cb-panel" id="cbPanel" hidden><div class="cb-lbl">Leave a victory message <span id="cbCount"></span></div>
-  <div class="cb-in"><input id="cbIn" maxlength="${msg.MAX}" autocomplete="off" placeholder="Shown next to your score" aria-label="Victory message"><button class="buy" id="cbSave">Post</button></div>
+  <div class="cb-in"><input id="cbIn" maxlength="${msg.MAX}" autocomplete="off" placeholder="Shown next to your score" aria-label="Victory message"><button class="buy" id="cbSave">Post</button></div><p class="cb-rules" id="cbRules"></p>
   <div class="cb-err" id="cbErr"></div><div class="chips" id="cbChips"></div>
   <div class="cb-row"><button class="buy eq" id="cbShare" hidden>Share my record</button><button class="buy eq" id="cbClose">Done</button></div>
   <p class="note">Nickname + message only. No links or contact info. Others can hide messages they don't like.</p></div>`;
   document.body.appendChild(d); cv = $('celebCv'); g = cv.getContext('2d');
+  $('cbRules').textContent = msg.RULES;
   for (const p of msg.PRESETS) { const b = document.createElement('button'); b.className = 'chip'; b.textContent = p; b.onclick = () => { $('cbIn').value = p; count(); }; $('cbChips').appendChild(b); }
   $('cbIn').oninput = count; $('cbSave').onclick = save; $('cbClose').onclick = close;
   $('cbShare').onclick = () => shareFn && shareFn({ record: cur, canvas: snap() });

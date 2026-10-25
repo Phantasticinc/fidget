@@ -42,7 +42,7 @@ async def main():
     print('title online', await p2.text_content('#cbTitle'), '|', await p2.text_content('#cbRank'))
     await p2.click('#cbClose'); await p2.click('#lbBtn'); await p2.wait_for_timeout(600); await p2.screenshot(path=O + '7-board-messages.png')
     n0 = await p2.locator('.lb-msg').count(); p2.on('dialog', lambda d: asyncio.ensure_future(d.accept()))
-    await p2.click('.lb-msg .rep >> nth=0'); await p2.wait_for_timeout(500); n1 = await p2.locator('.lb-msg').count()
+    await p2.click('.lb-msg .rep >> nth=0'); await p2.wait_for_timeout(1500); n1 = await p2.locator('.lb-msg').count()
     print('messages', n0, '-> after report', n1); await p2.screenshot(path=O + '8-after-report.png')
     if n1 != n0 - 1: fails.append('report did not hide')
     fails += e2

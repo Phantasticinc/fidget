@@ -104,3 +104,7 @@ Online leaderboard is **OFF** in this build (`js/lb/config.js` empty): scores, n
 | Screenshots | **FIXED** | 6 new phone screenshots from v1.2.5 (`play-upload/phone/01-06.png`, 1080×1920) showing upgrades, the celebration and the shop. Composite: `preview/store-screens.png`. Script: `make_screens.py`. |
 
 **Play Console form answers to change:** upload `fidget-1.2.5-vc5.aab` instead of vc4. Replace the 6 phone screenshots. Paste the updated full description from `listing.txt`. Retake IARC with digital purchases = Yes and users interact = No for now. Data safety stays as set A. In App content → Ads, answer "No ads". Target audience: 13+. Under Permissions there's no longer a notifications declaration.
+
+
+## v1.2.6 (b12) moderation
+This release adds the moderation system (MODERATION.md), but online mode stays off, so Data safety set A is unchanged. When online mode is turned on, switch to set B and update the content-rating answers as described in `play-upload/data-safety-and-rating.md`. The web build is the only change. The Play bundle (vc5) doesn't need a rebuild because the TWA loads the live site.

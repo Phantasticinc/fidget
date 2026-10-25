@@ -1,11 +1,12 @@
 // Nicknames only (no real names); 3-16 chars, letters/digits/_-; light profanity + leetspeak filter.
 const K = 'fidget.nick';
-const BAD = ['fuck', 'shit', 'cunt', 'bitch', 'nigg', 'fag', 'slut', 'whore', 'dick', 'cock', 'pussy', 'rape', 'nazi', 'hitler', 'kkk', 'porn', 'sex', 'penis', 'vagina', 'anal', 'cum', 'twat', 'wank', 'retard', 'asshole', 'bastard'];
-const norm = s => s.toLowerCase().replace(/[@4]/g, 'a').replace(/3/g, 'e').replace(/[1!|]/g, 'i').replace(/0/g, 'o').replace(/[5$]/g, 's').replace(/7/g, 't').replace(/[^a-z]/g, '');
+import { isBad, isReserved } from './rules.js';
 export function check(n) {
   n = (n || '').trim();
   if (!/^[A-Za-z0-9_-]{3,16}$/.test(n)) return 'Use 3–16 letters, numbers, _ or -';
-  const z = norm(n); if (BAD.some(b => z.includes(b))) return 'Please pick a friendlier nickname';
+  if (isBad(n)) return 'Please pick a friendlier nickname';
+  if (isReserved(n)) return 'That nickname is reserved';
+  if (/^\d+$/.test(n) || /\d{7,}/.test(n)) return 'No phone numbers in nicknames';
   return null;
 }
 const ADJ = ['Calm', 'Swift', 'Lucky', 'Fuzzy', 'Mellow', 'Zippy', 'Cosmic', 'Sunny'], ANI = ['Otter', 'Panda', 'Fox', 'Koala', 'Owl', 'Gecko', 'Lynx', 'Puffin'];
