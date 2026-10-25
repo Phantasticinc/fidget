@@ -1,12 +1,13 @@
 import { opts, unlock, setVol } from './feel.js?v=4';
 import { initCrave } from './crave.js?v=2';
-import * as fx from './fx/manager.js?v=5';
+import * as fx from './fx/manager.js?v=6';
 import { THEMES } from './fx/premium.js';
-import * as ent from './store/ent.js?v=5';
-import * as bill from './store/billing.js';
+import * as ent from './store/ent.js?v=6';
+import * as bill from './store/billing.js?v=2';
 import * as stats from './lb/stats.js';
-import * as shop from './ui/shop.js?v=6';
-import * as redeem from './store/redeem.js';
+import * as shop from './ui/shop.js?v=7';
+import * as gift from './ui/sharegift.js';
+import * as redeem from './store/redeem.js?v=2';
 import * as board from './ui/board.js?v=2';
 import * as record from './lb/record.js';
 import * as celeb from './ui/celebrate.js';
@@ -83,7 +84,7 @@ function frame(now) {
 
 // settings
 const $ = id => document.getElementById(id);
-export const VERSION = '1.2.3', BUILD = 9;
+export const VERSION = '1.2.4', BUILD = 10;
 $('ver').textContent = `Version ${VERSION} (build ${BUILD})` + (ent.isDev ? ' · tester unlock ON — open ?devlock to turn off' : '');
 const saved = JSON.parse(localStorage.getItem('fidget.opts') || '{}'); Object.assign(opts, saved);
 $('optSound').checked = opts.sound; $('optHaptic').checked = opts.haptic; $('optCalm').checked = opts.calm; $('optVol').value = opts.vol;
@@ -100,7 +101,7 @@ const premUI = () => { document.body.classList.toggle('premium', ent.premium());
 ent.onChange(premUI);
 document.body.classList.toggle('premium', ent.premium());
 fx.init(t => { const c = cache[t]; if (c && W) c.resize(W, H); });
-stats.init(); record.init(); celeb.init(); shop.init(); board.init(); redeem.init(); bill.init().catch(() => {});
+stats.init(); record.init(); celeb.init(); shop.init(); board.init(); redeem.init(); gift.init({ select, refresh: () => { if (!document.getElementById('shop').hidden) shop.open(); } }); bill.init().catch(() => {});
 $('optVol').oninput = e => { setVol(+e.target.value); save(); };
 $('redeemSet').onclick = () => redeem.ask();
 $('setBtn').onclick = () => $('sheet').hidden = false;
@@ -113,4 +114,4 @@ const q = new URLSearchParams(location.search).get('toy');
 select(loaders[q] ? q : (loaders[localStorage.getItem('fidget.toy')] ? localStorage.getItem('fidget.toy') : 'pop'));
 requestAnimationFrame(frame);
 if ('serviceWorker' in navigator && (location.protocol === 'https:' || location.hostname === 'localhost')) navigator.serviceWorker.register('sw.js', { updateViaCache: 'none' }).then(r => r.update()).catch(() => {});
-window.__fidget = { select, fx, shop, record, celeb, get toy() { return toy; } };
+window.__fidget = { select, fx, shop, record, celeb, gift, get toy() { return toy; } };

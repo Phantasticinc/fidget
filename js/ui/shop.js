@@ -1,9 +1,10 @@
 // Shop sheet: Premium card + per-toy upgrades with live animated previews. Honest pricing, no timers, no randomised rewards.
 import { CATALOG, PREMIUM, byId } from '../store/catalog.js';
-import * as ent from '../store/ent.js?v=5';
-import * as bill from '../store/billing.js';
-import * as redeem from '../store/redeem.js';
-import { SKINS, equip, equippedId, canUse } from '../fx/manager.js?v=5';
+import * as ent from '../store/ent.js?v=6';
+import * as bill from '../store/billing.js?v=2';
+import * as gift from './sharegift.js';
+import * as redeem from '../store/redeem.js?v=2';
+import { SKINS, equip, equippedId, canUse } from '../fx/manager.js?v=6';
 const $ = id => document.getElementById(id);
 const TOYS = [['pop', 'Pop'], ['spin', 'Spin'], ['click', 'Click'], ['sand', 'Sand']];
 let tab = 'pop', raf = 0, previews = [];
@@ -34,6 +35,7 @@ function render() {
   const pb = document.createElement('button'); pb.className = 'buy'; pb.style.width = '100%';
   if (ent.premium()) { pb.textContent = 'Premium unlocked ✓'; pb.disabled = true; } else { pb.textContent = 'Unlock Premium · ' + priceOf(PREMIUM); pb.onclick = () => purchase(PREMIUM); }
   pc.appendChild(pb); B.appendChild(pc);
+  B.appendChild(gift.card());
   const tabs = document.createElement('div'); tabs.className = 'tabs';
   for (const [id, nm] of TOYS) { const t = document.createElement('button'); t.textContent = nm; t.className = id === tab ? 'on' : ''; t.onclick = () => { tab = id; render(); }; tabs.appendChild(t); }
   B.appendChild(tabs);

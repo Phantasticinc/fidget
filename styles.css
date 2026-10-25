@@ -74,3 +74,11 @@ body:not(.premium) .prem-only{display:none}
 .cb-row{display:flex;gap:8px;justify-content:flex-end;margin-top:12px}
 .lb-row{flex-wrap:wrap}.lb-msg{flex-basis:100%;padding:2px 0 0 28px;font-size:12px;color:#ffd98a;font-style:italic;display:flex;gap:8px;align-items:center}
 .lb-msg .rep{font-size:11px;color:var(--dim);font-style:normal;text-decoration:underline;background:none}
+.gift-card{margin:12px 0;padding:14px;border-radius:18px;background:linear-gradient(135deg,#1f3b4d,#2b1f4d)}
+.gift-card h3{margin:0 0 4px;font-size:15px}.gift-card p{margin:0 0 10px;font-size:12.5px;color:#cfd3dc}
+#giftReveal{position:absolute;inset:0;z-index:12;background:radial-gradient(circle at 50% 42%,#2a2350,#07060c 70%);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px}
+#giftReveal[hidden]{display:none}
+#giftReveal canvas{width:min(78vw,340px);height:min(58vw,255px);border-radius:22px;background:#0c0d10;box-shadow:0 0 60px rgba(160,130,255,.45)}
+#giftReveal .gr-k{letter-spacing:.3em;font-size:13px;color:#b9a8ff}#giftReveal .gr-n{font-size:26px;font-weight:800}
+#giftReveal.go canvas{animation:grIn .7s cubic-bezier(.2,1.4,.4,1)}@keyframes grIn{from{transform:scale(.4) rotate(-6deg);opacity:0}}
+#gift{z-index:11}
