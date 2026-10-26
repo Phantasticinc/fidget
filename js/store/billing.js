@@ -1,13 +1,14 @@
 // Google Play Billing inside the TWA via Digital Goods API + Payment Request API.
 // On the open web this is unavailable -> UI shows "available in the Android app".
 import { CATALOG } from './catalog.js';
-import { set, grant } from './ent.js?v=7';
+import { set, grant, markPlayApp } from './ent.js?v=8';
 const PLAY = 'https://play.google.com/billing';
 let svc = null, details = {};
 export const available = () => !!svc;
 export async function init() {
   if (!('getDigitalGoodsService' in window)) return false;
   try { svc = await window.getDigitalGoodsService(PLAY); } catch (_) { svc = null; return false; }
+  markPlayApp();
   try { for (const d of await svc.getDetails(CATALOG.map(p => p.id))) details[d.itemId] = d; } catch (_) {}
   try { await restore(); } catch (_) {}
   // Re-sync when returning to the app (e.g. after redeeming a promo code in the Play Store).

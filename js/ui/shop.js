@@ -1,7 +1,7 @@
 // Shop sheet: Premium card + per-toy upgrades with live animated previews. Honest pricing, no timers, no randomised rewards.
 import { CATALOG, PREMIUM, byId } from '../store/catalog.js';
-import * as ent from '../store/ent.js?v=7';
-import * as bill from '../store/billing.js?v=4';
+import * as ent from '../store/ent.js?v=8';
+import * as bill from '../store/billing.js?v=5';
 import * as gift from './sharegift.js?v=2';
 import * as redeem from '../store/redeem.js?v=3';
 import { SKINS, equip, equippedId, canUse } from '../fx/manager.js?v=7';
