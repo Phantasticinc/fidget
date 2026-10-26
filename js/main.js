@@ -6,7 +6,7 @@ import { THEMES } from './fx/premium.js';
 import * as ent from './store/ent.js?v=9';
 import * as bill from './store/billing.js?v=5';
 import * as stats from './lb/stats.js';
-import * as shop from './ui/shop.js?v=10';
+import * as shop from './ui/shop.js?v=11';
 import * as gift from './ui/sharegift.js?v=2';
 import * as redeem from './store/redeem.js?v=3';
 import * as board from './ui/board.js?v=4';
@@ -55,13 +55,13 @@ addEventListener('resize', resize);
 
 async function select(name) {
   if (name === toyName) return; const prev = toyName; toyName = name;
-  document.querySelectorAll('#dock button').forEach(b => b.classList.toggle('on', b.dataset.toy === name));
+  document.querySelectorAll('#dock button').forEach(b => { b.classList.toggle('on', b.dataset.toy === name); b.setAttribute('aria-pressed', b.dataset.toy === name); });
   toy && toy.leave && toy.leave(); fx.clear();
   if (!cache[name]) {
     try { const m = await loaders[name](); cache[name] = m.create(); cache[name].resize(W, H); }
     catch (e) {  // flaky network on first open: don't get stuck on a toy that never loaded; let a re-tap retry
       console.warn('toy load failed', name, e);
-      if (toyName === name) { toyName = ''; if (toy && prev) { toyName = prev; toy.enter && toy.enter(); } document.querySelectorAll('#dock button').forEach(b => b.classList.toggle('on', b.dataset.toy === toyName)); }
+      if (toyName === name) { toyName = ''; if (toy && prev) { toyName = prev; toy.enter && toy.enter(); } document.querySelectorAll('#dock button').forEach(b => { b.classList.toggle('on', b.dataset.toy === toyName); b.setAttribute('aria-pressed', b.dataset.toy === toyName); }); }
       return;
     }
   }
@@ -113,7 +113,7 @@ $('optHaptic').onchange = e => { opts.haptic = e.target.checked; save(); };
 $('optCalm').onchange = e => { opts.calm = e.target.checked; document.body.classList.toggle('calm', opts.calm); paintBg(); toy && toy.resize(W, H); save(); };
 $('optShake').checked = opts.shake !== false; fx.setShake(opts.shake !== false);
 $('optShake').onchange = e => { opts.shake = e.target.checked; fx.setShake(opts.shake); save(); };
-function themeChips() { const T = $('themes'); T.innerHTML = ''; for (const t of THEMES) { const b = document.createElement('button'); b.className = 'chip' + ((opts.theme || 'default') === t.id ? ' on' : ''); b.textContent = t.name; b.onclick = () => { opts.theme = t.id; save(); paintBg(); themeChips(); }; T.appendChild(b); } }
+function themeChips() { const T = $('themes'); T.innerHTML = ''; for (const t of THEMES) { const b = document.createElement('button'); b.className = 'chip' + ((opts.theme || 'default') === t.id ? ' on' : ''); b.setAttribute('aria-pressed', (opts.theme || 'default') === t.id); b.dataset.th = t.id; b.textContent = t.name; b.onclick = () => { opts.theme = t.id; save(); paintBg(); themeChips(); const f = T.querySelector(`[data-th="${t.id}"]`); if (f) f.focus(); }; T.appendChild(b); } }
 themeChips();
 const premUI = () => { document.body.classList.toggle('premium', ent.premium()); paintBg(); };
 ent.onChange(premUI);

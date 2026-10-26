@@ -32,7 +32,10 @@ async function purchase(id) {
   }
 }
 function render() {
-  previews = []; const B = $('shopBody'); B.innerHTML = '';
+  const B = $('shopBody'), a = document.activeElement, it0 = a && B.contains(a) && a.closest('.item');
+  // Re-rendering replaces every button; remember which one had focus so keyboard / screen-reader users don't get dropped to <body>.
+  const fk = !a || !B.contains(a) ? null : a.dataset.tab ? `.tabs [data-tab="${a.dataset.tab}"]` : it0 ? `.item[data-id="${it0.dataset.id}"] button` : a.id ? '#' + a.id : null;
+  previews = []; B.innerHTML = '';
   if (!bill.available()) { const n = document.createElement('p'); n.className = 'note'; n.textContent = ent.isDev ? 'Dev unlock active (?devunlock) — testing only, nothing is charged.' : 'Purchases are available in the Fidget Android app on Google Play. Everything you see here can be previewed for free.'; B.appendChild(n); }
   const pc = document.createElement('div'); pc.className = 'prem-card';
   pc.innerHTML = `<h3>Fidget Premium</h3><p>${byId(PREMIUM).desc} One-time purchase — no subscription.</p>`;
@@ -42,7 +45,7 @@ function render() {
   pc.appendChild(pb); B.appendChild(pc);
   B.appendChild(gift.card());
   const tabs = document.createElement('div'); tabs.className = 'tabs';
-  for (const [id, nm] of TOYS) { const t = document.createElement('button'); t.textContent = nm; t.className = id === tab ? 'on' : ''; t.onclick = () => { tab = id; render(); }; tabs.appendChild(t); }
+  for (const [id, nm] of TOYS) { const t = document.createElement('button'); t.textContent = nm; t.className = id === tab ? 'on' : ''; t.dataset.tab = id; t.setAttribute('aria-pressed', id === tab); t.onclick = () => { tab = id; render(); }; tabs.appendChild(t); }
   B.appendChild(tabs);
   const list = document.createElement('div'); list.className = 'items';
   const def = { id: null, toy: tab, name: 'Classic', blurb: 'The original free look.' };
@@ -60,6 +63,7 @@ function render() {
   const rc = document.createElement('button'); rc.className = 'pill wide'; rc.id = 'redeemShop'; rc.textContent = 'Redeem code';
   rc.onclick = () => redeem.ask(); B.appendChild(rc);
   const f = document.createElement('p'); f.className = 'note'; f.textContent = 'Upgrades are cosmetic and give no advantage on the leaderboard. No ads, no loot boxes.'; B.appendChild(f);
+  if (fk) { const f = B.querySelector(fk); if (f) f.focus(); }
   for (const p of previews) { const d = Math.min(2, devicePixelRatio || 1), w = p.c.clientWidth || 96, h = p.c.clientHeight || 72; p.c.width = w * d; p.c.height = h * d; p.w = w; p.h = h; p.d = d; p.g = p.c.getContext('2d'); }
 }
 function loop(now) {
