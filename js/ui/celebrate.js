@@ -84,4 +84,8 @@ export async function show(r) {
   fanfare(calm); if (opts.haptic) buzzPattern(calm ? [15] : [30, 60, 30, 60, 30, 120, 90]);
   T0 = performance.now(); last = 0; cancelAnimationFrame(raf); raf = requestAnimationFrame(tick);
 }
-export function init() { on('record', r => { if (!$('celeb') || $('celeb').hidden) show(r); }); }
+// Cooldown: the full-screen show plays once per toy metric per session; later records that session get a small toast.
+const shown = new Set();
+function mini(r) { const d = document.createElement('div'); d.className = 'toast'; d.setAttribute('role', 'status'); d.textContent = `🏆 New record! ${r.name}: ${r.value.toLocaleString()} ${r.unit}`;
+  ($('app') || document.body).appendChild(d); setTimeout(() => d.remove(), 2600); if (opts.haptic) buzzPattern([15]); }
+export function init() { on('record', r => { if ($('celeb') && !$('celeb').hidden) return; if (shown.has(r.metric)) return mini(r); shown.add(r.metric); show(r); }); }

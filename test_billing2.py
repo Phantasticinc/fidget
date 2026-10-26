@@ -11,7 +11,7 @@ async def main():
     ack=await pg.evaluate("window.__ack"); own=await pg.evaluate("localStorage.getItem('fidget.ent')")
     print('ack',ack,'owned',own)
     F=[]; 
-    if ack!=['t1']: F.append('ack')
+    if ack!=[]: F.append('ack: client must not rely on non-existent svc.acknowledge (server-side, see PLAY-ACK.md)')
     if 'premium' not in (own or ''): F.append('own')
     if errs: F.append(errs)
     print('FAILS',F); await b.close()

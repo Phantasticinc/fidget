@@ -2,6 +2,7 @@
 // On the open web this is unavailable -> UI shows "available in the Android app".
 import { CATALOG } from './catalog.js';
 import { set, grant, markPlayApp } from './ent.js?v=9';
+import { ACK_URL } from './ackconfig.js?v=1';
 const PLAY = 'https://play.google.com/billing';
 let svc = null, details = {};
 export const available = () => !!svc;
@@ -19,9 +20,9 @@ export function price(id) { const d = details[id]; if (!d || !d.price) return nu
 export async function restore() {
   if (!svc) return false;
   const list = await svc.listPurchases();
-  // Promo-code redemptions happen outside the app; acknowledge anything Play still holds as unacknowledged so it isn't auto-refunded after 3 days.
-  for (const p of list) if (p.acknowledged === false && svc.acknowledge) { try { await svc.acknowledge(p.purchaseToken, 'onetime'); } catch (_) {} }
   set(list.map(p => p.itemId));
+  // Covers promo codes redeemed in the Play Store and any earlier ack that failed (Play refunds unacknowledged purchases after 3 days).
+  for (const p of list) ack(p.itemId, p.purchaseToken);
   return true;
 }
 export async function buy(id) {
@@ -29,7 +30,20 @@ export async function buy(id) {
   const req = new PaymentRequest([{ supportedMethods: PLAY, data: { sku: id } }], { total: { label: 'Total', amount: { currency: 'USD', value: '0' } } });
   const res = await req.show();
   const { purchaseToken } = res.details;
-  // Non-consumable: Play requires acknowledgement within 3 days or it auto-refunds.
-  try { if (svc.acknowledge) await svc.acknowledge(purchaseToken, 'onetime'); } catch (_) {}
-  await res.complete('success'); grant(id); return true;
+  await res.complete('success'); grant(id);
+  ack(id, purchaseToken); // fire-and-forget; restore() retries on next launch
+  return true;
+}
+// Acknowledgement must happen server-side: the Digital Goods API v2 has no acknowledge() and
+// android-browser-helper does not auto-acknowledge. See PLAY-ACK.md. No-op while ACK_URL is empty.
+const ACKED = 'fidget.acked';
+const acked = () => { try { return JSON.parse(localStorage.getItem(ACKED)) || []; } catch (_) { return []; } };
+export async function ack(sku, token, url = ACK_URL) {
+  if (!url || !token || acked().includes(token)) return false;
+  try {
+    const r = await fetch(url, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ sku, token }) });
+    const j = await r.json().catch(() => ({}));
+    if (r.ok && j.ok) { try { localStorage.setItem(ACKED, JSON.stringify(acked().concat(token).slice(-50))); } catch (_) {} return true; }
+  } catch (_) {}
+  return false;
 }
