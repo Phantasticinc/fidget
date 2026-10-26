@@ -1,3 +1,4 @@
+import './safestore.js?v=1';
 import { opts, unlock, setVol } from './feel.js?v=5';
 import { initCrave } from './crave.js?v=2';
 import * as fx from './fx/manager.js?v=8';
