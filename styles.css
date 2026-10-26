@@ -87,4 +87,4 @@ body:not(.premium) .prem-only{display:none}
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
 
 /* touch targets (>=40-44px) */
-.x{min-width:44px;min-height:44px}.buy,.chip{min-height:40px}.row input[type=range]{height:32px}a[href="privacy.html"]{padding:12px 4px;margin:0 -4px}
+.x{min-width:44px;min-height:44px}.buy,.chip{min-height:40px}.row input[type=range]{height:32px}a[href="privacy.html"]{padding:12px 4px;margin:0 -4px}.tabs button{min-height:40px}
