@@ -4,3 +4,5 @@ android/KEYSTORE-SECRETS.txt
 *.keystore
 android/
 play-upload/*.aab
+play-upload/owner-promo-codes.txt
+*promo-codes*
