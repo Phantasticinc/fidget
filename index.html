@@ -70,7 +70,7 @@
     </button></span>
   </header>
   <main><canvas id="stage" role="img" aria-label="Fidget toy play area — touch and drag to play"></canvas></main>
-  <div id="hud" aria-live="polite"></div>
+  <div id="hud"></div><!-- not aria-live: spin rpm changes every frame and would flood screen readers -->
   <div id="crave" hidden>
     <div class="ring"><svg viewBox="0 0 100 100"><circle class="track" cx="50" cy="50" r="46"/><circle id="craveArc" class="arc" cx="50" cy="50" r="46"/></svg>
       <div class="cv-time" id="craveTime">3:00</div></div>
