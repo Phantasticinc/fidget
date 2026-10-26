@@ -6,12 +6,12 @@ import { THEMES } from './fx/premium.js';
 import * as ent from './store/ent.js?v=9';
 import * as bill from './store/billing.js?v=5';
 import * as stats from './lb/stats.js';
-import * as shop from './ui/shop.js?v=11';
-import * as gift from './ui/sharegift.js?v=2';
+import * as shop from './ui/shop.js?v=12';
+import * as gift from './ui/sharegift.js?v=3';
 import * as redeem from './store/redeem.js?v=3';
 import * as board from './ui/board.js?v=4';
 import * as record from './lb/record.js?v=2';
-import * as celeb from './ui/celebrate.js?v=3';
+import * as celeb from './ui/celebrate.js?v=4';
 import * as back from './ui/back.js?v=5';
 
 const cv = document.getElementById('stage');

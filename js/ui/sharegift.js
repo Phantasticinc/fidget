@@ -3,7 +3,7 @@
 import * as ent from '../store/ent.js?v=9';
 import { byId } from '../store/catalog.js';
 import { SKINS, equip } from '../fx/manager.js?v=8';
-import * as celeb from './celebrate.js?v=3';
+import * as celeb from './celebrate.js?v=4';
 const $ = id => document.getElementById(id);
 const LINK = 'https://phantasticinc.github.io/fidget/';
 const TEXT = 'Fidget — pop, spin, click and squish sand to calm down. Free:';

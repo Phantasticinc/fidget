@@ -7,7 +7,7 @@ import { rank, resend, online } from '../lb/adapter.js?v=3';
 const R = () => Math.min(2, window.devicePixelRatio || 1); // cap full-screen confetti canvas cost on 3x phones
 const $ = id => document.getElementById(id);
 let shareFn = null; export const setShare = f => { shareFn = f; };
-let cv, g, raf = 0, parts = [], rockets = [], T0 = 0, cur = null, W = 0, H = 0;
+let last = 0, cv, g, raf = 0, parts = [], rockets = [], T0 = 0, cur = null, W = 0, H = 0;
 const rnd = (a, b) => a + Math.random() * (b - a), PAL = ['#ffd54a', '#ff6b6b', '#6be3ff', '#b28cff', '#7dffa8', '#ffffff', '#ff9f43'];
 function el() {
   if ($('celeb')) return;
@@ -21,7 +21,7 @@ function el() {
   document.body.appendChild(d); cv = $('celebCv'); g = cv.getContext('2d');
   $('cbRules').textContent = msg.RULES;
   for (const p of msg.PRESETS) { const b = document.createElement('button'); b.className = 'chip'; b.textContent = p; b.onclick = () => { $('cbIn').value = p; count(); }; $('cbChips').appendChild(b); }
-  $('cbIn').oninput = count; $('cbSave').onclick = save; $('cbClose').onclick = close;
+  $('cbIn').oninput = count; $('cbIn').onkeydown = e => { if (e.key === 'Enter') { e.preventDefault(); save(); } }; $('cbSave').onclick = save; $('cbClose').onclick = close;
   $('cbShare').onclick = () => shareFn && shareFn({ record: cur, canvas: snap() });
 }
 const count = () => { const n = [...msg.clean($('cbIn').value)].length; $('cbCount').textContent = `${n}/${msg.MAX}`; $('cbErr').textContent = ''; };
@@ -44,7 +44,7 @@ function trophy(x, cx, cy, s, k) {
 function boom(x, y, n, col) { for (let i = 0; i < n; i++) { const a = rnd(0, 6.283), v = rnd(60, 320); parts.push({ x, y, vx: Math.cos(a) * v, vy: Math.sin(a) * v, life: rnd(1, 1.8), t: 0, col: col || PAL[(Math.random() * PAL.length) | 0], k: 'spark' }); } }
 function confetti(n, slow) { for (let i = 0; i < n; i++) parts.push({ x: rnd(0, W), y: rnd(-H * 0.4, -10), vx: rnd(-40, 40), vy: rnd(slow ? 30 : 80, slow ? 70 : 240), r: rnd(0, 6), vr: rnd(-8, 8), life: slow ? 6 : 4.5, t: 0, col: PAL[(Math.random() * PAL.length) | 0], k: 'conf' }); }
 function tick(now) {
-  const t = (now - T0) / 1000, dt = 1 / 60, calm = cur.calm; raf = requestAnimationFrame(tick);
+  const t = (now - T0) / 1000, dt = Math.min(0.05, Math.max(0, (now - (last || now - 16.7)) / 1000)), calm = cur.calm; last = now; raf = requestAnimationFrame(tick); // real frame time: same speed on 60/90/120 Hz screens
   g.setTransform(R(), 0, 0, R(), 0, 0);
   g.fillStyle = calm ? 'rgba(8,10,9,.35)' : 'rgba(8,6,16,.28)'; g.fillRect(0, 0, W, H);   // trails
   if (!calm && t < 6 && Math.random() < (t < 2 ? 0.18 : 0.06)) rockets.push({ x: rnd(W * 0.1, W * 0.9), y: H, vy: -rnd(520, 760), top: rnd(H * 0.1, H * 0.4), col: PAL[(Math.random() * PAL.length) | 0] });
@@ -82,6 +82,6 @@ export async function show(r) {
   g.clearRect(0, 0, cv.width, cv.height); parts = []; rockets = [];
   if (calm) confetti(40, true); else { confetti(160); boom(W * 0.3, H * 0.25, 90); boom(W * 0.7, H * 0.2, 90); boomSnd(); }
   fanfare(calm); if (opts.haptic) buzzPattern(calm ? [15] : [30, 60, 30, 60, 30, 120, 90]);
-  T0 = performance.now(); cancelAnimationFrame(raf); raf = requestAnimationFrame(tick);
+  T0 = performance.now(); last = 0; cancelAnimationFrame(raf); raf = requestAnimationFrame(tick);
 }
 export function init() { on('record', r => { if (!$('celeb') || $('celeb').hidden) show(r); }); }
