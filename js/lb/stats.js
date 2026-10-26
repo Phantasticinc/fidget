@@ -21,4 +21,5 @@ export function init() {
   on('key', () => rec('keys', 1, 'sum'));
   on('cut', () => rec('cuts', 1, 'sum'));
   setInterval(save, 5000); addEventListener('pagehide', save);
+  document.addEventListener('visibilitychange', () => { if (document.hidden) save(); });  // Android may kill a backgrounded app without pagehide
 }
