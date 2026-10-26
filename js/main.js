@@ -38,8 +38,15 @@ function paintBg() {
   for (let i = 0; i < d.length; i += 4) { const n = (Math.random() - 0.5) * 5; d[i] += n; d[i + 1] += n; d[i + 2] += n; }
   b.putImageData(id, 0, 0);
 }
+// adaptive resolution: if frames stay slow, drop backing-store DPR (2 -> 1.5 -> 1). Persisted per device.
+let dprCap = (() => { try { return +localStorage.getItem('fidget.dprCap') || 2; } catch (_) { return 2; } })(), slowT = 0, sampleT = 0;
+function perf(dt) {
+  if (dt > 0.5 || document.hidden || DPR <= 1) return;
+  sampleT += dt; if (dt > 1 / 40) slowT += dt;
+  if (sampleT >= 3) { if (slowT / sampleT > 0.6) { dprCap = DPR > 1.5 ? 1.5 : 1; try { localStorage.setItem('fidget.dprCap', dprCap); } catch (_) {} resize(); } sampleT = slowT = 0; }
+}
 function resize() {
-  DPR = Math.min(2, window.devicePixelRatio || 1); W = innerWidth; H = innerHeight;
+  DPR = Math.min(dprCap, 2, window.devicePixelRatio || 1); W = innerWidth; H = innerHeight;
   cv.width = Math.round(W * DPR); cv.height = Math.round(H * DPR); paintBg();
   toy && toy.resize(W, H);
 }
@@ -75,7 +82,7 @@ cv.addEventListener('contextmenu', e => e.preventDefault());
 // fixed-step physics (120 Hz), render at display rate
 const STEP = 1 / 120; let shk = null, acc = 0, last = performance.now(), hudTxt = '';
 function frame(now) {
-  let dt = (now - last) / 1000; last = now; if (dt > 0.1) dt = 0.1; acc += dt;
+  let dt = (now - last) / 1000; last = now; perf(dt); if (dt > 0.1) dt = 0.1; acc += dt;
   if (toy) { while (acc >= STEP) { toy.step(STEP); acc -= STEP; } }
   g.setTransform(1, 0, 0, 1, 0, 0); g.drawImage(bg, 0, 0);
   g.setTransform(DPR, 0, 0, DPR, shk ? shk[0] * DPR : 0, shk ? shk[1] * DPR : 0);
