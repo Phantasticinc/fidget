@@ -56,7 +56,7 @@ body:not(.premium) .prem-only{display:none}
 .buy[disabled]{opacity:.45}
 .lb-row{display:flex;justify-content:space-between;padding:10px 4px;border-bottom:1px solid rgba(255,255,255,.06);font-size:14px}
 .lb-row.me{color:var(--acc);font-weight:700}.lb-row .rk{width:28px;color:var(--dim)}.lb-row .nm{flex:1}
-.nick{display:flex;gap:8px;margin:8px 0}.nick input{flex:1;background:#0f1013;border:1px solid rgba(255,255,255,.12);border-radius:10px;color:#fff;padding:9px 10px;font-size:14px}
+.nick{display:flex;gap:8px;margin:8px 0}.nick input{flex:1;min-width:0;background:#0f1013;border:1px solid rgba(255,255,255,.12);border-radius:10px;color:#fff;padding:9px 10px;font-size:14px}
 .toast{position:absolute;left:50%;bottom:110px;transform:translateX(-50%);background:#26282d;padding:10px 16px;border-radius:999px;font-size:13px;z-index:9}
 
 #celeb{position:fixed;inset:0;z-index:20;background:radial-gradient(ellipse at 50% 35%,#2a1d48 0%,#0b0814 70%);display:flex;flex-direction:column;align-items:center;overflow:auto}
@@ -88,3 +88,4 @@ body:not(.premium) .prem-only{display:none}
 
 /* touch targets (>=40-44px) */
 .x{min-width:44px;min-height:44px}.buy,.chip{min-height:40px}.row input[type=range]{height:32px}a[href="privacy.html"]{padding:12px 4px;margin:0 -4px}.tabs button{min-height:40px}
+@media (max-width:340px){.dock button{padding:11px 11px;font-size:13px}}
