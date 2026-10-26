@@ -75,10 +75,13 @@ function pick(toy, s) {
 }
 function reveal(s) {
   let r = $('giftReveal');
-  if (!r) { r = document.createElement('div'); r.id = 'giftReveal'; r.innerHTML = '<canvas></canvas><div class="gr-k">UNLOCKED</div><div class="gr-n"></div><button class="buy eq">Try it</button>'; $('app').appendChild(r); }
+  if (!r) { r = document.createElement('div'); r.id = 'giftReveal'; r.setAttribute('role', 'dialog'); r.setAttribute('aria-modal', 'true'); r.setAttribute('aria-label', 'Upgrade unlocked'); r.innerHTML = '<canvas></canvas><div class="gr-k">UNLOCKED</div><div class="gr-n"></div><button class="buy eq">Try it</button>'; $('app').appendChild(r); }
   r.querySelector('.gr-n').textContent = s.name; r.hidden = false; r.classList.remove('go'); void r.offsetWidth; r.classList.add('go');
   const c = r.querySelector('canvas'); prev = []; requestAnimationFrame(() => { mount(c, s.preview || (() => {})); cancelAnimationFrame(raf); raf = requestAnimationFrame(loop); });
-  r.querySelector('button').onclick = () => { r.hidden = true; cancelAnimationFrame(raf); prev = []; };
+  const btn = r.querySelector('button'), back = document.activeElement;
+  btn.onclick = () => { r.hidden = true; cancelAnimationFrame(raf); prev = []; if (back && back.focus && document.contains(back)) back.focus(); };
+  r.onkeydown = e => { if (e.key === 'Escape') { e.preventDefault(); btn.click(); } };
+  setTimeout(() => btn.focus(), 50);
 }
 export function init(o = {}) {
   select = o.select || select; refresh = o.refresh || refresh;

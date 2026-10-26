@@ -2,7 +2,7 @@
 import { CATALOG, PREMIUM, byId } from '../store/catalog.js';
 import * as ent from '../store/ent.js?v=9';
 import * as bill from '../store/billing.js?v=5';
-import * as gift from './sharegift.js?v=6';
+import * as gift from './sharegift.js?v=7';
 import * as redeem from '../store/redeem.js?v=3';
 import { SKINS, equip, equippedId, canUse } from '../fx/manager.js?v=10';
 const $ = id => document.getElementById(id);
