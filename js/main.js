@@ -11,6 +11,7 @@ import * as redeem from './store/redeem.js?v=3';
 import * as board from './ui/board.js?v=3';
 import * as record from './lb/record.js';
 import * as celeb from './ui/celebrate.js?v=3';
+import * as back from './ui/back.js?v=1';
 
 const cv = document.getElementById('stage');
 const g = cv.getContext('2d', { alpha: false, desynchronized: true });
@@ -101,7 +102,7 @@ const premUI = () => { document.body.classList.toggle('premium', ent.premium());
 ent.onChange(premUI);
 document.body.classList.toggle('premium', ent.premium());
 fx.init(t => { const c = cache[t]; if (c && W) c.resize(W, H); });
-stats.init(); record.init(); celeb.init(); shop.init(); board.init(); redeem.init(); gift.init({ select, refresh: () => { if (!document.getElementById('shop').hidden) shop.open(); } }); bill.init().catch(() => {});
+back.init(); stats.init(); record.init(); celeb.init(); shop.init(); board.init(); redeem.init(); gift.init({ select, refresh: () => { if (!document.getElementById('shop').hidden) shop.open(); } }); bill.init().catch(() => {});
 $('optVol').oninput = e => { setVol(+e.target.value); save(); };
 $('redeemSet').onclick = () => redeem.ask();
 $('setBtn').onclick = () => $('sheet').hidden = false;
