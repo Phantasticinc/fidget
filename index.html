@@ -69,14 +69,14 @@
       <svg viewBox="0 0 24 24" width="20" height="20"><circle cx="12" cy="12" r="3" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M4.9 19.1 7 17M17 7l2.1-2.1" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
     </button></span>
   </header>
-  <main><canvas id="stage" role="img" aria-label="Fidget toy play area — touch and drag to play"></canvas></main>
+  <main><canvas id="stage" role="img" aria-label="Fidget toy play area — touch and drag to play"></canvas>
   <div id="hud"></div><!-- not aria-live: spin rpm changes every frame and would flood screen readers -->
   <div id="crave" hidden>
     <div class="ring"><svg viewBox="0 0 100 100"><circle class="track" cx="50" cy="50" r="46"/><circle id="craveArc" class="arc" cx="50" cy="50" r="46"/></svg>
       <div class="cv-time" id="craveTime">3:00</div></div>
     <div class="cv-breath" id="craveBreath">Breathe in</div>
     <button id="craveStop" class="link">End</button>
-  </div>
+  </div></main>
   <nav class="dock" id="dock">
     <button data-toy="pop" class="on" aria-pressed="true">Pop</button>
     <button data-toy="spin" aria-pressed="false">Spin</button>
