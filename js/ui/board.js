@@ -5,18 +5,20 @@ import { top, online, sync, report, reported } from '../lb/adapter.js?v=3';
 import * as M from '../lb/msg.js';
 const $ = id => document.getElementById(id);
 let metric = 'streak', scope = 'week';
-async function render() {
+async function render(focusTab) {
   const B = $('boardBody'); B.innerHTML = '';
   const n = document.createElement('div'); n.className = 'nick';
   n.innerHTML = '<input id="nickIn" maxlength="16" autocomplete="off" aria-label="Nickname"><button class="buy eq" id="nickSave">Save</button>';
   B.appendChild(n); $('nickIn').value = nick.get();
   const msg = document.createElement('p'); msg.className = 'note'; msg.textContent = online() ? 'Nickname only — never use your real name. ' + M.RULES + '.' : 'Local board (this device). Online rankings turn on when the server is configured.'; B.appendChild(msg);
-  $('nickSave').onclick = () => { const e = nick.set($('nickIn').value); msg.textContent = e || 'Saved'; if (!e) render(); };
+  $('nickIn').onkeydown = e => { if (e.key === 'Enter') { e.preventDefault(); $('nickSave').click(); } };
+  $('nickSave').onclick = () => { const e = nick.set($('nickIn').value); if (e) { msg.textContent = e; return; } render(); const p = $('boardBody').querySelector('.note'); if (p) p.textContent = 'Saved ✓'; $('nickIn').focus(); };
   for (const [list, cur, set] of [[METRICS.map(m => [m.id, m.name]), metric, v => metric = v], [[['week', 'This week'], ['all', 'All-time']], scope, v => scope = v]]) {
     const t = document.createElement('div'); t.className = 'tabs';
-    for (const [id, nm] of list) { const b = document.createElement('button'); b.textContent = nm; b.className = id === cur ? 'on' : ''; b.onclick = () => { set(id); render(); }; t.appendChild(b); }
+    for (const [id, nm] of list) { const b = document.createElement('button'); b.textContent = nm; b.className = id === cur ? 'on' : ''; b.setAttribute('aria-pressed', id === cur); b.dataset.tab = id; b.onclick = () => { set(id); render(id); }; t.appendChild(b); }
     B.appendChild(t);
   }
+  if (focusTab) { const f = B.querySelector(`.tabs [data-tab="${focusTab}"]`); if (f) f.focus(); }
   const box = document.createElement('div'); B.appendChild(box); box.textContent = 'Loading…';
   try { await sync(); } catch (_) {}
   let rows; try { rows = await top(metric, scope); } catch (_) { box.textContent = 'Offline — showing nothing right now.'; return; }
