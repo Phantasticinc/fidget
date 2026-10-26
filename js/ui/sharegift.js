@@ -80,7 +80,6 @@ function reveal(s) {
   const c = r.querySelector('canvas'); prev = []; requestAnimationFrame(() => { mount(c, s.preview || (() => {})); cancelAnimationFrame(raf); raf = requestAnimationFrame(loop); });
   const btn = r.querySelector('button'), back = document.activeElement;
   btn.onclick = () => { r.hidden = true; cancelAnimationFrame(raf); prev = []; if (back && back.focus && document.contains(back)) back.focus(); };
-  r.onkeydown = e => { if (e.key === 'Escape') { e.preventDefault(); btn.click(); } };
   setTimeout(() => btn.focus(), 50);
 }
 export function init(o = {}) {
