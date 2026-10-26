@@ -8,7 +8,7 @@ export const METRICS = [
 ];
 export function week(d = new Date()) { const t = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate())); const day = t.getUTCDay() || 7; t.setUTCDate(t.getUTCDate() + 4 - day); const y = t.getUTCFullYear(); return `${y}-W${String(Math.ceil(((t - Date.UTC(y, 0, 1)) / 864e5 + 1) / 7)).padStart(2, '0')}`; }
 const K = 'fidget.stats';
-const S = Object.assign({ all: {}, wk: '', week: {}, hist: {} }, JSON.parse(localStorage.getItem(K) || '{}'));
+const S = Object.assign({ all: {}, wk: '', week: {}, hist: {} }, (() => { try { return JSON.parse(localStorage.getItem(K) || '{}'); } catch (_) { return JSON.parse('{}'); } })());
 let dirty = false, rpmMax = 0;
 function roll() { const w = week(); if (S.wk !== w) { if (S.wk) S.hist[S.wk] = S.week; const ks = Object.keys(S.hist).sort(); while (ks.length > 8) delete S.hist[ks.shift()]; S.wk = w; S.week = {}; } }
 function rec(id, v, mode) { roll(); for (const b of [S.all, S.week]) b[id] = mode === 'max' ? Math.max(b[id] || 0, v) : (b[id] || 0) + v; dirty = true; }

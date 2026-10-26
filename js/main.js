@@ -1,8 +1,8 @@
 import { opts, unlock, setVol } from './feel.js?v=5';
 import { initCrave } from './crave.js?v=2';
-import * as fx from './fx/manager.js?v=7';
+import * as fx from './fx/manager.js?v=8';
 import { THEMES } from './fx/premium.js';
-import * as ent from './store/ent.js?v=8';
+import * as ent from './store/ent.js?v=9';
 import * as bill from './store/billing.js?v=5';
 import * as stats from './lb/stats.js';
 import * as shop from './ui/shop.js?v=10';
@@ -86,7 +86,7 @@ function frame(now) {
 const $ = id => document.getElementById(id);
 export const VERSION = '1.2.6', BUILD = 12;
 $('ver').textContent = `Version ${VERSION} (build ${BUILD})` + (ent.isDev ? ' · tester unlock ON — open ?devlock to turn off' : '');
-const saved = JSON.parse(localStorage.getItem('fidget.opts') || '{}'); Object.assign(opts, saved);
+const saved = (() => { try { return JSON.parse(localStorage.getItem('fidget.opts') || '{}'); } catch (_) { return JSON.parse('{}'); } })(); Object.assign(opts, saved);
 $('optSound').checked = opts.sound; $('optHaptic').checked = opts.haptic; $('optCalm').checked = opts.calm; $('optVol').value = opts.vol;
 document.body.classList.toggle('calm', opts.calm);
 const save = () => localStorage.setItem('fidget.opts', JSON.stringify(opts));

@@ -8,7 +8,7 @@ const bestWeek = (S, id) => Math.max(0, ...Object.values(S.hist || {}).map(w => 
 function snapshot() { const S = get(); base = {}; for (const m of METRICS) base[m.id] = m.mode === 'max' ? (S.all[m.id] || 0) : bestWeek(S, m.id); }
 const K = 'fidget.recWeek';
 function check() {
-  const S = get(), wk = S.wk, done = JSON.parse(localStorage.getItem(K) || '{}');
+  const S = get(), wk = S.wk, done = (() => { try { return JSON.parse(localStorage.getItem(K) || '{}'); } catch (_) { return JSON.parse('{}'); } })();
   for (const m of METRICS) {
     const v = m.mode === 'max' ? (S.all[m.id] || 0) : (S.week[m.id] || 0), prev = base[m.id];
     if (v <= prev || v < MIN[m.id]) continue;
@@ -21,7 +21,7 @@ function settle() {
   const t = performance.now();
   for (const id of Object.keys(pend)) { const p = pend[id]; if (t - p.t < 1500) continue; delete pend[id];
     const m = METRICS.find(x => x.id === id); base[id] = m.mode === 'max' ? p.v : Infinity;
-    if (m.mode === 'sum') { const d = JSON.parse(localStorage.getItem(K) || '{}'); d[id] = get().wk; localStorage.setItem(K, JSON.stringify(d)); }
+    if (m.mode === 'sum') { const d = (() => { try { return JSON.parse(localStorage.getItem(K) || '{}'); } catch (_) { return JSON.parse('{}'); } })(); d[id] = get().wk; localStorage.setItem(K, JSON.stringify(d)); }
     emit('record', { metric: id, name: m.name, unit: m.unit, value: p.v, prev: p.prev }); }
 }
 export function init() {

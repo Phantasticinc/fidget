@@ -3,7 +3,7 @@ import { on } from '../bus.js';
 import { look } from '../look.js';
 import * as P from './particles.js?v=5';
 import * as prem from './premium.js';
-import * as ent from '../store/ent.js?v=8';
+import * as ent from '../store/ent.js?v=9';
 import POP from './skins/pop.js';
 import SPIN from './skins/spin.js';
 import CLICK from './skins/click.js';
@@ -16,7 +16,7 @@ let cur = null, rv = null, W = 0, H = 0;
 export const setToy = t => { cur = t; };
 export function ptr(x, y, down) { P0.x = x; P0.y = y; P0.down = !!down; P0.t = performance.now(); }
 const K = 'fidget.equip';
-const equipped = JSON.parse(localStorage.getItem(K) || '{}'), active = {};
+const equipped = (() => { try { return JSON.parse(localStorage.getItem(K) || '{}'); } catch (_) { return JSON.parse('{}'); } })(), active = {};
 let relook = () => {}, fpsAvg = 60;
 export const canUse = s => s.premium ? ent.premium() : ent.has(s.id);
 export const equippedId = toy => active[toy] ? active[toy].id : null;
