@@ -14,14 +14,14 @@
 <body>
 <div id="app">
   <header class="top">
-    <button id="craveBtn" class="pill" aria-label="Ride out a craving, 3 minutes">Ride it out · 3:00</button>
+    <button id="craveBtn" class="pill" aria-label="Ride it out · 3:00 — a 3-minute craving timer">Ride it out · 3:00</button>
     <span class="tb-r"><button id="lbBtn" class="icon" aria-label="Leaderboard"><svg viewBox="0 0 24 24" width="20" height="20"><path d="M4 20V11M10 20V5M16 20v-7M20 20H3" stroke="currentColor" stroke-width="1.8" fill="none" stroke-linecap="round"/></svg></button>
     <button id="shopBtn" class="icon" aria-label="Shop"><svg viewBox="0 0 24 24" width="20" height="20"><path d="M12 2l2.6 6.3L21 9l-5 4.4L17.5 20 12 16.6 6.5 20 8 13.4 3 9l6.4-.7z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg></button>
     <button id="setBtn" class="icon" aria-label="Settings">
       <svg viewBox="0 0 24 24" width="20" height="20"><circle cx="12" cy="12" r="3" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M4.9 19.1 7 17M17 7l2.1-2.1" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
     </button></span>
   </header>
-  <canvas id="stage"></canvas>
+  <main><canvas id="stage" role="img" aria-label="Fidget toy play area — touch and drag to play"></canvas></main>
   <div id="hud" aria-live="polite"></div>
   <div id="crave" hidden>
     <div class="ring"><svg viewBox="0 0 100 100"><circle class="track" cx="50" cy="50" r="46"/><circle id="craveArc" class="arc" cx="50" cy="50" r="46"/></svg>
