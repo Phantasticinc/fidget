@@ -8,7 +8,7 @@ const $ = id => document.getElementById(id);
 const LINK = 'https://phantasticinc.github.io/fidget/';
 const TEXT = 'Fidget — pop, spin, click and squish sand to calm down. Free:';
 let select = () => {}, refresh = () => {}, raf = 0, prev = [];
-function toast(t) { const d = document.createElement('div'); d.className = 'toast'; d.textContent = t; $('app').appendChild(d); setTimeout(() => d.remove(), 2600); }
+function toast(t) { const d = document.createElement('div'); d.className = 'toast'; d.setAttribute('role', 'status'); d.textContent = t; $('app').appendChild(d); setTimeout(() => d.remove(), 2600); }
 export const canShare = () => !!navigator.share;
 async function copy() {
   try { await navigator.clipboard.writeText(`${TEXT} ${LINK}`); return true; }

@@ -2,13 +2,13 @@
 import { CATALOG, PREMIUM, byId } from '../store/catalog.js';
 import * as ent from '../store/ent.js?v=9';
 import * as bill from '../store/billing.js?v=5';
-import * as gift from './sharegift.js?v=5';
+import * as gift from './sharegift.js?v=6';
 import * as redeem from '../store/redeem.js?v=3';
 import { SKINS, equip, equippedId, canUse } from '../fx/manager.js?v=10';
 const $ = id => document.getElementById(id);
 const TOYS = [['pop', 'Pop'], ['spin', 'Spin'], ['click', 'Click'], ['sand', 'Sand']];
 let tab = 'pop', raf = 0, previews = [];
-export function toast(t) { const d = document.createElement('div'); d.className = 'toast'; d.textContent = t; $('app').appendChild(d); setTimeout(() => d.remove(), 2600); }
+export function toast(t) { const d = document.createElement('div'); d.className = 'toast'; d.setAttribute('role', 'status'); d.textContent = t; $('app').appendChild(d); setTimeout(() => d.remove(), 2600); }
 const priceOf = id => bill.price(id) || byId(id).price;
 function premPreview(g, w, h, t) {
   for (let i = 0; i < 40; i++) { const p = (t * 0.35 + i / 40) % 1, x = (i * 97 % 100) / 100 * w, y = p * h; g.save(); g.translate(x, y); g.rotate(t * 3 + i); g.fillStyle = `hsl(${i * 37 % 360},90%,65%)`; g.fillRect(-4, -2, 8, 4); g.restore(); }
