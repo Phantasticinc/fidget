@@ -84,3 +84,4 @@ body:not(.premium) .prem-only{display:none}
 #gift{z-index:11}
 .cb-rules{margin:4px 0 0;font-size:11px;color:var(--dim);text-align:center}
 .lb-row>.rep{margin-left:auto;font-size:11px;color:var(--dim);text-decoration:underline;background:none}.rep:disabled{opacity:.6;text-decoration:none}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
