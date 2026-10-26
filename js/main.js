@@ -54,10 +54,17 @@ function resize() {
 addEventListener('resize', resize);
 
 async function select(name) {
-  if (name === toyName) return; toyName = name;
+  if (name === toyName) return; const prev = toyName; toyName = name;
   document.querySelectorAll('#dock button').forEach(b => b.classList.toggle('on', b.dataset.toy === name));
   toy && toy.leave && toy.leave(); fx.clear();
-  if (!cache[name]) { const m = await loaders[name](); cache[name] = m.create(); cache[name].resize(W, H); }
+  if (!cache[name]) {
+    try { const m = await loaders[name](); cache[name] = m.create(); cache[name].resize(W, H); }
+    catch (e) {  // flaky network on first open: don't get stuck on a toy that never loaded; let a re-tap retry
+      console.warn('toy load failed', name, e);
+      if (toyName === name) { toyName = ''; if (toy && prev) { toyName = prev; toy.enter && toy.enter(); } document.querySelectorAll('#dock button').forEach(b => b.classList.toggle('on', b.dataset.toy === toyName)); }
+      return;
+    }
+  }
   if (toyName !== name) return;
   toy = cache[name]; fx.setToy(name); toy.resize(W, H); toy.enter && toy.enter(); localStorage.setItem('fidget.toy', name);
 }
