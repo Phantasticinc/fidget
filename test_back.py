@@ -21,3 +21,11 @@ async def main():
     if 'privacy' not in pg.url: F.append('back with nothing open should leave: '+pg.url)
     print('errs',errs); print('FAILS',F+errs); await b.close()
 asyncio.run(main())
+async def esc():
+  async with async_playwright() as p:
+    b=await p.chromium.launch(); pg=await b.new_page(viewport={'width':412,'height':915}); await pg.goto(U); await pg.wait_for_timeout(1000)
+    await pg.click('#shopBtn'); await pg.wait_for_timeout(200)
+    r=await pg.evaluate("document.getElementById('shop').getAttribute('role')")
+    await pg.keyboard.press('Escape'); await pg.wait_for_timeout(300)
+    print('ESC FAILS',[x for x,c in [('role',r!='dialog'),('esc',not await pg.evaluate("document.getElementById('shop').hidden"))] if c]); await b.close()
+asyncio.run(esc())

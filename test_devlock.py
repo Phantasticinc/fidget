@@ -8,7 +8,7 @@ async def chk(b,init,first,label):
   pg=await c.new_page(); errs=[]; pg.on('pageerror',lambda e:errs.append(str(e)))
   await pg.goto(U+'?devunlock'); await pg.wait_for_timeout(300)
   if first: await pg.goto(U+first); await pg.wait_for_timeout(300); await pg.goto(U+'?devunlock')
-  await pg.wait_for_timeout(1000); e=await pg.evaluate("import('./js/store/ent.js?v=8').then(m=>[m.isDev,m.premium(),m.inPlayApp])")
+  await pg.wait_for_timeout(1000); e=await pg.evaluate("import('./js/store/ent.js?v=9').then(m=>[m.isDev,m.premium(),m.inPlayApp])")
   await c.close(); print(label,e,errs); return e,errs
 async def main():
   async with async_playwright() as p:

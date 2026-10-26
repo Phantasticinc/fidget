@@ -11,7 +11,7 @@ async def main():
     await pg.evaluate("import('./js/ui/shop.js?v=10').then(m=>m.open&&m.open())"); await pg.wait_for_timeout(500)
     btn=pg.locator('#shopBody button.buy').first; await btn.click(); await pg.wait_for_timeout(800)
     toast=await pg.evaluate("[...document.querySelectorAll('[id*=toast],.toast')].map(e=>e.textContent).join('|')")
-    prem=await pg.evaluate("import('./js/store/ent.js?v=8').then(m=>m.premium())")
+    prem=await pg.evaluate("import('./js/store/ent.js?v=9').then(m=>m.premium())")
     print('toast',toast,'premium',prem,errs); print('FAILS',[] if prem and 'Already' in toast and not errs else ['owned'])
     await b.close()
 asyncio.run(main())

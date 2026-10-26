@@ -11,7 +11,7 @@ import * as redeem from './store/redeem.js?v=3';
 import * as board from './ui/board.js?v=3';
 import * as record from './lb/record.js';
 import * as celeb from './ui/celebrate.js?v=3';
-import * as back from './ui/back.js?v=1';
+import * as back from './ui/back.js?v=2';
 
 const cv = document.getElementById('stage');
 const g = cv.getContext('2d', { alpha: false, desynchronized: true });
