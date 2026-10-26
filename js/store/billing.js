@@ -9,12 +9,18 @@ export async function init() {
   if (!('getDigitalGoodsService' in window)) return false;
   try { svc = await window.getDigitalGoodsService(PLAY); } catch (_) { svc = null; return false; }
   try { for (const d of await svc.getDetails(CATALOG.map(p => p.id))) details[d.itemId] = d; } catch (_) {}
-  await restore(); return true;
+  try { await restore(); } catch (_) {}
+  // Re-sync when returning to the app (e.g. after redeeming a promo code in the Play Store).
+  document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible') restore().catch(() => {}); });
+  return true;
 }
 export function price(id) { const d = details[id]; if (!d || !d.price) return null; try { return new Intl.NumberFormat(navigator.language, { style: 'currency', currency: d.price.currency }).format(d.price.value); } catch (_) { return null; } }
 export async function restore() {
   if (!svc) return false;
-  const list = await svc.listPurchases(); set(list.map(p => p.itemId));
+  const list = await svc.listPurchases();
+  // Promo-code redemptions happen outside the app; acknowledge anything Play still holds as unacknowledged so it isn't auto-refunded after 3 days.
+  for (const p of list) if (p.acknowledged === false && svc.acknowledge) { try { await svc.acknowledge(p.purchaseToken, 'onetime'); } catch (_) {} }
+  set(list.map(p => p.itemId));
   return true;
 }
 export async function buy(id) {

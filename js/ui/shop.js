@@ -1,7 +1,7 @@
 // Shop sheet: Premium card + per-toy upgrades with live animated previews. Honest pricing, no timers, no randomised rewards.
 import { CATALOG, PREMIUM, byId } from '../store/catalog.js';
 import * as ent from '../store/ent.js?v=7';
-import * as bill from '../store/billing.js?v=3';
+import * as bill from '../store/billing.js?v=4';
 import * as gift from './sharegift.js?v=2';
 import * as redeem from '../store/redeem.js?v=3';
 import { SKINS, equip, equippedId, canUse } from '../fx/manager.js?v=7';
@@ -50,7 +50,7 @@ function render() {
   }
   B.appendChild(list);
   const r = document.createElement('button'); r.className = 'pill wide'; r.textContent = 'Restore purchases';
-  r.onclick = async () => { if (!bill.available()) return toast('Restore works in the Android app'); await bill.restore(); toast('Purchases restored'); render(); };
+  r.onclick = async () => { if (!bill.available()) return toast('Restore works in the Android app'); try { await bill.restore(); toast('Purchases restored'); } catch (_) { toast('Couldn’t reach Google Play — try again'); } render(); };
   B.appendChild(r);
   const rc = document.createElement('button'); rc.className = 'pill wide'; rc.id = 'redeemShop'; rc.textContent = 'Redeem code';
   rc.onclick = () => redeem.ask(); B.appendChild(rc);

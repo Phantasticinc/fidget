@@ -1,6 +1,6 @@
 // Play promo codes: Fidget never checks codes itself (no app-side master code). We hand the code to Google Play's
 // redeem page, then re-read purchases from Play Billing when the user comes back. Deep link: ?redeem=CODE
-import * as bill from './billing.js?v=3';
+import * as bill from './billing.js?v=4';
 const URL_ = 'https://play.google.com/redeem';
 export const clean = c => String(c || '').toUpperCase().replace(/[^A-Z0-9]/g, '').slice(0, 32);
 let waiting = false, onDone = null;
