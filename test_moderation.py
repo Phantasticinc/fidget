@@ -23,6 +23,11 @@ def test_sql():
   for m in ['visit x.com','dm me','@handle','call 555 123 4567','me at gmail dot com','sh1t']:
     c,o=sql(A+f"select submit_score('ffffffff-6','NiceName','streak',{W},5,'{m}')")
     if not c or 'message' not in o: fails.append('msg not rejected '+m)
+  for n in ['raccoon_99','Grape_Ape7']:
+    c,o=sql(A+f"select submit_score('99999999-{n}','{n}','streak',{W},5,null)")
+    if c: fails.append('allowed nick rejected '+n+o)
+  c,o=sql(A+f"select submit_score('99999999-x','raccoon_fuck','streak',{W},5,null)")
+  if not c: fails.append('raccoon_fuck accepted')
   c,o=sql(A+"select count(*) from scores"); 
   if not c: fails.append('anon can read scores table')
   c,o=sql(A+"select report_entry('bbbbbbbb-2222','aaaaaaaa','streak','message')"); print('report1',o)
