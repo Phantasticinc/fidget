@@ -33,7 +33,7 @@ async def main():
     await pg.evaluate("window.__fidget.record.fake('streak',120,80)"); await pg.wait_for_timeout(3200)
     if not await pg.is_visible('#cbShare'): fails.append('celeb share hidden')
     s='preview/share/5-celeb-share.png'; await pg.screenshot(path=s); shots.append(s)
-    await pg.click('#cbShare'); await pg.wait_for_timeout(1200)
+    await pg.click('#cbShare'); await pg.wait_for_timeout(3000)
     sh=await pg.evaluate('window.__shares'); print('shares',sh)
     if len(sh)!=1 or sh[0]['files']!=1: fails.append('celeb share image')
     # fallback: no navigator.share
