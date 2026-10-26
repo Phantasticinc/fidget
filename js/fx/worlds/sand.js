@@ -2,8 +2,8 @@
 // tide surges), Gold Rush (golden-hour canyon, pinch nuggets out of the sand into your stash, mother-lode showers).
 import { sky, glow, add, motes, bands, rays, vignette, stars, S } from './env.js?v=1';
 import { burst, rnd } from '../particles.js?v=5';
-import * as BH from './blackhole.js?v=1';
-import * as AU from './gold.js?v=2';
+import * as BH from './blackhole.js?v=2';
+import * as AU from './gold.js?v=3';
 let tide = 0, tears = 0;
 export default {
   sand_galaxy: { name: 'Galaxy Sand', hue: '#9d7bff', confetti: ['#b49bff', '#ff8fe0', '#8fdcff', '#ffffff'], titles: ['EVENT HORIZON', 'SUPERNOVA', 'SINGULARITY', 'COSMIC DUST'],

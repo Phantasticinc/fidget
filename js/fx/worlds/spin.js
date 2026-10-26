@@ -2,7 +2,7 @@
 // Aurora (arctic night: curtains swell with speed, shooting stars at milestones).
 import { sky, glow, add, motes, bands, vignette, stars, S } from './env.js?v=1';
 import { arc, burst, rnd } from '../particles.js?v=5';
-import { snd } from '../skins/kit.js?v=5';
+import { snd } from '../skins/kit.js?v=6';
 let bolts = [], shoot = [], fire = 0;
 function bolt(W, H, col) { bolts.push({ x0: rnd(0, W), y0: -10, x1: rnd(0, W), y1: H * rnd(0.3, 0.7), t: 0, col }); }
 function mountains(g, W, H, col, y0, amp, f) { g.fillStyle = col; g.beginPath(); g.moveTo(0, H); for (let x = 0; x <= W; x += 10) g.lineTo(x, H * y0 - Math.abs(Math.sin(x * f) * amp + Math.sin(x * f * 2.7) * amp * 0.4)); g.lineTo(W, H); g.fill(); }

@@ -2,7 +2,7 @@
 // Lava (volcanic cave: drops land molten, glow, cool and crack into obsidian; milestones erupt).
 import { sky, glow, add, motes, rays, vignette, stars, S } from './env.js?v=1';
 import { burst, rnd } from '../particles.js?v=5';
-import { snd } from '../skins/kit.js?v=5';
+import { snd } from '../skins/kit.js?v=6';
 let pool = 0, poolRip = [], beat = 0, rocks = [];
 export default {
   pop_pack_liquidmetal: { name: 'Liquid Metal', hue: '#dfe8f5', confetti: ['#ffffff', '#c9d3e0', '#8a95a5'], titles: ['MERCURY RISING', 'CHROME FLOOD', 'QUICKSILVER', 'LIQUID MIRROR'],

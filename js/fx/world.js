@@ -2,13 +2,13 @@
 // lighting/overlay in front (front), its own signature mechanic, and screen-wide milestone events.
 // Cosmetic only: worlds never touch toy physics, timers or scores (leaderboard fairness).
 // Calm mode: every layer is drawn at reduced alpha, milestones become a soft glow + quiet chime, no flashes.
-import { snd, hap, calm } from './skins/kit.js?v=5';
+import { snd, hap, calm } from './skins/kit.js?v=6';
 import { burst, rnd, all as pAll } from './particles.js?v=5';
 import { now } from './worlds/env.js?v=1';
-import POP from './worlds/pop.js?v=2';
-import SPIN from './worlds/spin.js?v=1';
+import POP from './worlds/pop.js?v=3';
+import SPIN from './worlds/spin.js?v=2';
 import CLICK from './worlds/click.js?v=2';
-import SAND from './worlds/sand.js?v=2';
+import SAND from './worlds/sand.js?v=3';
 import PREM from './worlds/premium.js?v=1';
 export const WORLDS = { ...POP, ...SPIN, ...CLICK, ...SAND, ...PREM };
 const STEPS = [12, 30, 60, 100, 160, 250, 400];

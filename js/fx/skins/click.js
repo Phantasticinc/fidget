@@ -1,5 +1,5 @@
 // Click upgrades: keycap material (look), per-frame key lighting + press effect, distinct switch voice.
-import { burst, add, rnd, snd, hap, glowDot, calm } from './kit.js?v=5';
+import { burst, add, rnd, snd, hap, glowDot, calm } from './kit.js?v=6';
 const ripples = [];
 function keyRect(g, k, s, fill) { g.beginPath(); g.roundRect ? g.roundRect(k.x + 2, k.y + 2 + k.t * s * 0.07, s - 4, s - 4, s * 0.16) : g.rect(k.x, k.y, s, s); g.fillStyle = fill; g.fill(); }
 export default [

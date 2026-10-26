@@ -2,7 +2,7 @@
 // into a spiralling accretion disk before swallowing it. Cosmetic only.
 import { all, burst, rnd } from '../particles.js?v=5';
 import { glow, add } from './env.js?v=1';
-import { snd, hap } from '../skins/kit.js?v=5';
+import { snd, hap } from '../skins/kit.js?v=6';
 let H0 = null;
 export const hole = () => H0;
 export function open(x, y, dur = 6, big = 1) {

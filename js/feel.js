@@ -1,5 +1,5 @@
 // Sound + haptics, generated from physics events. No audio files.
-export const opts = { sound: true, haptic: true, calm: false, vol: 0.8 };
+export const opts = { sound: true, haptic: true, calm: !!(typeof matchMedia === 'function' && matchMedia('(prefers-reduced-motion: reduce)').matches), vol: 0.8 };
 let ctx, out, noise, comp;
 function ac() {
   if (ctx) return ctx;

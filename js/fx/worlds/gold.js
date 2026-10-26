@@ -2,7 +2,7 @@
 // pull it high (or tear the clump) to pry it loose and it flies into your stash. Purely cosmetic, stored locally.
 import { burst, rnd } from '../particles.js?v=5';
 import { add, glow } from './env.js?v=1';
-import { snd, hap } from '../skins/kit.js?v=5';
+import { snd, hap } from '../skins/kit.js?v=6';
 const K = 'fidget.gold';
 let stash = +localStorage.getItem(K) || 0, held = [], fly = [], pulse = 0;
 export const total = () => stash;

@@ -1,5 +1,5 @@
 // Sand upgrades: sand colours + molds (look), per-frame surface effect sampled from the heightfield, cut/crumble fx + voice.
-import { burst, add, rnd, snd, hap, glowDot, calm } from './kit.js?v=5';
+import { burst, add, rnd, snd, hap, glowDot, calm } from './kit.js?v=6';
 const STARS = Array.from({ length: 140 }, () => [Math.random(), Math.random(), Math.random() * 6.28, 0.6 + Math.random() * 1.6]);
 const trail = [];
 function onSand(d, u, v) { const x = (u * d.G.gw) | 0, y = (v * d.G.gh) | 0; return d.G.h[y * d.G.gw + x] > 0.12; }

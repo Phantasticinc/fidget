@@ -1,6 +1,6 @@
 // Pop: bubble wrap with springy domes, finger-roll popping, neighbour jiggle and endless sheets.
-import { sfx, buzz } from '../feel.js?v=5';
-import { opts } from '../feel.js?v=5';
+import { sfx, buzz } from '../feel.js?v=6';
+import { opts } from '../feel.js?v=6';
 import { sprite, rr, DPR, hsl } from '../render.js?v=1';
 import { emit } from '../bus.js';
 import { look } from '../look.js';

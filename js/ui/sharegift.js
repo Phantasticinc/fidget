@@ -2,8 +2,8 @@
 // then revealed. Shares can't be verified (the OS share sheet doesn't say what happened) — this is a thank-you, not a contract.
 import * as ent from '../store/ent.js?v=9';
 import { byId } from '../store/catalog.js';
-import { SKINS, equip } from '../fx/manager.js?v=9';
-import * as celeb from './celebrate.js?v=4';
+import { SKINS, equip } from '../fx/manager.js?v=10';
+import * as celeb from './celebrate.js?v=5';
 const $ = id => document.getElementById(id);
 const LINK = 'https://phantasticinc.github.io/fidget/';
 const TEXT = 'Fidget — pop, spin, click and squish sand to calm down. Free:';

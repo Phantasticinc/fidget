@@ -1,5 +1,5 @@
 // Pop upgrades. Each: own bubble material (look), own burst effect, own sound + haptic.
-import { burst, rnd, snd, hap, orb, glowDot, calm } from './kit.js?v=5';
+import { burst, rnd, snd, hap, orb, glowDot, calm } from './kit.js?v=6';
 export default [
   { id: 'pop_pack_liquidmetal', toy: 'pop', name: 'Liquid Metal', blurb: 'Mercury bubbles that burst into chrome droplets with a bright metallic ping.',
     look: { tint: [215, 6] },

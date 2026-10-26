@@ -1,5 +1,5 @@
 // Spin upgrades: finish (look), speed-driven effect drawn around the live body, own sound/haptic character.
-import { add, arc, rnd, snd, hap, orb, glowDot, calm } from './kit.js?v=5';
+import { add, arc, rnd, snd, hap, orb, glowDot, calm } from './kit.js?v=6';
 const tips = (d, k = 1) => [0, 1, 2].map(i => { const t = i * 2.094 - 1.571 + d.a; return [d.cx + Math.cos(t) * d.R * 0.62 * k, d.cy + Math.sin(t) * d.R * 0.62 * k, t]; });
 let lastZap = 0;
 export default [

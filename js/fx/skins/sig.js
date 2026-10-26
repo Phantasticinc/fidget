@@ -1,7 +1,7 @@
 // Signature layer: gives every upgrade one unmistakable twist on top of its finish —
 // an ambient per-frame effect, a finger/rhythm interaction, a bespoke sound + haptic voice, and an equip reveal.
 // Purely cosmetic: nothing here touches toy physics or scoring (leaderboard fairness).
-import { add, burst, arc, rnd, snd, hap, glowDot, calm } from './kit.js?v=5';
+import { add, burst, arc, rnd, snd, hap, glowDot, calm } from './kit.js?v=6';
 import { q } from '../particles.js?v=5';
 export const ptr = { x: 0, y: 0, down: false, t: 0 };
 const now = () => performance.now();
