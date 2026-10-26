@@ -38,3 +38,11 @@ async def focus():
     r=await pg.evaluate("document.activeElement.id")
     print('FOCUS FAILS',[x for x,c in [('not moved in',not a),('not restored '+r,r!='shopBtn')] if c]); await b.close()
 asyncio.run(focus())
+async def crave():
+  async with async_playwright() as p:
+    b=await p.chromium.launch(); pg=await b.new_page(viewport={'width':412,'height':915},is_mobile=True,has_touch=True); await pg.goto(U+'privacy.html'); await pg.goto(U); await pg.wait_for_timeout(1000)
+    await pg.click('#craveBtn'); await pg.wait_for_timeout(300); r=await pg.evaluate("document.getElementById('crave').getAttribute('role')")
+    await pg.go_back(); await pg.wait_for_timeout(400)
+    F=[x for x,c in [('role set on crave',r is not None),('crave still running',not await pg.evaluate("document.getElementById('crave').hidden")),('left app','privacy' in pg.url)] if c]
+    print('CRAVE FAILS',F); await b.close()
+asyncio.run(crave())
