@@ -9,7 +9,7 @@ import * as shop from './ui/shop.js?v=10';
 import * as gift from './ui/sharegift.js?v=2';
 import * as redeem from './store/redeem.js?v=3';
 import * as board from './ui/board.js?v=3';
-import * as record from './lb/record.js';
+import * as record from './lb/record.js?v=2';
 import * as celeb from './ui/celebrate.js?v=3';
 import * as back from './ui/back.js?v=2';
 

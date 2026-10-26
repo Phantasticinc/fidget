@@ -3,11 +3,12 @@
 import { on, emit } from '../bus.js';
 import { METRICS, get } from './stats.js';
 const MIN = { streak: 10, rpm: 120, keys: 200, cuts: 60 };   // ignore trivial first-run "records"
-const pend = {}; let base = null, dirty = false;
+const pend = {}; let base = null, dirty = false, baseWk = '';
 const bestWeek = (S, id) => Math.max(0, ...Object.values(S.hist || {}).map(w => w[id] || 0));
-function snapshot() { const S = get(); base = {}; for (const m of METRICS) base[m.id] = m.mode === 'max' ? (S.all[m.id] || 0) : bestWeek(S, m.id); }
+function snapshot() { const S = get(); baseWk = S.wk; base = {}; for (const m of METRICS) base[m.id] = m.mode === 'max' ? (S.all[m.id] || 0) : bestWeek(S, m.id); }
 const K = 'fidget.recWeek';
 function check() {
+  if (get().wk !== baseWk) snapshot();  // app left open across a week boundary: re-base sum metrics (was stuck at Infinity)
   const S = get(), wk = S.wk, done = (() => { try { return JSON.parse(localStorage.getItem(K) || '{}'); } catch (_) { return JSON.parse('{}'); } })();
   for (const m of METRICS) {
     const v = m.mode === 'max' ? (S.all[m.id] || 0) : (S.week[m.id] || 0), prev = base[m.id];
