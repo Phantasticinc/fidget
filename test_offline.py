@@ -9,7 +9,7 @@ async def main():
     await pg.goto(URL); await pg.wait_for_timeout(2500)
     await pg.reload(); await pg.wait_for_timeout(1500)
     pg.on('requestfinished',lambda r: net.append(r.url))
-    cached=await pg.evaluate("caches.open('fidget-v16').then(c=>c.keys()).then(k=>k.map(r=>r.url))")
+    cached=await pg.evaluate("caches.open('fidget-v17').then(c=>c.keys()).then(k=>k.map(r=>r.url))")
     await c.set_offline(True); errs.clear()
     await pg.reload(); await pg.wait_for_timeout(2000)
     ok=await pg.evaluate("!!window.__fidget")

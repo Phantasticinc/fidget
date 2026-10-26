@@ -10,7 +10,7 @@ import * as gift from './ui/sharegift.js?v=2';
 import * as redeem from './store/redeem.js?v=3';
 import * as board from './ui/board.js?v=3';
 import * as record from './lb/record.js';
-import * as celeb from './ui/celebrate.js?v=2';
+import * as celeb from './ui/celebrate.js?v=3';
 
 const cv = document.getElementById('stage');
 const g = cv.getContext('2d', { alpha: false, desynchronized: true });

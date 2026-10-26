@@ -4,6 +4,7 @@ import { on } from '../bus.js';
 import { synth, buzzPattern, opts } from '../feel.js?v=5';
 import * as msg from '../lb/msg.js';
 import { rank, resend, online } from '../lb/adapter.js?v=3';
+const R = () => Math.min(2, window.devicePixelRatio || 1); // cap full-screen confetti canvas cost on 3x phones
 const $ = id => document.getElementById(id);
 let shareFn = null; export const setShare = f => { shareFn = f; };
 let cv, g, raf = 0, parts = [], rockets = [], T0 = 0, cur = null, W = 0, H = 0;
@@ -44,7 +45,7 @@ function boom(x, y, n, col) { for (let i = 0; i < n; i++) { const a = rnd(0, 6.2
 function confetti(n, slow) { for (let i = 0; i < n; i++) parts.push({ x: rnd(0, W), y: rnd(-H * 0.4, -10), vx: rnd(-40, 40), vy: rnd(slow ? 30 : 80, slow ? 70 : 240), r: rnd(0, 6), vr: rnd(-8, 8), life: slow ? 6 : 4.5, t: 0, col: PAL[(Math.random() * PAL.length) | 0], k: 'conf' }); }
 function tick(now) {
   const t = (now - T0) / 1000, dt = 1 / 60, calm = cur.calm; raf = requestAnimationFrame(tick);
-  g.setTransform(devicePixelRatio, 0, 0, devicePixelRatio, 0, 0);
+  g.setTransform(R(), 0, 0, R(), 0, 0);
   g.fillStyle = calm ? 'rgba(8,10,9,.35)' : 'rgba(8,6,16,.28)'; g.fillRect(0, 0, W, H);   // trails
   if (!calm && t < 6 && Math.random() < (t < 2 ? 0.18 : 0.06)) rockets.push({ x: rnd(W * 0.1, W * 0.9), y: H, vy: -rnd(520, 760), top: rnd(H * 0.1, H * 0.4), col: PAL[(Math.random() * PAL.length) | 0] });
   g.globalCompositeOperation = 'lighter';
@@ -73,7 +74,7 @@ function fanfare(calm) { if (!opts.sound || !synth.ok()) return; const s = synth
 export async function show(r) {
   el(); const calm = !!opts.calm; cur = { ...r, calm, r0: null, r1: null };
   const d = $('celeb'); d.hidden = false; d.classList.toggle('calm', calm); $('cbPanel').hidden = true; $('cbShare').hidden = !shareFn; $('cbErr').textContent = '';
-  W = innerWidth; H = innerHeight; cv.width = W * devicePixelRatio; cv.height = H * devicePixelRatio;
+  W = innerWidth; H = innerHeight; cv.width = W * R(); cv.height = H * R();
   let r0 = 1, r1 = 1, wk = 1; try { [r0, r1, wk] = await Promise.all([rank(r.metric, 'all', r.prev), rank(r.metric, 'all', r.value), rank(r.metric, 'week', r.value)]); } catch (_) {}
   cur.r0 = r0; cur.r1 = r1;
   $('cbTitle').textContent = !online() ? 'NEW RECORD!' : r1 === 1 ? '#1 ALL-TIME!' : wk === 1 ? '#1 THIS WEEK!' : 'NEW PERSONAL BEST!';
