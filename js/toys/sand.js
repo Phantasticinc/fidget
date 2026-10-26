@@ -2,7 +2,7 @@
 // Gestures (real multi-touch): drag = clean glossy slice · hold = press/squish (bulging rim) · hold then drag = sticky drag (sand clings and travels)
 // · keep circling while dragging = roll a ball · two fingers close together = PINCH: grab a clump, lift, stretch into sticky strands, tear, drop to splat + re-merge
 // · two fingers far apart then spread = pull the sand apart. Mold ↻ = fresh shape.
-import { sfx, buzz, buzzPattern, opts } from '../feel.js?v=4';
+import { sfx, buzz, buzzPattern, opts } from '../feel.js?v=5';
 import { makeGrid, mold, relax, slice, press, smear, take, blob, at, SHAPES } from './sandgrid.js?v=3';
 import { makeRenderer, COLORS } from './sandrender.js?v=2';
 import { makeGoo } from './sandgoo.js?v=1';

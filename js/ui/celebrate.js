@@ -1,7 +1,7 @@
 // Record celebration: full-screen fireworks + confetti, trophy reveal, rank climb, fanfare + haptics; Calm = gentle version.
 // Then a ≤40-char victory message (presets + filter) that appears next to the score on the leaderboard.
 import { on } from '../bus.js';
-import { synth, buzzPattern, opts } from '../feel.js?v=4';
+import { synth, buzzPattern, opts } from '../feel.js?v=5';
 import * as msg from '../lb/msg.js';
 import { rank, resend, online } from '../lb/adapter.js?v=3';
 const $ = id => document.getElementById(id);

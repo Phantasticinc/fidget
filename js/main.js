@@ -1,4 +1,4 @@
-import { opts, unlock, setVol } from './feel.js?v=4';
+import { opts, unlock, setVol } from './feel.js?v=5';
 import { initCrave } from './crave.js?v=2';
 import * as fx from './fx/manager.js?v=7';
 import { THEMES } from './fx/premium.js';

@@ -1,6 +1,6 @@
 // Spin: machined tri-lobe spinner. Direct-grab rotation, real inertia + bearing friction,
 // detent clicks at low speed, bearing whir at high speed, fixed studio lighting over a rotating body.
-import { sfx, buzz, opts } from '../feel.js?v=4';
+import { sfx, buzz, opts } from '../feel.js?v=5';
 import { sprite, DPR } from '../render.js?v=1';
 import { emit } from '../bus.js';
 import { look } from '../look.js';

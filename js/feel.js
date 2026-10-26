@@ -11,7 +11,9 @@ function ac() {
   for (let i = 0; i < n; i++) d[i] = Math.random() * 2 - 1;
   return ctx;
 }
-export function unlock() { const c = ac(); if (c && c.state !== 'running') c.resume(); }
+export function unlock() { const c = ac(); if (c && c.state !== 'running') c.resume().catch(() => {}); }
+// Release the audio device while the app is in the background (saves battery); the next touch resumes it.
+document.addEventListener('visibilitychange', () => { if (document.hidden && ctx && ctx.state === 'running') ctx.suspend().catch(() => {}); });
 export function setVol(v) { opts.vol = v; if (out) out.gain.value = v; }
 function ok() { return opts.sound && ac() && ctx.state === 'running'; }
 const cm = () => (opts.calm ? 0.45 : 1);
