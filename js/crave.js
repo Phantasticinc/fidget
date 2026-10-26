@@ -5,9 +5,11 @@ export function initCrave() {
   const arc = document.getElementById('craveArc'), tm = document.getElementById('craveTime'), br = document.getElementById('craveBreath');
   const hud = document.getElementById('hud');
   let t0 = 0, timer = 0; const DUR = 180, C = 289;
+  const IDLE = 'Ride it out · 3:00', IDLE_AL = btn.getAttribute('aria-label') || IDLE;
+  const label = (t, al) => { btn.textContent = t; btn.setAttribute('aria-label', al || t); };
   function stop(done) {
-    clearInterval(timer); box.hidden = true; hud.style.visibility = ''; btn.textContent = done ? 'You rode it out ✓' : 'Ride it out · 3:00';
-    if (done) { sfx.chime(523); setTimeout(() => sfx.chime(784), 400); buzzPattern([30, 80, 30]); setTimeout(() => btn.textContent = 'Ride it out · 3:00', 6000); }
+    clearInterval(timer); box.hidden = true; hud.style.visibility = ''; if (done) label('You rode it out ✓'); else label(IDLE, IDLE_AL);
+    if (done) { sfx.chime(523); setTimeout(() => sfx.chime(784), 400); buzzPattern([30, 80, 30]); setTimeout(() => { if (box.hidden) label(IDLE, IDLE_AL); }, 6000); }
   }
   function tick() {
     const el = (performance.now() - t0) / 1000, left = Math.max(0, DUR - el);
@@ -16,7 +18,7 @@ export function initCrave() {
     const c = el % 10; br.textContent = c < 4 ? 'Breathe in' : 'Breathe out'; // 4s in, 6s out
     if (left <= 0) stop(true);
   }
-  btn.onclick = () => { if (!box.hidden) return stop(false); t0 = performance.now(); box.hidden = false; hud.style.visibility = 'hidden'; btn.textContent = 'Fidget while it passes'; tick(); timer = setInterval(tick, 250); };
+  btn.onclick = () => { if (!box.hidden) return stop(false); t0 = performance.now(); box.hidden = false; hud.style.visibility = 'hidden'; label('Fidget while it passes', 'Fidget while it passes — stop the craving timer'); tick(); timer = setInterval(tick, 250); };
   document.getElementById('craveStop').onclick = () => stop(false);
   document.getElementById('craveStop').style.pointerEvents = 'auto';
 }

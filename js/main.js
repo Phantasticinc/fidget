@@ -1,6 +1,6 @@
 import './safestore.js?v=1';
 import { opts, unlock, setVol } from './feel.js?v=5';
-import { initCrave } from './crave.js?v=2';
+import { initCrave } from './crave.js?v=3';
 import * as fx from './fx/manager.js?v=8';
 import { THEMES } from './fx/premium.js';
 import * as ent from './store/ent.js?v=9';
