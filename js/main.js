@@ -83,12 +83,14 @@ cv.addEventListener('contextmenu', e => e.preventDefault());
 // fixed-step physics (120 Hz), render at display rate
 const STEP = 1 / 120; let shk = null, acc = 0, last = performance.now(), hudTxt = '';
 function frame(now) {
+  requestAnimationFrame(frame);  // schedule first: one bad frame must never freeze the app
+  try {
   let dt = (now - last) / 1000; last = now; perf(dt); if (dt > 0.1) dt = 0.1; acc += dt;
   if (toy) { while (acc >= STEP) { toy.step(STEP); acc -= STEP; } }
   g.setTransform(1, 0, 0, 1, 0, 0); g.drawImage(bg, 0, 0);
   g.setTransform(DPR, 0, 0, DPR, shk ? shk[0] * DPR : 0, shk ? shk[1] * DPR : 0);
   if (toy) { fx.back(g, dt, W, H); toy.draw(g, W, H); shk = fx.frame(g, dt, opts.calm, W, H); const t = toy.hud ? toy.hud() : ''; if (t !== hudTxt) { hud.textContent = hudTxt = t; } }
-  requestAnimationFrame(frame);
+  } catch (e) { acc = 0; if (!frame.warned) { frame.warned = 1; console.warn('frame error', e); } }
 }
 
 // settings
