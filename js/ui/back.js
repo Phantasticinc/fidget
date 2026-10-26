@@ -8,7 +8,7 @@ function closeEl(e) {
   if (b) b.click(); else e.hidden = true;
 }
 function sync() {
-  for (const id of IDS) { const e = document.getElementById(id); if (e && !e.getAttribute('role')) { e.setAttribute('role', 'dialog'); e.setAttribute('aria-modal', 'true'); const h = e.querySelector('h2'); if (h) e.setAttribute('aria-label', h.textContent); } }
+  for (const id of IDS) { const e = document.getElementById(id); if (e && !e.getAttribute('role')) { e.setAttribute('role', 'dialog'); e.setAttribute('aria-modal', 'true'); const h = e.querySelector('h2, h3, [id$="Title"]'); e.setAttribute('aria-label', (h && h.textContent.trim()) || (e.id === 'celeb' ? 'New record' : e.id === 'giftReveal' ? 'Gift unlocked' : 'Dialog')); } }
   const o = top();
   if (o !== lastTop) {  // focus management: move focus into a newly opened sheet, give it back on close
     if (o && !lastTop) opener = document.activeElement;
