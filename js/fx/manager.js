@@ -9,7 +9,7 @@ import SPIN from './skins/spin.js';
 import CLICK from './skins/click.js';
 import SAND from './skins/sand.js';
 import { sign, ptr as P0 } from './skins/sig.js?v=5';
-import * as world from './world.js?v=1';
+import * as world from './world.js?v=2';
 export const SKINS = { pop: POP, spin: SPIN, click: CLICK, sand: [...SAND, prem.RAINBOW] };
 for (const t in SKINS) SKINS[t].forEach(sign); // signature layer: ambient frame fx, finger twists, reveal
 let cur = null, rv = null, W = 0, H = 0;

@@ -6,7 +6,7 @@ let ring = 0, scan = -1, lamp = 0;
 const GL = 'アイウエオカキクケコ01ABCDEF<>/{}#';
 export default {
   click_crystal: { name: 'Crystal', hue: '#bfe9ff', confetti: ['#bfe9ff', '#e2c6ff', '#ffffff'], titles: ['RESONANCE', 'PRISMATIC', 'GEODE HEART', 'CRYSTAL CHOIR'],
-    back(g, W, H, t, e) { ring *= 0.92; sky(g, W, H, '#0a0f1f', '#020308');
+    back(g, W, H, t, e, c, dt) { ring *= Math.pow(0.92, (dt || 1 / 60) * 60); sky(g, W, H, '#0a0f1f', '#020308');
       for (let i = 0; i < 16; i++) { const [u, v, p, s] = S[i], x = u * W, base = i % 2 ? 0 : H, h = H * (0.12 + s * 0.2), w = 14 + p * 22, up = base ? -1 : 1, hue = 190 + p * 100;
         g.fillStyle = `hsla(${hue},70%,${18 + ring * 30 + e * 10}%,.9)`; g.beginPath(); g.moveTo(x - w, base); g.lineTo(x + w * 0.2 * (v - 0.5), base + up * h); g.lineTo(x + w, base); g.fill();
         add(g, () => glow(g, x, base + up * h * 0.6, w * 2.5, `hsla(${hue},90%,70%,${0.08 + ring * 0.25})`)); }
@@ -22,7 +22,7 @@ export default {
     front(g, W, H, t, e, c, dt) { if (scan >= 0) { scan += dt * 1.4; if (scan > 1.2) scan = -1; else add(g, () => { const y = scan * H; const gr = g.createLinearGradient(0, y - 60, 0, y + 6); gr.addColorStop(0, 'rgba(86,240,255,0)'); gr.addColorStop(1, 'rgba(86,240,255,.5)'); g.fillStyle = gr; g.fillRect(0, y - 60, W, 66); }); } vignette(g, W, H, 0.4); },
     milestone() { scan = 0; } },
   click_walnut: { name: 'Walnut', hue: '#ffbf73', confetti: ['#f3e3c3', '#e0c79a', '#ffbf73'], titles: ['CRAFTSMAN', 'TYPEWRITER', 'FINE GRAIN', 'MASTER KEYS'],
-    back(g, W, H, t, e) { lamp *= 0.97; sky(g, W, H, '#1c120b', '#070403');
+    back(g, W, H, t, e, c, dt) { lamp *= Math.pow(0.97, (dt || 1 / 60) * 60); sky(g, W, H, '#1c120b', '#070403');
       g.fillStyle = 'rgba(70,42,22,.6)'; for (let i = 0; i < 18; i++) g.fillRect(0, H * 0.78 + i * 6, W, 1 + (i % 3)); // desk grain
       add(g, () => { rays(g, W * 0.82, -20, W, H, t, 'rgba(255,200,120,A)', 0.6 + lamp, 5); glow(g, W * 0.6, H * 0.5, W * (0.7 + lamp * 0.3), `rgba(255,170,90,${0.12 + lamp * 0.2 + e * 0.06})`); });
       motes(g, W, H, t, { count: 45, col: '255,220,170', vy: -4, size: 1.3, sway: 14 }); },

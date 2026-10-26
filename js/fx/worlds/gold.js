@@ -15,7 +15,7 @@ export function onTear() { for (const h of held) take(h); held = []; }
 function nug(g, x, y, r, a = 1) { g.globalAlpha *= a; const gr = g.createRadialGradient(x - r * 0.4, y - r * 0.4, 0, x, y, r * 1.2); gr.addColorStop(0, '#fff6c8'); gr.addColorStop(0.4, '#ffc93c'); gr.addColorStop(1, '#8a5a0e'); g.fillStyle = gr;
   g.beginPath(); for (let i = 0; i < 7; i++) { const t = i / 7 * 6.283, rr = r * (0.8 + 0.25 * Math.sin(i * 2.3)); g.lineTo(x + Math.cos(t) * rr, y + Math.sin(t) * rr * 0.85); } g.closePath(); g.fill(); g.globalAlpha /= a; }
 export function draw(g, W, H, t, dt, calm) {
-  const cx = W - 58, cy = 74; pulse *= 0.9;
+  const cx = W - 58, cy = 74; pulse *= Math.pow(0.9, (dt || 1 / 60) * 60);
   held = held.filter(h => { const L = h.L; if (!L.held && L.z < 0.3) return false; if (L.z > 0.75) { take(h); return false; } add(g, () => glow(g, L.x, L.y - L.z * 12, 20, 'rgba(255,210,80,.7)')); nug(g, L.x + Math.cos(h.seed) * 5, L.y - L.z * 12 - 4, h.r); return true; });
   fly = fly.filter(f => { f.t += dt; if (f.t < 0) return true; const k = Math.min(1, f.t / 0.7), e = k * k * (3 - 2 * k), x = f.x + (cx - f.x) * e, y = f.y + (cy - f.y) * e - Math.sin(k * Math.PI) * 80;
     nug(g, x, y, f.r * (1 - 0.4 * k)); if (k >= 1) { stash++; save(); pulse = 1; snd((s, t, kk) => s.tone(t, 2093, 2093, 0.25, 0.05 * kk, 'sine')); return false; } return true; });

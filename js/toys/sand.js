@@ -5,7 +5,7 @@
 import { sfx, buzz, buzzPattern, opts } from '../feel.js?v=5';
 import { makeGrid, mold, relax, slice, press, smear, take, blob, at, SHAPES } from './sandgrid.js?v=3';
 import { makeRenderer, COLORS } from './sandrender.js?v=2';
-import { makeGoo } from './sandgoo.js?v=1';
+import { makeGoo } from './sandgoo.js?v=2';
 import { rr, DPR } from '../render.js?v=1';
 import { emit } from '../bus.js';
 import { look } from '../look.js';

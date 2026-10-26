@@ -1,13 +1,13 @@
 import './safestore.js?v=1';
 import { opts, unlock, setVol } from './feel.js?v=5';
 import { initCrave } from './crave.js?v=3';
-import * as fx from './fx/manager.js?v=8';
+import * as fx from './fx/manager.js?v=9';
 import { THEMES } from './fx/premium.js';
 import * as ent from './store/ent.js?v=9';
 import * as bill from './store/billing.js?v=5';
 import * as stats from './lb/stats.js';
-import * as shop from './ui/shop.js?v=12';
-import * as gift from './ui/sharegift.js?v=3';
+import * as shop from './ui/shop.js?v=13';
+import * as gift from './ui/sharegift.js?v=4';
 import * as redeem from './store/redeem.js?v=3';
 import * as board from './ui/board.js?v=4';
 import * as record from './lb/record.js?v=2';
@@ -21,7 +21,7 @@ let W = 0, H = 0, DPR = 1, toy = null, toyName = '', bg = null;
 const cache = {};
 const loaders = {
   pop: () => import('./toys/pop.js?v=3'), spin: () => import('./toys/spin.js?v=4'),
-  click: () => import('./toys/click.js?v=4'), sand: () => import('./toys/sand.js?v=4'),
+  click: () => import('./toys/click.js?v=4'), sand: () => import('./toys/sand.js?v=5'),
 };
 
 function paintBg() {

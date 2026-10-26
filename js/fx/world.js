@@ -5,10 +5,10 @@
 import { snd, hap, calm } from './skins/kit.js?v=5';
 import { burst, rnd, all as pAll } from './particles.js?v=5';
 import { now } from './worlds/env.js?v=1';
-import POP from './worlds/pop.js?v=1';
+import POP from './worlds/pop.js?v=2';
 import SPIN from './worlds/spin.js?v=1';
-import CLICK from './worlds/click.js?v=1';
-import SAND from './worlds/sand.js?v=1';
+import CLICK from './worlds/click.js?v=2';
+import SAND from './worlds/sand.js?v=2';
 import PREM from './worlds/premium.js?v=1';
 export const WORLDS = { ...POP, ...SPIN, ...CLICK, ...SAND, ...PREM };
 const STEPS = [12, 30, 60, 100, 160, 250, 400];

@@ -18,7 +18,7 @@ export function makeGoo() {
         if (L.z <= 0) { lumps.splice(i, 1); onSplat(L); }
       }
       for (let i = crumbs.length - 1; i >= 0; i--) {
-        const c = crumbs[i]; c.x += c.vx * dt; c.y += c.vy * dt; c.vx *= 0.93; c.vy *= 0.93; c.vz -= 6 * dt; c.z += c.vz * dt;
+        const c = crumbs[i]; c.x += c.vx * dt; c.y += c.vy * dt; const f = Math.pow(0.93, dt * 60); c.vx *= f; c.vy *= f; c.vz -= 6 * dt; c.z += c.vz * dt;
         if (c.z <= 0) { c.z = 0; if (Math.hypot(c.vx, c.vy) < 25) { crumbs.splice(i, 1); onCrumb(c); } }
       }
       for (let i = strands.length - 1; i >= 0; i--) { const s = strands[i]; s.t += dt; if (s.t > s.life) strands.splice(i, 1); }

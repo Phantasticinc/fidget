@@ -3,7 +3,7 @@
 import { sky, glow, add, motes, bands, rays, vignette, stars, S } from './env.js?v=1';
 import { burst, rnd } from '../particles.js?v=5';
 import * as BH from './blackhole.js?v=1';
-import * as AU from './gold.js?v=1';
+import * as AU from './gold.js?v=2';
 let tide = 0, tears = 0;
 export default {
   sand_galaxy: { name: 'Galaxy Sand', hue: '#9d7bff', confetti: ['#b49bff', '#ff8fe0', '#8fdcff', '#ffffff'], titles: ['EVENT HORIZON', 'SUPERNOVA', 'SINGULARITY', 'COSMIC DUST'],
@@ -13,7 +13,7 @@ export default {
     on: { tear() { if (++tears % 3 === 0 && !BH.hole()) BH.open(innerWidth / 2, innerHeight * 0.2, 5, 0.8); }, mold() { if (!BH.hole()) BH.open(innerWidth / 2, innerHeight * 0.2, 3.5, 0.6); } },
     milestone(lv, c) { BH.open(c.W / 2, c.H * 0.2, 7, 1 + Math.min(1, lv * 0.15)); } },
   sand_glowtide: { name: 'Glow Tide', hue: '#5fffe0', confetti: ['#5fffe0', '#9ffff0', '#ffffff'], titles: ['HIGH TIDE', 'MOONRISE', 'PLANKTON BLOOM', 'NIGHT SURF'],
-    back(g, W, H, t, e) { tide *= 0.985; sky(g, W, H, '#03101c', '#010507'); stars(g, W, H * 0.5, t, 90, '220,240,255', 1); glow(g, W * 0.78, H * 0.12, 90, 'rgba(230,245,255,.35)'); g.fillStyle = '#eaf6ff'; g.beginPath(); g.arc(W * 0.78, H * 0.12, 18, 0, 7); g.fill();
+    back(g, W, H, t, e, c, dt) { tide *= Math.pow(0.985, (dt || 1 / 60) * 60); sky(g, W, H, '#03101c', '#010507'); stars(g, W, H * 0.5, t, 90, '220,240,255', 1); glow(g, W * 0.78, H * 0.12, 90, 'rgba(230,245,255,.35)'); g.fillStyle = '#eaf6ff'; g.beginPath(); g.arc(W * 0.78, H * 0.12, 18, 0, 7); g.fill();
       for (let b = 0; b < 4; b++) { const y = H * (0.8 + b * 0.05) - tide * 50; g.fillStyle = `rgba(6,${30 + b * 10},${45 + b * 8},.9)`; g.beginPath(); g.moveTo(0, H); for (let x = 0; x <= W; x += 14) g.lineTo(x, y + Math.sin(x / 60 + t * (1 + b * 0.3) + b) * 6); g.lineTo(W, H); g.fill();
         add(g, () => { g.strokeStyle = `rgba(90,255,225,${0.25 + e * 0.4 + tide * 0.5})`; g.lineWidth = 2; g.beginPath(); for (let x = 0; x <= W; x += 14) g.lineTo(x, y + Math.sin(x / 60 + t * (1 + b * 0.3) + b) * 6); g.stroke(); }); }
       motes(g, W, H * 0.8, t, { count: 30, col: '120,255,200', vy: -6, size: 1.6, sway: 30 }); },
