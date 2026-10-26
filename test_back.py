@@ -29,3 +29,12 @@ async def esc():
     await pg.keyboard.press('Escape'); await pg.wait_for_timeout(300)
     print('ESC FAILS',[x for x,c in [('role',r!='dialog'),('esc',not await pg.evaluate("document.getElementById('shop').hidden"))] if c]); await b.close()
 asyncio.run(esc())
+async def focus():
+  async with async_playwright() as p:
+    b=await p.chromium.launch(); pg=await b.new_page(viewport={'width':412,'height':915}); await pg.goto(U); await pg.wait_for_timeout(1000)
+    await pg.focus('#shopBtn'); await pg.keyboard.press('Enter'); await pg.wait_for_timeout(300)
+    a=await pg.evaluate("document.getElementById('shop').contains(document.activeElement)")
+    await pg.keyboard.press('Escape'); await pg.wait_for_timeout(300)
+    r=await pg.evaluate("document.activeElement.id")
+    print('FOCUS FAILS',[x for x,c in [('not moved in',not a),('not restored '+r,r!='shopBtn')] if c]); await b.close()
+asyncio.run(focus())
