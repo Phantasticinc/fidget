@@ -24,7 +24,7 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 .link{pointer-events:auto;color:var(--dim);font-size:12px;margin-top:-4px;padding:6px 18px 2px;text-decoration:underline}
 .sheet{position:absolute;inset:0;z-index:5;background:rgba(0,0,0,.5);display:flex;align-items:flex-end}
 .sheet[hidden]{display:none}
-.sh-card{width:100%;background:#17181b;border-radius:22px 22px 0 0;padding:22px 20px calc(env(safe-area-inset-bottom) + 20px)}
+.sh-card{width:100%;max-width:600px;margin:0 auto;background:#17181b;border-radius:22px 22px 0 0;padding:22px 20px calc(env(safe-area-inset-bottom) + 20px)}
 .sh-card h2{margin:0 0 10px;font-size:18px}
 .row{display:flex;justify-content:space-between;align-items:center;padding:13px 0;border-bottom:1px solid rgba(255,255,255,.06)}
 .row small{display:block;color:var(--dim);font-size:12px}
@@ -37,7 +37,7 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 #cbChips .chip{padding:6px 10px;border-radius:999px;background:rgba(255,255,255,.07);border:1px solid transparent;font-size:12px}
 .chip.on{border-color:var(--acc);color:#fff}
 body:not(.premium) .prem-only{display:none}
-.sh-card.tall{max-height:86vh;overflow:auto;padding-top:16px}
+.sh-card.tall{max-height:86vh;overflow:auto;overscroll-behavior:contain;padding-top:16px}
 .sh-head{display:flex;justify-content:space-between;align-items:center;position:sticky;top:-16px;background:#17181b;padding:6px 0;z-index:1}
 .x{font-size:18px;padding:6px 10px;opacity:.7}
 .note{font-size:12px;color:var(--dim);margin:6px 0 12px}

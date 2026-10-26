@@ -1,5 +1,5 @@
-const V = 'fidget-v50';
-const ASSETS = ['./', 'index.html', 'styles.css?v=12', 'manifest.json', 'privacy.html', 'js/safestore.js?v=1', 'js/main.js?v=29', 'js/feel.js?v=6', 'js/crave.js?v=4', 'js/render.js?v=1',
+const V = 'fidget-v51';
+const ASSETS = ['./', 'index.html', 'styles.css?v=13', 'manifest.json', 'privacy.html', 'js/safestore.js?v=1', 'js/main.js?v=29', 'js/feel.js?v=6', 'js/crave.js?v=4', 'js/render.js?v=1',
   'js/toys/pop.js?v=4', 'js/toys/spin.js?v=5', 'js/toys/click.js?v=5', 'js/toys/sand.js?v=6', 'js/toys/sandgrid.js?v=3', 'js/toys/sandrender.js?v=2', 'js/toys/sandgoo.js?v=2',
   'js/bus.js', 'js/look.js', 'js/fx/particles.js?v=5', 'js/fx/premium.js', 'js/fx/manager.js?v=10', 'js/fx/skins/kit.js?v=6', 'js/fx/skins/pop.js', 'js/fx/skins/spin.js', 'js/fx/skins/click.js', 'js/fx/skins/sand.js', 'js/fx/skins/sig.js?v=6', 'js/fx/world.js?v=3', 'js/fx/worlds/env.js?v=1', 'js/fx/worlds/pop.js?v=3', 'js/fx/worlds/spin.js?v=2', 'js/fx/worlds/click.js?v=2', 'js/fx/worlds/sand.js?v=3', 'js/fx/worlds/premium.js?v=1', 'js/fx/worlds/blackhole.js?v=2', 'js/fx/worlds/gold.js?v=3',
   'js/store/catalog.js', 'js/store/ent.js?v=9', 'js/store/billing.js?v=5', 'js/lb/stats.js', 'js/lb/nick.js', 'js/lb/config.js', 'js/lb/adapter.js?v=3', 'js/lb/rules.js', 'js/ui/shop.js?v=15', 'js/store/redeem.js?v=3', 'js/ui/board.js?v=4', 'js/ui/celebrate.js?v=5', 'js/lb/msg.js', 'js/lb/record.js?v=2', 'js/ui/sharegift.js?v=6', 'js/ui/back.js?v=5',
