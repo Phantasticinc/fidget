@@ -89,3 +89,4 @@ body:not(.premium) .prem-only{display:none}
 /* touch targets (>=40-44px) */
 .x{min-width:44px;min-height:44px}.buy,.chip{min-height:40px}.row input[type=range]{height:32px}a[href="privacy.html"]{padding:12px 4px;margin:0 -4px}.tabs button{min-height:40px}
 @media (max-width:340px){.dock button{padding:11px 11px;font-size:13px}}
+html,body{overscroll-behavior:none}body{-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}input,textarea{-webkit-user-select:text;user-select:text}
