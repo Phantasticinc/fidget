@@ -24,7 +24,12 @@ function btn(item) {
 async function purchase(id) {
   if (!bill.available()) { toast('Purchases are available in the Fidget Android app on Google Play'); return; }
   try { await bill.buy(id); toast('Thanks! Unlocked ' + byId(id).title); const p = byId(id); if (p.toy) equip(p.toy, id); render(); }
-  catch (e) { if (e && e.name !== 'AbortError') toast('Purchase not completed'); }
+  catch (e) {
+    // e.g. Play says 'item already owned' (bought on another device / promo code): re-sync before reporting failure.
+    try { await bill.restore(); } catch (_) {}
+    if (ent.has(id)) { toast('Already yours — unlocked ' + byId(id).title); render(); return; }
+    if (e && e.name !== 'AbortError') toast('Purchase not completed');
+  }
 }
 function render() {
   previews = []; const B = $('shopBody'); B.innerHTML = '';

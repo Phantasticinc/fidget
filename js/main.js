@@ -5,7 +5,7 @@ import { THEMES } from './fx/premium.js';
 import * as ent from './store/ent.js?v=8';
 import * as bill from './store/billing.js?v=5';
 import * as stats from './lb/stats.js';
-import * as shop from './ui/shop.js?v=9';
+import * as shop from './ui/shop.js?v=10';
 import * as gift from './ui/sharegift.js?v=2';
 import * as redeem from './store/redeem.js?v=3';
 import * as board from './ui/board.js?v=3';
