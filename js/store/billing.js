@@ -2,7 +2,7 @@
 // On the open web this is unavailable -> UI shows "available in the Android app".
 import { CATALOG } from './catalog.js';
 import { set, grant, markPlayApp } from './ent.js?v=9';
-import { ACK_URL } from './ackconfig.js?v=1';
+import { ACK_URL } from './ackconfig.js?v=2';
 const PLAY = 'https://play.google.com/billing';
 let svc = null, details = {};
 export const available = () => !!svc;

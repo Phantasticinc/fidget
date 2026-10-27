@@ -18,11 +18,12 @@ async def main():
     if 'New record' not in t or 'status' not in t: fails.append('no toast')
     await pg.evaluate("__fidget.record.fake('rpm',300,200)"); await pg.wait_for_timeout(400)
     if await pg.evaluate("document.getElementById('celeb').hidden"): fails.append('other metric not full-screen')
-    # ack: inert when unconfigured, posts sku+token when configured, caches success
+    # ack: failure (502) is not cached, posts sku+token when configured, caches success
     calls = []
     async def h(r): calls.append(r.request.post_data); await r.fulfill(content_type='application/json', body=json.dumps({'ok': True}), headers={'Access-Control-Allow-Origin': '*'})
     await pg.route('https://ack.example/**', h)
-    res = await pg.evaluate("""(async()=>{const m=await import('./js/store/billing.js?v=6');
+    await pg.route('https://jrfswgwaknoelalyvxav.supabase.co/**', lambda r: r.fulfill(status=502, content_type='application/json', body='{"error":"verify failed"}', headers={'Access-Control-Allow-Origin': '*'}))
+    res = await pg.evaluate("""(async()=>{const m=await import('./js/store/billing.js?v=7');
       const a=await m.ack('premium_unlock','tok_1234567890');
       const b=await m.ack('premium_unlock','tok_1234567890','https://ack.example/play-ack');
       const c=await m.ack('premium_unlock','tok_1234567890','https://ack.example/play-ack');
