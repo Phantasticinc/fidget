@@ -1,18 +1,20 @@
 import './safestore.js?v=1';
 import { opts, unlock, setVol } from './feel.js?v=6';
-import { initCrave } from './crave.js?v=4';
-import * as fx from './fx/manager.js?v=10';
+import { initCrave } from './crave.js?v=5';
+import * as fx from './fx/manager.js?v=11';
 import { THEMES } from './fx/premium.js';
 import * as ent from './store/ent.js?v=9';
 import * as bill from './store/billing.js?v=7';
 import * as stats from './lb/stats.js';
-import * as shop from './ui/shop.js?v=20';
-import * as gift from './ui/sharegift.js?v=9';
+import * as shop from './ui/shop.js?v=21';
+import * as gift from './ui/sharegift.js?v=10';
 import * as redeem from './store/redeem.js?v=5';
 import * as board from './ui/board.js?v=4';
 import * as record from './lb/record.js?v=2';
 import * as celeb from './ui/celebrate.js?v=6';
 import * as back from './ui/back.js?v=5';
+import * as upsell from './ui/upsell.js?v=2';
+import * as review from './ui/review.js?v=1';
 
 const cv = document.getElementById('stage');
 const g = cv.getContext('2d', { alpha: false, desynchronized: true });
@@ -22,6 +24,8 @@ const cache = {};
 const loaders = {
   pop: () => import('./toys/pop.js?v=4'), spin: () => import('./toys/spin.js?v=5'),
   click: () => import('./toys/click.js?v=5'), sand: () => import('./toys/sand.js?v=6'),
+  popit: () => import('./toys/popit.js?v=1'), slime: () => import('./toys/slime.js?v=1'), squish: () => import('./toys/squish.js?v=1'),
+  cube: () => import('./toys/cube.js?v=1'), switch: () => import('./toys/switch.js?v=1'),
 };
 
 function paintBg() {
@@ -66,7 +70,8 @@ async function select(name) {
     }
   }
   if (toyName !== name) return;
-  toy = cache[name]; fx.setToy(name); toy.resize(W, H); toy.enter && toy.enter(); localStorage.setItem('fidget.toy', name);
+  toy = cache[name]; cv.setAttribute('aria-label', (toy.label || 'Fidget toy') + ' — touch and drag to play'); upsell.show(name); { const b = document.querySelector(`#dock [data-toy="${name}"]`); b && b.scrollIntoView && b.scrollIntoView({ block: 'nearest', inline: 'center', behavior: 'smooth' }); }
+  fx.setToy(name); toy.resize(W, H); toy.enter && toy.enter(); localStorage.setItem('fidget.toy', name);
 }
 document.getElementById('dock').addEventListener('click', e => { const b = e.target.closest('button'); if (b) { unlock(); select(b.dataset.toy); } });
 
@@ -126,7 +131,7 @@ $('setBtn').onclick = () => $('sheet').hidden = false;
 $('sheetClose').onclick = () => $('sheet').hidden = true;
 $('sheet').onclick = e => { if (e.target.id === 'sheet') $('sheet').hidden = true; };
 
-initCrave();
+initCrave(); review.init();
 resize();
 const q = new URLSearchParams(location.search).get('toy');
 select(loaders[q] ? q : (loaders[localStorage.getItem('fidget.toy')] ? localStorage.getItem('fidget.toy') : 'pop'));

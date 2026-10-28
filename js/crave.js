@@ -8,7 +8,7 @@ export function initCrave() {
   const IDLE = 'Ride it out · 3:00', IDLE_AL = btn.getAttribute('aria-label') || IDLE;
   const label = (t, al) => { btn.textContent = t; btn.setAttribute('aria-label', al || t); };
   function stop(done) {
-    clearInterval(timer); box.hidden = true; hud.style.visibility = ''; if (done) label('You rode it out ✓'); else label(IDLE, IDLE_AL);
+    clearInterval(timer); box.hidden = true; dispatchEvent(new CustomEvent('fidget:crave', { detail: { done } })); hud.style.visibility = ''; if (done) label('You rode it out ✓'); else label(IDLE, IDLE_AL);
     if (done) { sfx.chime(523); setTimeout(() => sfx.chime(784), 400); buzzPattern([30, 80, 30]); setTimeout(() => { if (box.hidden) label(IDLE, IDLE_AL); }, 6000); }
   }
   function tick() {

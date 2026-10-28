@@ -1,4 +1,5 @@
 // Single source of truth for in-app products. Must match the Play Console "One-time products" exactly.
+import { CATALOG_V2, V2_PRODUCTS } from './catalog2.js?v=1';
 export const PREMIUM = 'premium_unlock';
 export const CATALOG = [
   { id: PREMIUM, price: '$2.99', title: 'Fidget Premium', desc: 'Special effects on every toy (confetti, glow trails, RGB light, glitter), screen shake, rainbow sand and premium themes.' },
@@ -15,4 +16,5 @@ export const CATALOG = [
   { id: 'sand_glowtide', toy: 'sand', price: '$0.99', title: 'Sand: Glow Tide', desc: 'Bioluminescent sand whose cuts glow and fade like a night tide.' },
   { id: 'sand_goldrush', toy: 'sand', price: '$0.99', title: 'Sand: Gold Rush', desc: 'Glittering gold sand with sparkle, gold-flake crumbles and star molds.' },
 ];
+if (V2_PRODUCTS) CATALOG.push(...CATALOG_V2);
 export const byId = id => CATALOG.find(p => p.id === id);
