@@ -1,0 +1,7 @@
+product_id,price_usd,title,description,status
+upgrade_popit,0.99,Pop It: Neon Rave,"Hue-shifting neon silicone with glowing domes, light rings and a confetti flip.",code-ready (hidden behind V2_PRODUCTS flag)
+upgrade_slime,0.99,Slime: Holo Glitter,Iridescent colour-shifting slime packed with twinkling glitter and sparkle trails.,code-ready (hidden behind V2_PRODUCTS flag)
+upgrade_squish,0.99,Squish: Galaxy Gel,A translucent gel ball with glowing beads that swirl away from your fingers.,code-ready (hidden behind V2_PRODUCTS flag)
+upgrade_cube,0.99,Cube: RGB,A colour-cycling cube with an RGB edge glow and spark bursts on every click.,code-ready (hidden behind V2_PRODUCTS flag)
+upgrade_switch,0.99,Switch: Party Lights,"Colour-changing lamps, light rings and a confetti finale when every switch is on.",code-ready (hidden behind V2_PRODUCTS flag)
+supporter_bundle,4.99,Fidget Supporter,"Everything in Premium plus every toy upgrade, and a thank-you badge. Supports an ad-free app.",IDEA ONLY - not coded; needs ent.js to treat it as premium + all upgrades before creating in Play
