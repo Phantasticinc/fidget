@@ -1,8 +1,8 @@
 {
   "packageId": "com.phantasticvanguard.fidget",
   "host": "phantasticinc.github.io",
-  "name": "Fidget",
-  "launcherName": "Fidget",
+  "name": "Fidget Toys: Antistress & Calm",
+  "launcherName": "Fidget Toys",
   "display": "standalone",
   "orientation": "portrait",
   "themeColor": "#0E0F11",
