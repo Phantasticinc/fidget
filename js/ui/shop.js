@@ -1,6 +1,6 @@
 // Shop sheet: Premium card + per-toy upgrades with live animated previews. Honest pricing, no timers, no randomised rewards.
 import { CATALOG, PREMIUM, byId } from '../store/catalog.js';
-import { CATALOG_V2, V2_PRODUCTS } from '../store/catalog2.js?v=2';
+import { CATALOG_V2, V2_PRODUCTS } from '../store/catalog2.js?v=3';
 import { hasLook, lookId, setLook, preview as tryLook } from '../toys/kit2.js?v=3';
 import CUBE from '../fx/skins/cube.js?v=1';
 import * as ent from '../store/ent.js?v=9';

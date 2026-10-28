@@ -1,5 +1,5 @@
 // Single source of truth for in-app products. Must match the Play Console "One-time products" exactly.
-import { CATALOG_V2, V2_PRODUCTS } from './catalog2.js?v=2';
+import { CATALOG_V2, V2_PRODUCTS } from './catalog2.js?v=3';
 export const PREMIUM = 'premium_unlock';
 export const CATALOG = [
   { id: PREMIUM, price: '$2.99', title: 'Fidget Premium', desc: 'Special effects on every toy (confetti, glow trails, RGB light, glitter), screen shake, premium themes and Premium looks for the fidget cube.' },
