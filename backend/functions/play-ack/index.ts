@@ -6,7 +6,8 @@
 // Secret: supabase secrets set PLAY_SA_JSON="$(cat service-account.json)"
 const PKG = 'com.phantasticvanguard.fidget';
 const SKUS = new Set(['premium_unlock', 'pop_pack_liquidmetal', 'pop_pack_neonjelly', 'pop_pack_lava', 'spin_plasma', 'spin_obsidian', 'spin_aurora',
-  'click_crystal', 'click_holo', 'click_walnut', 'sand_galaxy', 'sand_glowtide', 'sand_goldrush']);
+  'click_crystal', 'click_holo', 'click_walnut', 'sand_galaxy', 'sand_glowtide', 'sand_goldrush',
+  'upgrade_cube', 'cube_brass', 'cube_frost']);
 const CORS = { 'Access-Control-Allow-Origin': '*', 'Access-Control-Allow-Methods': 'POST, OPTIONS', 'Access-Control-Allow-Headers': 'content-type' };
 const b64u = (b: ArrayBuffer | Uint8Array | string) => btoa(typeof b === 'string' ? b : String.fromCharCode(...new Uint8Array(b as ArrayBuffer)))
   .replace(/=+$/, '').replace(/\+/g, '-').replace(/\//g, '_');
