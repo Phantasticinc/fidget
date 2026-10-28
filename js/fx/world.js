@@ -8,9 +8,8 @@ import { now } from './worlds/env.js?v=1';
 import POP from './worlds/pop.js?v=3';
 import SPIN from './worlds/spin.js?v=2';
 import CLICK from './worlds/click.js?v=2';
-import SAND from './worlds/sand.js?v=3';
-import PREM from './worlds/premium.js?v=1';
-export const WORLDS = { ...POP, ...SPIN, ...CLICK, ...SAND, ...PREM };
+import PREM from './worlds/premium.js?v=2';
+export const WORLDS = { ...POP, ...SPIN, ...CLICK, ...PREM };
 const STEPS = [12, 30, 60, 100, 160, 250, 400];
 const ACTION = { pop: 1, key: 1, mold: 2, tear: 2, ball: 3, splat: 1, grab: 1, press: 0.5, sheet: 3 };
 let id = null, W = 0, H = 0, energy = 0, count = 0, next = 0, ban = null, flash = null, revs = 0;
@@ -22,8 +21,8 @@ export const active = () => id && WORLDS[id] || null;
 export function event(e, d) {
   const w = active(); if (!w) return;
   if (e === 'spinDraw') { revs += Math.abs(d.w) / 6.283 / 60; if (revs >= 10) { revs -= 10; bump(1); } } // ~1 action per 10 turns
-  else if (ACTION[e]) bump(ACTION[e]); else if (e === 'cut' && Math.random() < 0.08) bump(1);
-  energy = Math.min(1, energy + (e === 'spinDraw' ? Math.min(0.02, Math.abs(d.w) / 6000) : e === 'cut' ? 0.01 : 0.08));
+  else if (ACTION[e]) bump(ACTION[e]);
+  energy = Math.min(1, energy + (e === 'spinDraw' ? Math.min(0.02, Math.abs(d.w) / 6000) : 0.08));
   w.on && w.on[e] && w.on[e](d, ctx);
 }
 function bump(k) { count += k; const goal = next < STEPS.length ? STEPS[next] : STEPS[STEPS.length - 1] + (next - STEPS.length + 1) * 200; if (count >= goal) { next++; milestone(next); } }

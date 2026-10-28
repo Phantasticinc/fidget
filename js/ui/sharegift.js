@@ -2,11 +2,11 @@
 // then revealed. Shares can't be verified (the OS share sheet doesn't say what happened) — this is a thank-you, not a contract.
 import * as ent from '../store/ent.js?v=9';
 import { byId } from '../store/catalog.js';
-import { SKINS, equip } from '../fx/manager.js?v=11';
+import { SKINS, equip } from '../fx/manager.js?v=12';
 import * as celeb from './celebrate.js?v=6';
 const $ = id => document.getElementById(id);
 const LINK = 'https://phantasticinc.github.io/fidget/';
-const TEXT = 'Fidget — pop, spin, click and squish sand to calm down. Free:';
+const TEXT = 'Fidget — pop, spin, click and fidget to calm down. Free:';
 let select = () => {}, refresh = () => {}, raf = 0, prev = [];
 function toast(t) { const d = document.createElement('div'); d.className = 'toast'; d.setAttribute('role', 'status'); d.textContent = t; $('app').appendChild(d); setTimeout(() => d.remove(), 2600); }
 export const canShare = () => !!navigator.share;
@@ -55,7 +55,7 @@ export function openPicker() {
   if (ent.gifted()) return;
   const d = sheet(), L = $('giftList'); L.innerHTML = ''; prev = []; d.hidden = false;
   const items = [];
-  for (const toy of ['pop', 'spin', 'click', 'sand']) for (const s of SKINS[toy]) if (!s.premium && !ent.has(s.id)) items.push([toy, s]);
+  for (const toy of ['pop', 'spin', 'click']) for (const s of SKINS[toy]) if (!s.premium && !ent.has(s.id)) items.push([toy, s]);
   if (!items.length) { L.innerHTML = '<p class="note">You already own every upgrade — thank you!</p>'; return; }
   for (const [toy, s] of items) {
     const it = document.createElement('div'); it.className = 'item'; it.dataset.id = s.id;

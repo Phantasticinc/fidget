@@ -1,19 +1,19 @@
 import './safestore.js?v=1';
 import { opts, unlock, setVol } from './feel.js?v=6';
 import { initCrave } from './crave.js?v=5';
-import * as fx from './fx/manager.js?v=11';
+import * as fx from './fx/manager.js?v=12';
 import { THEMES } from './fx/premium.js';
 import * as ent from './store/ent.js?v=9';
 import * as bill from './store/billing.js?v=7';
 import * as stats from './lb/stats.js';
-import * as shop from './ui/shop.js?v=21';
-import * as gift from './ui/sharegift.js?v=10';
+import * as shop from './ui/shop.js?v=22';
+import * as gift from './ui/sharegift.js?v=11';
 import * as redeem from './store/redeem.js?v=5';
 import * as board from './ui/board.js?v=4';
-import * as record from './lb/record.js?v=2';
+import * as record from './lb/record.js?v=3';
 import * as celeb from './ui/celebrate.js?v=6';
 import * as back from './ui/back.js?v=5';
-import * as upsell from './ui/upsell.js?v=2';
+import * as upsell from './ui/upsell.js?v=3';
 import * as review from './ui/review.js?v=1';
 
 const cv = document.getElementById('stage');
@@ -23,9 +23,8 @@ let W = 0, H = 0, DPR = 1, toy = null, toyName = '', bg = null;
 const cache = {};
 const loaders = {
   pop: () => import('./toys/pop.js?v=4'), spin: () => import('./toys/spin.js?v=5'),
-  click: () => import('./toys/click.js?v=5'), sand: () => import('./toys/sand.js?v=6'),
-  popit: () => import('./toys/popit.js?v=1'), slime: () => import('./toys/slime.js?v=1'), squish: () => import('./toys/squish.js?v=1'),
-  cube: () => import('./toys/cube.js?v=1'), switch: () => import('./toys/switch.js?v=1'),
+  click: () => import('./toys/click.js?v=6'),
+  cube: () => import('./toys/cube.js?v=3'),
 };
 
 function paintBg() {

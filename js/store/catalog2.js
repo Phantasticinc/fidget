@@ -1,11 +1,9 @@
-// v2 toy upgrades. HIDDEN until the matching one-time products exist in Play Console (see play-upload/products-v2.csv).
+// Cube looks. HIDDEN until the matching one-time products exist in Play Console (see play-upload/products-v2.csv).
 // To launch: create the products in Play with these exact IDs, then set V2_PRODUCTS = true (catalog.js merges them, the shop lists them).
-// Premium already includes every one of these looks; an upgrade unlocks the rich look on just that toy.
+// Premium already includes every one of these looks; each look is its own product. Owners of a retired Sand pack get the matching cube look free (kit2.js LEGACY).
 export const V2_PRODUCTS = false;
 export const CATALOG_V2 = [
-  { id: 'upgrade_popit', toy: 'popit', price: '$0.99', title: 'Pop It: Neon Rave', desc: 'Hue-shifting neon silicone with glowing domes, light rings and a confetti flip.' },
-  { id: 'upgrade_slime', toy: 'slime', price: '$0.99', title: 'Slime: Holo Glitter', desc: 'Iridescent colour-shifting slime packed with twinkling glitter and sparkle trails.' },
-  { id: 'upgrade_squish', toy: 'squish', price: '$0.99', title: 'Squish: Galaxy Gel', desc: 'A translucent gel ball with glowing beads that swirl away from your fingers.' },
-  { id: 'upgrade_cube', toy: 'cube', price: '$0.99', title: 'Cube: RGB', desc: 'A colour-cycling cube with an RGB edge glow and spark bursts on every click.' },
-  { id: 'upgrade_switch', toy: 'switch', price: '$0.99', title: 'Switch: Party Lights', desc: 'Colour-changing lamps, light rings and a confetti finale when every switch is on.' },
+  { id: 'upgrade_cube', toy: 'cube', price: '$0.99', title: 'Cube: RGB', desc: 'A colour-cycling cube with a neon edge glow, synth blips and spark bursts on every press.' },
+  { id: 'cube_brass', toy: 'cube', price: '$0.99', title: 'Cube: Steampunk Brass', desc: 'Polished brass panels and rivets, enamel buttons, a bell-like ting, gold flakes and steam puffs.' },
+  { id: 'cube_frost', toy: 'cube', price: '$0.99', title: 'Cube: Frost', desc: 'A see-through ice cube with frosted panels, glassy chimes, ice shards and drifting snowflakes.' },
 ];

@@ -3,15 +3,14 @@ import { on } from '../bus.js';
 import { look } from '../look.js';
 import * as P from './particles.js?v=5';
 import * as prem from './premium.js';
-import * as prem2 from './premium2.js?v=1';
+import * as prem2 from './premium2.js?v=2';
 import * as ent from '../store/ent.js?v=9';
 import POP from './skins/pop.js';
 import SPIN from './skins/spin.js';
 import CLICK from './skins/click.js';
-import SAND from './skins/sand.js';
-import { sign, ptr as P0 } from './skins/sig.js?v=6';
-import * as world from './world.js?v=3';
-export const SKINS = { pop: POP, spin: SPIN, click: CLICK, sand: [...SAND, prem.RAINBOW] };
+import { sign, ptr as P0 } from './skins/sig.js?v=7';
+import * as world from './world.js?v=4';
+export const SKINS = { pop: POP, spin: SPIN, click: CLICK };
 for (const t in SKINS) SKINS[t].forEach(sign); // signature layer: ambient frame fx, finger twists, reveal
 let cur = null, rv = null, W = 0, H = 0;
 export const setToy = t => { cur = t; };
@@ -29,7 +28,7 @@ export function equip(toy, id, persist = true) {
   if (persist && s) { rv = { s, t: 0 }; s.reveal && s.reveal(W / 2, H / 2, W, H); }
 }
 function revalidate() { for (const t in SKINS) equip(t, equipped[t], false); }
-const EVENTS = ['pop', 'sheet', 'spinDraw', 'key', 'clickDraw', 'cut', 'crumble', 'mold', 'sandDraw', 'press', 'grab', 'stretch', 'tear', 'splat', 'ball', 'popit', 'popitFlip', 'slime', 'slimePop', 'squish', 'cube', 'switch', 'switchAll'];
+const EVENTS = ['pop', 'sheet', 'spinDraw', 'key', 'clickDraw', 'cube'];
 export function init(onRelook) {
   relook = onRelook; revalidate(); ent.onChange(revalidate);
   for (const e of EVENTS) on(e, d => {

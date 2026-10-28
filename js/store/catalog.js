@@ -1,8 +1,8 @@
 // Single source of truth for in-app products. Must match the Play Console "One-time products" exactly.
-import { CATALOG_V2, V2_PRODUCTS } from './catalog2.js?v=1';
+import { CATALOG_V2, V2_PRODUCTS } from './catalog2.js?v=2';
 export const PREMIUM = 'premium_unlock';
 export const CATALOG = [
-  { id: PREMIUM, price: '$2.99', title: 'Fidget Premium', desc: 'Special effects on every toy (confetti, glow trails, RGB light, glitter), screen shake, rainbow sand and premium themes.' },
+  { id: PREMIUM, price: '$2.99', title: 'Fidget Premium', desc: 'Special effects on every toy (confetti, glow trails, RGB light, glitter), screen shake, premium themes and Premium looks for the fidget cube.' },
   { id: 'pop_pack_liquidmetal', toy: 'pop', price: '$0.99', title: 'Pop: Liquid Metal', desc: 'Mercury bubbles that burst into chrome droplets with a metallic ping.' },
   { id: 'pop_pack_neonjelly', toy: 'pop', price: '$0.99', title: 'Pop: Neon Jelly', desc: 'Glowing jelly bubbles with neon shock-rings and a springy boing.' },
   { id: 'pop_pack_lava', toy: 'pop', price: '$0.99', title: 'Pop: Lava', desc: 'Molten bubbles that spit embers and smoke with a sizzle.' },

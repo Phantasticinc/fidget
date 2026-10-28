@@ -4,7 +4,7 @@ from playwright.async_api import async_playwright
 from PIL import Image, ImageStat, ImageDraw
 URL = sys.argv[1] if len(sys.argv) > 1 else 'http://localhost:8766/fidget/'
 SK = [('pop', 'pop_pack_liquidmetal'), ('pop', 'pop_pack_neonjelly'), ('pop', 'pop_pack_lava'), ('spin', 'spin_plasma'), ('spin', 'spin_obsidian'), ('spin', 'spin_aurora'),
-      ('click', 'click_crystal'), ('click', 'click_holo'), ('click', 'click_walnut'), ('sand', 'sand_galaxy'), ('sand', 'sand_glowtide'), ('sand', 'sand_goldrush'), ('sand', 'premium_rainbow')]
+      ('click', 'click_crystal'), ('click', 'click_holo'), ('click', 'click_walnut')]
 OUT = 'preview/worlds/'
 async def act(pg, toy):
   T = "__fidget.toy"

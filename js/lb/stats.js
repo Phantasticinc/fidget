@@ -4,7 +4,7 @@ export const METRICS = [
   { id: 'streak', toy: 'pop', name: 'Pop streak', unit: 'bubbles', mode: 'max' },
   { id: 'rpm', toy: 'spin', name: 'Best RPM', unit: 'rpm', mode: 'max' },
   { id: 'keys', toy: 'click', name: 'Keys clicked', unit: 'keys', mode: 'sum' },
-  { id: 'cuts', toy: 'sand', name: 'Sand cuts', unit: 'cuts', mode: 'sum' },
+  { id: 'fidgets', toy: 'cube', name: 'Cube fidgets', unit: 'fidgets', mode: 'sum' },
 ];
 export function week(d = new Date()) { const t = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate())); const day = t.getUTCDay() || 7; t.setUTCDate(t.getUTCDate() + 4 - day); const y = t.getUTCFullYear(); return `${y}-W${String(Math.ceil(((t - Date.UTC(y, 0, 1)) / 864e5 + 1) / 7)).padStart(2, '0')}`; }
 const K = 'fidget.stats';
@@ -19,7 +19,7 @@ export function init() {
   // Compare against THIS WEEK's best (not all-time), otherwise the weekly RPM board never fills after a big all-time spin.
   on('rpm', r => { const v = Math.min(3000, Math.round(r)); if (v > (S.week.rpm || 0)) rec('rpm', v, 'max'); });
   on('key', () => rec('keys', 1, 'sum'));
-  on('cut', () => rec('cuts', 1, 'sum'));
+  on('cube', () => rec('fidgets', 1, 'sum'));
   setInterval(save, 5000); addEventListener('pagehide', save);
   document.addEventListener('visibilitychange', () => { if (document.hidden) save(); });  // Android may kill a backgrounded app without pagehide
 }

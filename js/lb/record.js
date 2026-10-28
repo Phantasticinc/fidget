@@ -1,8 +1,8 @@
 // Detects personal records and emits 'record' once a run settles (so a climbing streak/RPM celebrates once, at its peak).
-// max metrics (streak, rpm): beat your all-time best. sum metrics (keys, cuts): beat your best past week total (once per week).
+// max metrics (streak, rpm): beat your all-time best. sum metrics (keys, fidgets): beat your best past week total (once per week).
 import { on, emit } from '../bus.js';
 import { METRICS, get } from './stats.js';
-const MIN = { streak: 10, rpm: 120, keys: 200, cuts: 60 };   // ignore trivial first-run "records"
+const MIN = { streak: 10, rpm: 120, keys: 200, fidgets: 150 };   // ignore trivial first-run "records"
 const pend = {}; let base = null, dirty = false, baseWk = '';
 const bestWeek = (S, id) => Math.max(0, ...Object.values(S.hist || {}).map(w => w[id] || 0));
 function snapshot() { const S = get(); baseWk = S.wk; base = {}; for (const m of METRICS) base[m.id] = m.mode === 'max' ? (S.all[m.id] || 0) : bestWeek(S, m.id); }
@@ -27,7 +27,7 @@ function settle() {
 }
 export function init() {
   snapshot();
-  for (const e of ['pop', 'rpm', 'key', 'cut']) on(e, () => { dirty = true; });
+  for (const e of ['pop', 'rpm', 'key', 'cube']) on(e, () => { dirty = true; });
   setInterval(() => { if (dirty) { dirty = false; check(); } settle(); }, 250);
 }
 // test hook: force a record

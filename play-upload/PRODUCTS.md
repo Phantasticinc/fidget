@@ -19,3 +19,8 @@ All are **one-time, non-consumable** managed products. IDs must match js/store/c
 
 Upgrades work without Premium (each is its own purchase). Premium adds a free bonus look (Rainbow Sand).
 Upgrades are purely cosmetic (same physics), so leaderboard scores are never pay-to-win.
+
+## Oct 2026 lineup change (4 toys: Pop, Spin, Click, Cube)
+- Sand, Pop It, Slime, Squish and Switch were removed from the app.
+- sand_galaxy / sand_goldrush / sand_glowtide: KEEP ACTIVE in Play (do not delete) so purchases restore. Hidden in the shop. Owners get the equivalent cube look free: Galaxy→Cube RGB (upgrade_cube), Gold Rush→Steampunk Brass (cube_brass), Glow Tide→Frost (cube_frost).
+- Hidden v2 IDs for removed toys (upgrade_popit/slime/squish/switch) are dropped. New cube IDs: see products-v2.csv. When created in Play: add them to the play-ack allowlist, redeploy, then set V2_PRODUCTS=true.

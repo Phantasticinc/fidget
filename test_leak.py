@@ -8,7 +8,7 @@ async def main():
     async def heap():
       await cdp.send('HeapProfiler.collectGarbage'); return (await pg.evaluate('performance.memory.usedJSHeapSize'))/1e6
     async def cycle():
-      for t in ['pop','spin','click','sand']:
+      for t in ['pop','spin','click','cube']:
         await pg.evaluate(f"__fidget.select('{t}')"); m=pg.mouse
         await m.move(100,400); await m.down()
         for i in range(25): await m.move(100+i*9,400+(i%5)*20); await pg.wait_for_timeout(10)

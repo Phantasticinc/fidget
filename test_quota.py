@@ -9,7 +9,7 @@ async def main(mode):
     pg.on('pageerror',lambda e:E.append(str(e)))
     await pg.add_init_script(mode)
     await pg.goto(U+'?src=twa'); await pg.wait_for_timeout(1200)
-    for t in ['spin','click','sand','pop']:
+    for t in ['spin','click','cube','pop']:
       await pg.click(f'#dock [data-toy="{t}"]'); await pg.wait_for_timeout(400)
       await pg.mouse.move(150,400); await pg.mouse.down(); await pg.mouse.move(300,500,steps=8); await pg.mouse.up()
       for i in range(5): await pg.touchscreen.tap(120+i*30,450)

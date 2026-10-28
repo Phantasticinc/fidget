@@ -97,36 +97,6 @@ const SIG = {
     frame(g, dt, W, H) { streakK *= Math.pow(0.6, dt); // a warm desk lamp that brightens the faster you type
       glowDot(g, W * 0.5, H * 0.18, W * (0.7 + streakK * 0.4), `rgba(255,180,90,${0.10 + streakK * 0.25})`); },
     reveal(x, y) { streakK = 1; burst(lim(40), { kind: 'confetti', x, y, g: 300, life: 1.6, size: 2, add: false }, () => ({ vx: rnd(-260, 260), vy: rnd(-380, -60), vr: rnd(-10, 10), col: Math.random() < .5 ? '#c9925a' : '#e8b878' })); snd((s, t, k) => { s.tone(t, 196, 196, 2, 0.08 * k, 'sine'); s.tone(t, 294, 294, 1.8, 0.04 * k, 'sine'); }); hap([20, 40, 20]); } },
-  // ---------- SAND ----------
-  sand_galaxy: { hue: '#b36bff',
-    on: { cut(d) { rifts.push({ x: d.x, y: d.y, t: now(), h: rnd(250, 330) }); if (rifts.length > 260) rifts.shift(); },
-      mold(d) { burst(lim(50), { kind: 'glow', x: d.x, y: d.y, life: 1.6, drag: 0.96 }, () => { const a = Math.random() * 6.28, v = rnd(80, 420); return { vx: Math.cos(a) * v, vy: Math.sin(a) * v, size: rnd(3, 8), col: ['#fff', '#b36bff', '#4dc3ff', '#ff4dc4'][(Math.random() * 4) | 0] }; }); ring(d.x, d.y, '#e0c8ff', d.w * 0.7, 5, 1.1); } },
-    frame(g) { // every cut tears open a glowing nebula with drifting stars inside, healing over ~6 s
-      const t = now(); rifts = rifts.filter(r => t - r.t < 6000); g.globalCompositeOperation = 'lighter';
-      for (const r of rifts) { const k = 1 - (t - r.t) / 6000, e = Math.min(1, (t - r.t) / 300); glowDot(g, r.x, r.y, 22 * e + 8, `hsla(${r.h},95%,60%,${0.32 * k})`);
-        const sx = r.x + Math.sin(t / 900 + r.h) * 10, sy = r.y + Math.cos(t / 700 + r.h) * 8; g.globalAlpha = k * Math.abs(Math.sin(t / 300 + r.h)); g.fillStyle = '#fff'; g.fillRect(sx, sy, 1.6, 1.6); g.globalAlpha = 1; }
-      g.globalCompositeOperation = 'source-over'; if (rifts.length && Math.random() < 0.02) snd((s, t, k) => s.tone(t, s.jit(2600, 0.3), 2600, 0.9, 0.012 * k, 'sine')); },
-    reveal(x, y) { for (let i = 0; i < 80; i++) { const a = i * 0.39, r = i * 2.4; rifts.push({ x: x + Math.cos(a) * r, y: y + Math.sin(a) * r, t: now(), h: 250 + i }); } snd((s, t, k) => { s.tone(t, 110, 220, 2, 0.08 * k, 'sine'); s.tone(t + .2, 330, 660, 1.6, 0.03 * k, 'sine'); }); hap([8, 50, 8, 50, 30]); } },
-  sand_glowtide: { hue: '#4dffe0',
-    on: { mold(d) { beams.push({ k: 'wave', t: now(), life: 1400, y0: d.y }); hap([10, 60, 10]); } },
-    frame(g, dt, W, H) { // fingers send rippling bioluminescent waves; plankton chase your touch
-      const t = now(); if (ptr.down && (!ripples.length || t - ripples[ripples.length - 1].t > 140)) { ripples.push({ x: ptr.x, y: ptr.y, t }); if (Math.random() < .5) snd((s, tt, k) => s.nz(tt, 0.25, 'bandpass', s.jit(1800, 0.3), 5, 0.03 * k, 0.05)); }
-      ripples = ripples.filter(r => t - r.t < 1600); g.globalCompositeOperation = 'lighter';
-      for (const r of ripples) { if (t < r.t) continue; const k = (t - r.t) / 1600; g.strokeStyle = `rgba(80,255,230,${0.5 * (1 - k)})`; g.lineWidth = 2; g.beginPath(); g.arc(r.x, r.y, 10 + k * 110, 0, 7); g.stroke(); }
-      if (ptr.down && Math.random() < 0.6) add({ kind: 'glow', x: ptr.x + rnd(-40, 40), y: ptr.y + rnd(-40, 40), vx: rnd(-20, 20), vy: rnd(-20, 20), life: 1.2, size: 4, col: '#7dffe8' });
-      g.globalCompositeOperation = 'source-over'; drawBeams(g, 'wave', W, H); },
-    reveal(x, y) { beams.push({ k: 'wave', t: now(), life: 1800, y0: y }); for (let i = 0; i < 6; i++) ripples.push({ x: x + rnd(-120, 120), y: y + rnd(-120, 120), t: now() + i * 120 }); snd((s, t, k) => s.nz(t, 1.6, 'lowpass', 900, 0.8, 0.12 * k, 0.4)); hap([20, 60, 20]); } },
-  sand_goldrush: { hue: '#ffd76a',
-    on: { cut(d) { veins.push({ x: d.x, y: d.y, t: now() }); if (veins.length > 220) veins.shift(); if (Math.random() < .25) snd((s, t, k) => s.tone(t, s.jit(3520, 0.15), 3520, 0.12, 0.02 * k, 'triangle')); },
-      mold(d) { beams.push({ k: 'gleam', t: now(), life: 900, x0: d.x - d.w / 2, y0: d.y - d.h / 2, w: d.w, h: d.h }); snd((s, t, k) => { s.tone(t, 2637, 2637, 0.3, 0.05 * k, 'triangle'); s.tone(t + 0.09, 3520, 3520, 0.5, 0.05 * k, 'triangle'); }); } },
-    frame(g, dt, W, H) { // cuts expose glinting gold veins; molds get a polished gleam sweep and a cha-ching
-      const t = now(); veins = veins.filter(v => t - v.t < 4500); g.globalCompositeOperation = 'lighter'; g.strokeStyle = 'rgba(255,225,120,.8)'; g.lineWidth = 2.2; g.lineCap = 'round';
-      for (let i = 1; i < veins.length; i++) { const a = veins[i - 1], b = veins[i]; if (b.t - a.t > 80) continue; g.globalAlpha = 1 - (t - b.t) / 4500; g.beginPath(); g.moveTo(a.x, a.y); g.lineTo(b.x, b.y); g.stroke(); }
-      for (const v of veins) { const tw = Math.sin(t / 120 + v.x); if (tw > 0.93) { const s = (tw - 0.93) * 140; g.globalAlpha = 1; g.strokeStyle = '#fff7d0'; g.lineWidth = 1; g.beginPath(); g.moveTo(v.x - s, v.y); g.lineTo(v.x + s, v.y); g.moveTo(v.x, v.y - s); g.lineTo(v.x, v.y + s); g.stroke(); g.strokeStyle = 'rgba(255,225,120,.8)'; g.lineWidth = 2.2; } }
-      g.globalAlpha = 1; g.globalCompositeOperation = 'source-over'; drawBeams(g, 'gleam', W, H); },
-    reveal(x, y) { burst(lim(70), { kind: 'confetti', x, y: y - 200, g: 500, life: 2, size: 3, add: false }, () => ({ vx: rnd(-200, 200), vy: rnd(-200, 100), vr: rnd(-14, 14), col: Math.random() < .5 ? '#ffd76a' : '#fff2b8' })); snd((s, t, k) => [0, .07, .14, .3].forEach((o, i) => s.tone(t + o, [2093, 2637, 3136, 4186][i], [2093, 2637, 3136, 4186][i], 0.6, 0.05 * k, 'triangle'))); hap([8, 20, 8, 20, 40]); } },
-  premium_rainbow: { hue: '#ff6bd6',
-    reveal(x, y) { burst(lim(90), { kind: 'confetti', x, y, g: 400, life: 2, size: 4, add: false }, () => ({ vx: rnd(-420, 420), vy: rnd(-600, -100), vr: rnd(-14, 14), col: `hsl(${rnd(0, 360)},90%,60%)` })); snd((s, t, k) => [0, 4, 7, 12].forEach((n, i) => s.tone(t + i * 0.08, 523 * Math.pow(2, n / 12), 523 * Math.pow(2, n / 12), 0.6, 0.05 * k, 'triangle'))); hap([10, 30, 10, 30, 10]); } },
 };
 function drawBeams(g, kind, W, H) {
   const t = now(); beams = beams.filter(b => t - b.t < b.life);

@@ -1,13 +1,14 @@
 // Shop sheet: Premium card + per-toy upgrades with live animated previews. Honest pricing, no timers, no randomised rewards.
 import { CATALOG, PREMIUM, byId } from '../store/catalog.js';
-import { CATALOG_V2, V2_PRODUCTS } from '../store/catalog2.js?v=1';
+import { CATALOG_V2, V2_PRODUCTS } from '../store/catalog2.js?v=2';
+import { hasLook, lookId, setLook } from '../toys/kit2.js?v=2';
 import * as ent from '../store/ent.js?v=9';
 import * as bill from '../store/billing.js?v=7';
-import * as gift from './sharegift.js?v=10';
+import * as gift from './sharegift.js?v=11';
 import * as redeem from '../store/redeem.js?v=5';
-import { SKINS, equip, equippedId, canUse } from '../fx/manager.js?v=11';
+import { SKINS, equip, equippedId, canUse } from '../fx/manager.js?v=12';
 const $ = id => document.getElementById(id);
-const TOYS = [['pop', 'Pop'], ['spin', 'Spin'], ['click', 'Click'], ['sand', 'Sand']];
+const TOYS = [['pop', 'Pop'], ['spin', 'Spin'], ['click', 'Click']];
 let tab = 'pop', raf = 0, previews = [];
 export function toast(t) { const d = document.createElement('div'); d.className = 'toast'; d.setAttribute('role', 'status'); d.textContent = t; $('app').appendChild(d); setTimeout(() => d.remove(), 2600); }
 const priceOf = id => bill.price(id) || byId(id).price;
@@ -58,9 +59,9 @@ function render() {
     list.appendChild(it);
   }
   B.appendChild(list);
-  if (V2_PRODUCTS) { const h = document.createElement('h3'); h.textContent = 'New toy upgrades'; h.className = 'v2h'; B.appendChild(h); const l2 = document.createElement('div'); l2.className = 'items';
-    for (const p of CATALOG_V2) { const it = document.createElement('div'); it.className = 'item'; it.dataset.id = p.id; const m = document.createElement('div'); m.className = 'meta'; m.innerHTML = '<h4></h4><p></p>'; m.firstChild.textContent = p.title; m.lastChild.textContent = p.desc; it.appendChild(m);
-      const b = document.createElement('button'); const own = ent.premium() || ent.has(p.id); b.className = 'buy' + (own ? ' using' : ''); b.textContent = own ? 'Owned ✓' : priceOf(p.id); b.disabled = own; if (!own) b.onclick = () => purchase(p.id); it.appendChild(b); l2.appendChild(it); }
+  if (V2_PRODUCTS || CATALOG_V2.some(p => hasLook(p.id))) { const h = document.createElement('h3'); h.textContent = 'Fidget cube looks'; h.className = 'v2h'; B.appendChild(h); const l2 = document.createElement('div'); l2.className = 'items';
+    for (const p of CATALOG_V2) { if (!V2_PRODUCTS && !hasLook(p.id)) continue; const it = document.createElement('div'); it.className = 'item'; it.dataset.id = p.id; const m = document.createElement('div'); m.className = 'meta'; m.innerHTML = '<h4></h4><p></p>'; m.firstChild.textContent = p.title; m.lastChild.textContent = p.desc; it.appendChild(m);
+      const b = document.createElement('button'); const own = ent.premium() || ent.has(p.id); const own2 = own || hasLook(p.id), on = own2 && lookId() === p.id; b.className = 'buy' + (on ? ' using' : own2 ? ' eq' : ''); b.textContent = on ? 'Using' : own2 ? 'Use' : priceOf(p.id); b.onclick = own2 ? () => { setLook(p.id); render(); } : () => purchase(p.id); it.appendChild(b); l2.appendChild(it); }
     B.appendChild(l2); }
   const r = document.createElement('button'); r.className = 'pill wide'; r.textContent = 'Restore purchases';
   r.onclick = async () => { if (!bill.available()) return toast('Restore works in the Android app'); try { await bill.restore(); toast('Purchases restored'); } catch (_) { toast('Couldn’t reach Google Play — try again'); } render(); };

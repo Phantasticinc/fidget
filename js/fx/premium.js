@@ -4,9 +4,6 @@ export const shake = { amt: 0, on: true };
 const kick = a => { if (shake.on && !calm()) shake.amt = Math.min(10, shake.amt + a); };
 const CONF = ['#ff5e7e', '#ffd23f', '#3fd9ff', '#7cff6b', '#c77dff', '#ffffff'];
 let glowHue = 0;
-export const RAINBOW = { id: 'premium_rainbow', toy: 'sand', premium: true, name: 'Rainbow Sand', blurb: 'Included with Premium: every new mold comes in the next rainbow colour.',
-  look: { colors: [[235, 90, 110], [245, 170, 70], [240, 220, 90], [90, 200, 130], [80, 150, 235], [160, 110, 220]], shapes: ['heart', 'star', 'dome', 'ring'] }, on: {},
-  preview(g, w, h) { const c = RAINBOW.look.colors; c.forEach((k, i) => { g.fillStyle = `rgb(${k})`; g.fillRect(w * 0.2, h * 0.2 + i * h * 0.1, w * 0.6, h * 0.1); }); } };
 export const on = {
   pop(d) {
     burst(calm() ? 4 : 12, { kind: 'confetti', x: d.x, y: d.y, g: 700, drag: 0.97, life: 1.3, size: 3, add: false }, () => { const a = rnd(0, 6.28), v = rnd(120, 340); return { vx: Math.cos(a) * v, vy: Math.sin(a) * v - 120, vr: rnd(-14, 14), col: CONF[(Math.random() * 6) | 0] }; });
@@ -23,9 +20,6 @@ export const on = {
   },
   clickDraw(d) { glowHue = (glowHue + 0.6) % 360; const k0 = d.keys[0], k8 = d.keys[8], cx = (k0.x + k8.x + d.size) / 2, cy = (k0.y + k8.y + d.size) / 2; glowDot(d.g, cx, cy, d.size * 2.4, `hsla(${glowHue},100%,60%,.22)`); for (const k of d.keys) if (k.t > 0.3) glowDot(d.g, k.x + d.size / 2, k.y + d.size / 2, d.size * 0.8, `hsla(${(glowHue + k.x) % 360},100%,65%,.5)`, k.t); },
   key(d) { const h = (glowHue + d.i * 40) % 360; burst(1, { kind: 'ring', x: d.x, y: d.y, size: d.size * 0.3, r1: d.size * 2.2, life: 0.55, col: `hsl(${h},100%,65%)`, lw: 3 }); kick(0.6); },
-  cut(d) { if (Math.random() < 0.6) add({ kind: 'glow', x: d.x + rnd(-6, 6), y: d.y + rnd(-6, 6), vx: rnd(-20, 20), vy: rnd(-40, -10), drag: 0.95, life: 0.7, size: 3, col: `hsl(${rnd(0, 360)},100%,80%)` }); },
-  crumble(d) { burst(calm() ? 1 : 3, { kind: 'glow', x: d.x, y: d.y, g: 120, drag: 0.96, life: 1, size: rnd(2, 5), add: false, col: 'rgba(230,210,180,.6)' }, () => ({ vx: rnd(-70, 70), vy: rnd(-90, -10) })); },
-  mold() { kick(3); },
 };
 export const THEMES = [
   { id: 'default', name: 'Studio', top: '#141518', bot: '#0a0a0c', glow: 'rgba(255,240,220,.075)' },
