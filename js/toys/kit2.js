@@ -16,7 +16,8 @@ const until = {}; // toy -> preview end time (ms)
 export const previewing = toy => (until[toy] || 0) > performance.now();
 export const owns = toy => ent.premium() || (UPGRADE[toy] || []).some(hasLook);
 export const rich = toy => owns(toy) || previewing(toy);
-export function preview(toy, ms = 8000) { until[toy] = performance.now() + ms; }
+export let previewLookId = 'upgrade_cube';
+export function preview(toy, ms = 8000, id = 'upgrade_cube') { until[toy] = performance.now() + ms; previewLookId = id; }
 export const previewLeft = toy => Math.max(0, ((until[toy] || 0) - performance.now()) / 1000);
 const jit = (x, a = 0.06) => x * (1 + (Math.random() * 2 - 1) * a);
 function v(fn) { if (synth.ok()) fn(synth, synth.t(), synth.cm()); }

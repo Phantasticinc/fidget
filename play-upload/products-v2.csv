@@ -1,4 +1,4 @@
 product_id,price_usd,title,description,status
-upgrade_cube,0.99,Cube: RGB,"A colour-cycling cube with a neon edge glow, synth blips and spark bursts.",code-ready (hidden behind V2_PRODUCTS flag)
-cube_brass,0.99,Cube: Steampunk Brass,"Brass panels and rivets, enamel buttons, a bright ting, gold flakes and steam puffs.",code-ready (hidden behind V2_PRODUCTS flag)
-cube_frost,0.99,Cube: Frost,"See-through ice with frosted buttons, glassy chimes, ice shards and snowflakes.",code-ready (hidden behind V2_PRODUCTS flag)
+upgrade_cube,0.99,Cube: RGB,"A colour-cycling cube with a neon edge glow, synth blips and spark bursts.",code-ready: shop Cube tab tier (hidden behind V2_PRODUCTS flag; add to play-ack allowlist)
+cube_brass,0.99,Cube: Steampunk Brass,"Brass panels and rivets, enamel buttons, a bright ting, gold flakes and steam puffs.",code-ready: shop Cube tab tier (hidden behind V2_PRODUCTS flag; add to play-ack allowlist)
+cube_frost,0.99,Cube: Frost,"See-through ice with frosted buttons, glassy chimes, ice shards and snowflakes.",code-ready: shop Cube tab tier (hidden behind V2_PRODUCTS flag; add to play-ack allowlist)

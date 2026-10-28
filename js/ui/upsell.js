@@ -1,8 +1,8 @@
 // Gentle, user-initiated upsell on the v2 toys: a small chip that previews the rich look for 8 s (once per toy per day),
 // then offers the shop. No timers on prices, no nagging: it never opens anything by itself.
-import { owns, preview, previewLeft, previewing } from '../toys/kit2.js?v=2';
+import { owns, preview, previewLeft, previewing } from '../toys/kit2.js?v=3';
 import * as ent from '../store/ent.js?v=9';
-import * as shop from './shop.js?v=22';
+import * as shop from './shop.js?v=23';
 const V2 = ['cube'], K = 'fidget.pv.';
 let el, cur = null, iv = 0;
 const today = () => new Date().toISOString().slice(0, 10);

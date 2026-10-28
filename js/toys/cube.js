@@ -2,7 +2,7 @@
 // a spring-back joystick, and a ratcheting roller you can flick and let spin down. Mechanical switches live in Click.
 // Looks (paid, each its own product): RGB (colour-cycling, neon edge, sparks), Brass (steampunk metal, rivets, gold flakes + steam),
 // Frost (translucent ice, frosted panels, snowflakes + shards). Tap the empty space around the cube to switch owned looks.
-import { snd, buzz, opts, rich, lookId, ownedLooks, setLook, previewing, CUBE_LOOKS } from './kit2.js?v=2';
+import { snd, buzz, opts, rich, lookId, ownedLooks, setLook, previewing, CUBE_LOOKS, previewLookId } from './kit2.js?v=3';
 import { rr } from '../render.js?v=1';
 import { emit } from '../bus.js';
 export function create() {
@@ -15,7 +15,7 @@ export function create() {
     if (v < 1 && u < 1) return 'btn'; if (v < 1) return 'tog'; if (u < 1) return 'dial'; return 'joy';
   }
   const NOTES = [523.25, 587.33, 659.25, 783.99, 880];
-  const L = () => opts.calm ? null : CUBE_LOOKS[lookId()] || (previewing('cube') ? 'rgb' : null);
+  const L = () => opts.calm ? null : CUBE_LOOKS[lookId()] || (previewing('cube') ? CUBE_LOOKS[previewLookId] : null);
   const ev = (k, x, y) => { n++; const look = L(); emit('cube', { x, y, k, toy: 'cube', rich: !!look || rich('cube'), look }); if (look && k !== 'dial') snd.ting(look, k === 'btn' ? 880 : 660); };
   let flash = 0;
   function btnAt(x, y) { const [bx, by] = cell(0, 0); for (const b of btn) { const [cx, cy] = bpos(b, bx, by); if (Math.hypot(x - cx, y - cy) < cs * 0.15) return b; } return null; }
