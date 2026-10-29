@@ -14,11 +14,14 @@
   "maskableIconUrl": "https://phantasticinc.github.io/fidget/icons/maskable-512.png",
   "webManifestUrl": "https://phantasticinc.github.io/fidget/manifest.json",
   "fullScopeUrl": "https://phantasticinc.github.io/fidget/",
-  "signingKey": { "path": "./android.keystore", "alias": "fidget-upload" },
-  "appVersionName": "1.3.0",
-  "appVersionCode": 6,
+  "signingKey": {
+    "path": "./android.keystore",
+    "alias": "fidget-upload"
+  },
+  "appVersionName": "1.3.1",
+  "appVersionCode": 7,
   "minSdkVersion": 24,
   "targetSdkVersion": 36,
-  "fallbackType": "customtabs",
+  "fallbackType": "webview",
   "generatorApp": "bubblewrap-cli"
 }

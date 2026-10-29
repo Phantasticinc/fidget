@@ -1,0 +1,4 @@
+<en-US>
+Faster, more reliable startup: the app now opens straight to your toys on every device.
+Stability fixes.
+</en-US>
