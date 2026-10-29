@@ -1,0 +1,4 @@
+<en-US>
+New app icon on your home screen and in notifications.
+Faster, more reliable startup: the app opens straight to your toys.
+</en-US>
